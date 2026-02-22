@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PATHWISE</title>
 
-<!-- Premium Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 
 <style>
@@ -55,7 +54,7 @@ body {
     background: linear-gradient(90deg, #ff8c1a, #ffb347);
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.3s ease;
 }
 
 .hero button:hover {
@@ -63,12 +62,11 @@ body {
     box-shadow: 0 15px 30px rgba(255,140,26,0.4);
 }
 
-/* IMAGE SECTION */
+/* IMAGES */
 .images-section {
     padding: 60px 10% 100px;
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 60px;
     flex-wrap: wrap;
 }
@@ -78,7 +76,7 @@ body {
     max-width: 90%;
     border-radius: 25px;
     box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-    transition: transform 0.4s ease;
+    transition: 0.4s ease;
 }
 
 .images-section img:hover {
@@ -113,7 +111,7 @@ body {
     line-height: 1.9;
     font-size: 1.05rem;
     color: #d6d6d6;
-    transition: all 0.4s ease;
+    transition: 0.4s ease;
 }
 
 .why-box:hover {
@@ -121,18 +119,38 @@ body {
     box-shadow: 0 35px 70px rgba(0,0,0,0.6);
 }
 
-/* FADE IN ANIMATION */
-.fade-in {
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeUp 1s ease forwards;
+/* NEW PLANS CTA SECTION */
+.plans-cta {
+    text-align: center;
+    padding: 120px 20px;
+    background: linear-gradient(180deg, #0f1c2e, #0b1524);
 }
 
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.plans-cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.plans-cta p {
+    color: #cfd6e0;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+}
+
+.plans-cta button {
+    padding: 16px 40px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg, #ff8c1a, #ffb347);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.plans-cta button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255,140,26,0.4);
 }
 
 /* FOOTER */
@@ -153,14 +171,9 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* MOBILE */
 @media (max-width: 768px) {
     .brand-title {
         font-size: 2.8rem;
-    }
-
-    .why-container {
-        flex-direction: column;
     }
 }
 
@@ -170,7 +183,7 @@ footer a:hover {
 <body>
 
 <!-- HERO -->
-<section class="hero fade-in">
+<section class="hero">
     <h1 class="brand-title">
         <span class="path">PATH</span><span class="wise">WISE</span>
     </h1>
@@ -179,13 +192,13 @@ footer a:hover {
 </section>
 
 <!-- IMAGES -->
-<section class="images-section fade-in">
+<section class="images-section">
     <img src="logo.png" alt="PathWise Logo">
     <img src="graph.png" alt="Performance Graph">
 </section>
 
 <!-- WHY SECTION -->
-<section class="why-section fade-in">
+<section class="why-section">
     <h2>Why PathWise?</h2>
 
     <div class="why-container">
@@ -197,6 +210,13 @@ footer a:hover {
             The Plus version goes beyond simple calculation. It introduces structured study organisation, long-term academic goal mapping, and performance forecasting to help you plan not just for your next test, but for your future. Whether you’re aiming for top marks, competitive university programs, or long-term career goals, PathWise Plus gives you the tools to think ahead and act with precision. Your future is influenced by the decisions you make today — PathWise helps you make the right ones.
         </div>
     </div>
+</section>
+
+<!-- NEW BOTTOM BUTTON -->
+<section class="plans-cta">
+    <h2>Ready to Go Further?</h2>
+    <p>Compare Free and Plus features to unlock your full academic potential.</p>
+    <button onclick="location.href='plans.html'">View Paid Plans</button>
 </section>
 
 <!-- FOOTER -->
