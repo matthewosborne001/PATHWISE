@@ -12,12 +12,29 @@
       color: white;
     }
 
+    .back-btn {
+      position: absolute;
+      top: 30px;
+      left: 40px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      background: rgba(255,255,255,0.1);
+      padding: 10px 18px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #ff8c42;
+    }
+
     .wrapper {
       max-width: 1200px;
-      margin: 80px auto;
+      margin: 100px auto;
       padding: 40px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 80px;
     }
@@ -56,6 +73,16 @@
       font-size: 16px;
     }
 
+    .assessment-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .assessment-row input {
+      flex: 1;
+    }
+
     .button-row {
       margin-top: 30px;
       display: flex;
@@ -81,6 +108,21 @@
       color: white;
     }
 
+    .primary:hover {
+      opacity: 0.9;
+    }
+
+    .secondary:hover {
+      background-color: #3b536b;
+    }
+
+    .result {
+      margin-top: 30px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #ff8c42;
+    }
+
     .logo-box {
       background: rgba(255,255,255,0.05);
       padding: 40px;
@@ -98,15 +140,19 @@
         flex-direction: column;
         text-align: center;
       }
-      .left {
-        width: 100%;
+
+      .back-btn {
+        position: static;
+        display: inline-block;
+        margin: 20px;
       }
     }
-
   </style>
 </head>
 
 <body>
+
+<a href="index.html" class="back-btn">← Back to Home</a>
 
 <div class="wrapper">
 
@@ -114,17 +160,20 @@
     <h1><span>PATH</span>WISE Calculator</h1>
 
     <label>Current Average</label>
-    <input type="number" placeholder="e.g. 7.2">
+    <input type="number" id="currentAverage" placeholder="e.g. 7.2">
 
     <label>Target Grade</label>
-    <input type="number" placeholder="e.g. 8">
+    <input type="number" id="targetGrade" placeholder="e.g. 8">
 
     <label>Assessments (Grade + Weight %)</label>
+    <div id="assessments"></div>
 
     <div class="button-row">
-      <button class="secondary">Add Assessment</button>
-      <button class="primary">Calculate</button>
+      <button class="secondary" onclick="addAssessment()">Add Assessment</button>
+      <button class="primary" onclick="calculate()">Calculate</button>
     </div>
+
+    <div class="result" id="result"></div>
   </div>
 
   <div class="right">
@@ -134,6 +183,50 @@
   </div>
 
 </div>
+
+<script>
+
+function addAssessment() {
+  const container = document.getElementById("assessments");
+
+  const row = document.createElement("div");
+  row.className = "assessment-row";
+
+  row.innerHTML = `
+    <input type="number" placeholder="Grade">
+    <input type="number" placeholder="Weight %">
+  `;
+
+  container.appendChild(row);
+}
+
+function calculate() {
+  const rows = document.querySelectorAll(".assessment-row");
+
+  let total = 0;
+  let totalWeight = 0;
+
+  rows.forEach(row => {
+    const grade = parseFloat(row.children[0].value);
+    const weight = parseFloat(row.children[1].value);
+
+    if (!isNaN(grade) && !isNaN(weight)) {
+      total += grade * weight;
+      totalWeight += weight;
+    }
+  });
+
+  if (totalWeight === 0) {
+    document.getElementById("result").innerText = "Please enter assessments.";
+    return;
+  }
+
+  const weightedAverage = total / totalWeight;
+  document.getElementById("result").innerText =
+    "Projected Average: " + weightedAverage.toFixed(2);
+}
+
+</script>
 
 </body>
 </html>
