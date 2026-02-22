@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PATHWISE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #1e293b);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 80px 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-left {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, #1e2b4d, #0f172a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 60px rgba(255,140,0,0.3);
+            margin: 20px;
+        }
+
+        .hero-logo {
+            width: 75%;
+        }
+
+        .hero-right {
+            width: 420px;
+            height: 350px;
+            border-radius: 25px;
+            background: #111827;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 40px rgba(0,255,0,0.2);
+            margin: 20px;
+        }
+
+        .hero-graph {
+            width: 90%;
+            border-radius: 15px;
+        }
+
+        .center-content {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 48px;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            margin-top: 60px;
+            font-size: 28px;
+        }
+
+        p {
+            max-width: 900px;
+            margin: 20px auto;
+            line-height: 1.6;
+            font-size: 18px;
+            color: #d1d5db;
+        }
+
+        .btn {
+            background-color: #f97316;
+            border: none;
+            padding: 15px 35px;
+            font-size: 18px;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(249,115,22,0.6);
+        }
+
+        footer {
+            margin-top: 80px;
+            padding: 30px;
+            background-color: #0b1220;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo {
+            width: 120px;
+        }
+
+        .privacy {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        a {
+            color: #f97316;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="center-content">
+    <h1>PATHWISE</h1>
+    <p>Plan your grades. Control your future.</p>
+
+    <button class="btn" onclick="window.location.href='calculator.html'">
+        Start Planning
+    </button>
+</div>
+
+<div class="hero">
+    <div class="hero-left">
+        <img src="logo.png" class="hero-logo">
+    </div>
+
+    <div class="hero-right">
+        <img src="graph.png" class="hero-graph">
+    </div>
+</div>
+
+<div class="center-content">
+    <h2>Why PathWise?</h2>
+
+    <p>
+        Academic performance should never be left to chance. PathWise transforms your grades 
+        from something you react to into something you strategically manage. Instead of guessing 
+        what you need on your next assessment, PathWise calculates your exact trajectory. 
+        It shows you how each test, assignment, and exam affects your final outcome, giving you 
+        clarity, control, and confidence. Students who plan early make smarter academic decisions 
+        — and smarter decisions lead to stronger results.
+    </p>
+
+    <p>
+        The Plus version goes beyond simple calculation. It introduces structured study organisation, 
+        long-term academic goal mapping, and performance forecasting to help you plan not just for 
+        your next test, but for your future. Whether you’re aiming for top marks, competitive 
+        university programs, or long-term career goals, PathWise Plus gives you the tools to think 
+        ahead and act with precision. Your future is influenced by the decisions you make today — 
+        PathWise helps you make the right ones.
+    </p>
+</div>
+
+<footer>
+    <img src="logo.png" class="footer-logo">
+    <div class="privacy">
+        © 2026 PathWise. All rights reserved. |
+        <a href="#">Privacy Policy</a>
+    </div>
+</footer>
+
+</body>
+</html>
