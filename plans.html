@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PathWise Plans</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top left, #1f2f4f, #0f1c2e 60%);
+    color: white;
+}
+
+.header {
+    text-align: center;
+    padding: 120px 20px 60px;
+}
+
+.header h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+}
+
+.highlight {
+    background: linear-gradient(90deg, #ff8c1a, #ffb347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.plans-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    padding: 80px 10%;
+    flex-wrap: wrap;
+}
+
+.plan {
+    flex: 1 1 350px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 22px;
+    padding: 50px;
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+    transition: 0.4s ease;
+}
+
+.plan:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+}
+
+.plan h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+    line-height: 2;
+    color: #cfd6e0;
+}
+
+.plan button {
+    padding: 15px 35px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.free button {
+    background: #2a3a5a;
+    color: white;
+}
+
+.plus {
+    border: 2px solid #ff8c1a;
+}
+
+.plus button {
+    background: linear-gradient(90deg, #ff8c1a, #ffb347);
+    color: white;
+}
+
+.back-home {
+    text-align: center;
+    padding: 60px 20px 100px;
+}
+
+.back-home a {
+    color: #ffb347;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Choose Your <span class="highlight">Plan</span></h1>
+    <p>Upgrade your academic strategy.</p>
+</div>
+
+<div class="plans-container">
+
+    <div class="plan free">
+        <h2>Free</h2>
+        <div class="price">$0</div>
+        <ul class="features">
+            <li>Grade Calculator</li>
+            <li>Basic Forecasting</li>
+            <li>Simple Tracking</li>
+        </ul>
+        <button onclick="location.href='calculator.html'">
+            Start Free
+        </button>
+    </div>
+
+    <div class="plan plus">
+        <h2>Plus</h2>
+        <div class="price">$4.99/month</div>
+        <ul class="features">
+            <li>Advanced Forecasting</li>
+            <li>Long-Term Goal Mapping</li>
+            <li>Structured Study Planner</li>
+            <li>Performance Insights</li>
+        </ul>
+        <button>
+            Upgrade to Plus
+        </button>
+    </div>
+
+</div>
+
+<div class="back-home">
+    <a href="index.html">← Back to Home</a>
+</div>
+
+</body>
+</html>
