@@ -1,181 +1,208 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>PATHWISE</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PATHWISE</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: white;
-            background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #1e293b);
-            background-size: 400% 400%;
-            animation: gradientMove 12s ease infinite;
-        }
+<!-- Premium Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+<style>
 
-        .hero {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 80px 40px;
-            flex-wrap: wrap;
-        }
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top left, #1f2f4f, #0f1c2e 60%);
+    color: white;
+}
 
-        .hero-left {
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            background: radial-gradient(circle at center, #1e2b4d, #0f172a);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 60px rgba(255,140,0,0.3);
-            margin: 20px;
-        }
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 140px 20px 60px;
+}
 
-        .hero-logo {
-            width: 75%;
-        }
+.brand-title {
+    font-size: 4.8rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
 
-        .hero-right {
-            width: 420px;
-            height: 350px;
-            border-radius: 25px;
-            background: #111827;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 40px rgba(0,255,0,0.2);
-            margin: 20px;
-        }
+.brand-title .path {
+    color: #ffffff;
+}
 
-        .hero-graph {
-            width: 90%;
-            border-radius: 15px;
-        }
+.brand-title .wise {
+    background: linear-gradient(90deg, #ff8c1a, #ffb347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        .center-content {
-            text-align: center;
-            padding: 40px 20px;
-        }
+.hero p {
+    font-size: 1.3rem;
+    color: #cfd6e0;
+    margin-bottom: 40px;
+}
 
-        h1 {
-            font-size: 48px;
-            letter-spacing: 2px;
-        }
+.hero button {
+    padding: 16px 36px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #ff8c1a, #ffb347);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-        h2 {
-            margin-top: 60px;
-            font-size: 28px;
-        }
+.hero button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255,140,26,0.4);
+}
 
-        p {
-            max-width: 900px;
-            margin: 20px auto;
-            line-height: 1.6;
-            font-size: 18px;
-            color: #d1d5db;
-        }
+/* IMAGE SECTION */
+.images-section {
+    padding: 60px 10% 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
 
-        .btn {
-            background-color: #f97316;
-            border: none;
-            padding: 15px 35px;
-            font-size: 18px;
-            color: white;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s ease;
-        }
+.images-section img {
+    width: 420px;
+    max-width: 90%;
+    border-radius: 25px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    transition: transform 0.4s ease;
+}
 
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(249,115,22,0.6);
-        }
+.images-section img:hover {
+    transform: scale(1.03);
+}
 
-        footer {
-            margin-top: 80px;
-            padding: 30px;
-            background-color: #0b1220;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+/* WHY SECTION */
+.why-section {
+    padding: 120px 10%;
+}
 
-        .footer-logo {
-            width: 120px;
-        }
+.why-section h2 {
+    text-align: center;
+    font-size: 2.7rem;
+    margin-bottom: 70px;
+}
 
-        .privacy {
-            color: #9ca3af;
-            font-size: 14px;
-        }
+.why-container {
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
-        a {
-            color: #f97316;
-            text-decoration: none;
-        }
-    </style>
+.why-box {
+    flex: 1 1 450px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 50px;
+    border-radius: 22px;
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    line-height: 1.9;
+    font-size: 1.05rem;
+    color: #d6d6d6;
+    transition: all 0.4s ease;
+}
+
+.why-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 35px 70px rgba(0,0,0,0.6);
+}
+
+/* FADE IN ANIMATION */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* FOOTER */
+footer {
+    background-color: #0b1524;
+    padding: 50px 10%;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #aab3c2;
+}
+
+footer a {
+    color: #ffb347;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .brand-title {
+        font-size: 2.8rem;
+    }
+
+    .why-container {
+        flex-direction: column;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="center-content">
-    <h1>PATHWISE</h1>
+<!-- HERO -->
+<section class="hero fade-in">
+    <h1 class="brand-title">
+        <span class="path">PATH</span><span class="wise">WISE</span>
+    </h1>
     <p>Plan your grades. Control your future.</p>
+    <button onclick="location.href='calculator.html'">Start Planning</button>
+</section>
 
-    <button class="btn" onclick="window.location.href='calculator.html'">
-        Start Planning
-    </button>
-</div>
+<!-- IMAGES -->
+<section class="images-section fade-in">
+    <img src="logo.png" alt="PathWise Logo">
+    <img src="graph.png" alt="Performance Graph">
+</section>
 
-<div class="hero">
-    <div class="hero-left">
-        <img src="logo.png" class="hero-logo">
-    </div>
-
-    <div class="hero-right">
-        <img src="graph.png" class="hero-graph">
-    </div>
-</div>
-
-<div class="center-content">
+<!-- WHY SECTION -->
+<section class="why-section fade-in">
     <h2>Why PathWise?</h2>
 
-    <p>
-        Academic performance should never be left to chance. PathWise transforms your grades 
-        from something you react to into something you strategically manage. Instead of guessing 
-        what you need on your next assessment, PathWise calculates your exact trajectory. 
-        It shows you how each test, assignment, and exam affects your final outcome, giving you 
-        clarity, control, and confidence. Students who plan early make smarter academic decisions 
-        — and smarter decisions lead to stronger results.
-    </p>
+    <div class="why-container">
+        <div class="why-box">
+            Academic performance should never be left to chance. PathWise transforms your grades from something you react to into something you strategically manage. Instead of guessing what you need on your next assessment, PathWise calculates your exact trajectory. It shows you how each test, assignment, and exam affects your final outcome, giving you clarity, control, and confidence. Students who plan early make smarter academic decisions — and smarter decisions lead to stronger results.
+        </div>
 
-    <p>
-        The Plus version goes beyond simple calculation. It introduces structured study organisation, 
-        long-term academic goal mapping, and performance forecasting to help you plan not just for 
-        your next test, but for your future. Whether you’re aiming for top marks, competitive 
-        university programs, or long-term career goals, PathWise Plus gives you the tools to think 
-        ahead and act with precision. Your future is influenced by the decisions you make today — 
-        PathWise helps you make the right ones.
-    </p>
-</div>
-
-<footer>
-    <img src="logo.png" class="footer-logo">
-    <div class="privacy">
-        © 2026 PathWise. All rights reserved. |
-        <a href="#">Privacy Policy</a>
+        <div class="why-box">
+            The Plus version goes beyond simple calculation. It introduces structured study organisation, long-term academic goal mapping, and performance forecasting to help you plan not just for your next test, but for your future. Whether you’re aiming for top marks, competitive university programs, or long-term career goals, PathWise Plus gives you the tools to think ahead and act with precision. Your future is influenced by the decisions you make today — PathWise helps you make the right ones.
+        </div>
     </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    © 2026 PathWise. All rights reserved. |
+    <a href="#">Privacy Policy</a>
 </footer>
 
 </body>
