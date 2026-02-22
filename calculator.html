@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PathWise | Trajectory Engine</title>
+  <title>PathWise | Smart Deadline Starter</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -40,14 +40,10 @@
 
     .section-box {
       background: rgba(255,255,255,0.05);
-      padding: 20px;
+      padding: 25px;
       border-radius: 12px;
       margin-bottom: 25px;
       line-height: 1.6;
-    }
-
-    .section-box ul {
-      padding-left: 18px;
     }
 
     label {
@@ -64,25 +60,16 @@
       border: none;
     }
 
-    .assessment-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .assessment-row input { flex: 1; }
-
     button {
-      margin-top: 15px;
-      padding: 10px 18px;
+      margin-top: 20px;
+      padding: 12px 20px;
       border-radius: 6px;
       border: none;
       font-weight: bold;
       cursor: pointer;
+      background: #ff8c42;
+      color: white;
     }
-
-    .primary { background: #ff8c42; color: white; }
-    .secondary { background: #2c3e50; color: white; }
 
     .result-box {
       margin-top: 25px;
@@ -90,10 +77,8 @@
       border-radius: 12px;
       background: rgba(255,255,255,0.08);
       font-weight: bold;
+      line-height: 1.8;
     }
-
-    .good { color: #4CAF50; }
-    .warning { color: #ff5252; }
 
     .logo-box img { max-width: 280px; }
 
@@ -112,42 +97,25 @@
 
 <div class="left">
 
-<h1><span>PATH</span>WISE Trajectory Engine</h1>
+<h1><span>PATH</span>WISE Smart Starter</h1>
 
 <div class="section-box">
-  <strong>How This Tool Works</strong>
-  <p>
-    PathWise calculates exactly what you need to achieve your target grade.
-  </p>
-  <ul>
-    <li><b>Completed Assessments</b> – Enter grades you have already received and how much each counted (%).</li>
-    <li><b>Upcoming Assessments</b> – Enter only the weight (%) of future tests you have not taken yet.</li>
-    <li><b>Target Final Grade</b> – The overall grade you want to achieve (0–8).</li>
-  </ul>
-  <p>
-    The system calculates the average score you must achieve across your remaining assessments.
-    If the required score is above 8, your target is mathematically impossible.
-  </p>
+  <strong>Plan Your Assessment Properly</strong>
+
+  <label>Subject</label>
+  <input type="text" id="subject">
+
+  <label>Assessment Name</label>
+  <input type="text" id="assessment">
+
+  <label>Deadline</label>
+  <input type="date" id="deadline">
+
+  <label>Difficulty (1–10)</label>
+  <input type="number" id="difficulty" min="1" max="10">
 </div>
 
-<div class="section-box">
-  <strong>Completed Assessments</strong>
-  <div id="completed"></div>
-  <button class="secondary" onclick="addCompleted()">Add Completed</button>
-</div>
-
-<div class="section-box">
-  <strong>Upcoming Assessments</strong>
-  <div id="upcoming"></div>
-  <button class="secondary" onclick="addUpcoming()">Add Upcoming</button>
-</div>
-
-<div class="section-box">
-  <label>Target Final Grade (0–8)</label>
-  <input type="number" id="targetGrade" min="0" max="8" step="0.1">
-</div>
-
-<button class="primary" onclick="calculate()">Calculate Trajectory</button>
+<button onclick="calculate()">Generate Study Plan</button>
 
 <div class="result-box" id="results"></div>
 
@@ -163,81 +131,42 @@
 
 <script>
 
-function addCompleted() {
-  const container = document.getElementById("completed");
-  const row = document.createElement("div");
-  row.className = "assessment-row";
-  row.innerHTML = `
-    <input type="number" placeholder="Grade (0-8)" min="0" max="8">
-    <input type="number" placeholder="Weight %">
-  `;
-  container.appendChild(row);
-}
-
-function addUpcoming() {
-  const container = document.getElementById("upcoming");
-  const row = document.createElement("div");
-  row.className = "assessment-row";
-  row.innerHTML = `
-    <input type="number" placeholder="Weight %">
-  `;
-  container.appendChild(row);
-}
-
 function calculate() {
 
-  const target = parseFloat(document.getElementById("targetGrade").value);
+  const subject = document.getElementById("subject").value;
+  const assessment = document.getElementById("assessment").value;
+  const deadline = new Date(document.getElementById("deadline").value);
+  const difficulty = parseInt(document.getElementById("difficulty").value);
 
-  let currentTotal = 0;
-  let currentWeight = 0;
-
-  document.querySelectorAll("#completed .assessment-row").forEach(row => {
-    const grade = parseFloat(row.children[0].value);
-    const weight = parseFloat(row.children[1].value);
-
-    if (!isNaN(grade) && !isNaN(weight)) {
-      currentTotal += grade * weight;
-      currentWeight += weight;
-    }
-  });
-
-  let upcomingWeight = 0;
-
-  document.querySelectorAll("#upcoming .assessment-row").forEach(row => {
-    const weight = parseFloat(row.children[0].value);
-    if (!isNaN(weight)) {
-      upcomingWeight += weight;
-    }
-  });
-
-  if (isNaN(target) || upcomingWeight === 0) {
+  if (!subject || !assessment || !deadline || !difficulty) {
     document.getElementById("results").innerHTML =
-      "<span class='warning'>Please enter target grade and upcoming weights.</span>";
+      "Please complete all fields.";
     return;
   }
 
-  let totalWeight = currentWeight + upcomingWeight;
+  const today = new Date();
+  const timeDiff = deadline - today;
+  const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
-  let requiredTotalPoints = target * totalWeight;
-  let remainingPointsNeeded = requiredTotalPoints - currentTotal;
+  if (daysLeft <= 0) {
+    document.getElementById("results").innerHTML =
+      "Deadline has already passed or is today.";
+    return;
+  }
 
-  let requiredAverage = remainingPointsNeeded / upcomingWeight;
+  const totalHours = difficulty * 2.5;
+  const dailyHours = (totalHours / daysLeft).toFixed(2);
 
-  if (requiredAverage > 8) {
-    document.getElementById("results").innerHTML =
-      "<span class='warning'>Target is mathematically impossible. Required average: "
-      + requiredAverage.toFixed(2) + "</span>";
-  }
-  else if (requiredAverage < 0) {
-    document.getElementById("results").innerHTML =
-      "<span class='good'>You have already secured your target grade.</span>";
-  }
-  else {
-    document.getElementById("results").innerHTML =
-      "<span class='good'>You need an average of "
-      + requiredAverage.toFixed(2)
-      + " across upcoming assessments.</span>";
-  }
+  const recommendedStart = new Date();
+  recommendedStart.setDate(today.getDate());
+
+  document.getElementById("results").innerHTML =
+    "Assessment: <strong>" + assessment + "</strong><br>" +
+    "Subject: " + subject + "<br><br>" +
+    "Total Estimated Study Time: " + totalHours.toFixed(1) + " hours<br>" +
+    "Days Until Deadline: " + daysLeft + "<br>" +
+    "Recommended Daily Study: " + dailyHours + " hours per day<br><br>" +
+    "Start Immediately to stay on track.";
 }
 
 </script>
