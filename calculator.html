@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PathWise | Grade Calculator</title>
+  <title>PathWise | Trajectory Engine</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -22,11 +22,6 @@
       background: rgba(255,255,255,0.1);
       padding: 10px 18px;
       border-radius: 8px;
-      transition: 0.3s;
-    }
-
-    .back-btn:hover {
-      background: #ff8c42;
     }
 
     .wrapper {
@@ -37,56 +32,31 @@
       gap: 80px;
     }
 
-    .left {
-      flex: 1;
-    }
+    .left { flex: 1; }
+    .right { flex: 1; text-align: center; }
 
-    .right {
-      flex: 1;
-      text-align: center;
-    }
+    h1 { font-size: 40px; margin-bottom: 30px; }
+    h1 span { color: #ff8c42; }
 
-    h1 {
-      font-size: 42px;
-      margin-bottom: 30px;
-    }
-
-    h1 span {
-      color: #ff8c42;
-    }
-
-    .how-box {
+    .section-box {
       background: rgba(255,255,255,0.05);
-      padding: 25px;
-      border-radius: 14px;
-      margin-bottom: 40px;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-
-    .how-box h3 {
-      margin-top: 0;
-      color: #ff8c42;
-    }
-
-    .how-box ul {
-      padding-left: 18px;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
     }
 
     label {
       display: block;
-      margin-top: 20px;
+      margin-top: 15px;
       font-weight: 600;
-      font-size: 18px;
     }
 
     input {
       width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border-radius: 8px;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 6px;
       border: none;
-      font-size: 16px;
     }
 
     .assessment-row {
@@ -95,74 +65,36 @@
       margin-top: 10px;
     }
 
-    .assessment-row input {
-      flex: 1;
-    }
-
-    .button-row {
-      margin-top: 30px;
-      display: flex;
-      gap: 20px;
-    }
+    .assessment-row input { flex: 1; }
 
     button {
-      padding: 14px 24px;
-      border-radius: 8px;
+      margin-top: 15px;
+      padding: 10px 18px;
+      border-radius: 6px;
       border: none;
-      font-size: 16px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .primary {
-      background-color: #ff8c42;
-      color: white;
-    }
-
-    .secondary {
-      background-color: #2c3e50;
-      color: white;
-    }
-
-    .primary:hover {
-      opacity: 0.9;
-    }
-
-    .secondary:hover {
-      background-color: #3b536b;
-    }
-
-    .result {
-      margin-top: 30px;
-      font-size: 20px;
       font-weight: bold;
-      color: #ff8c42;
+      cursor: pointer;
     }
 
-    .logo-box {
-      background: rgba(255,255,255,0.05);
-      padding: 40px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    .primary { background: #ff8c42; color: white; }
+    .secondary { background: #2c3e50; color: white; }
+
+    .result-box {
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.08);
     }
 
-    .logo-box img {
-      max-width: 300px;
-    }
+    .good { color: #4CAF50; }
+    .warning { color: #ff5252; }
+
+    .logo-box img { max-width: 280px; }
 
     @media(max-width: 900px) {
-      .wrapper {
-        flex-direction: column;
-      }
-
-      .back-btn {
-        position: static;
-        display: inline-block;
-        margin: 20px;
-      }
+      .wrapper { flex-direction: column; }
+      .back-btn { position: static; display: inline-block; margin: 20px; }
     }
-
   </style>
 </head>
 
@@ -172,97 +104,118 @@
 
 <div class="wrapper">
 
-  <div class="left">
+<div class="left">
 
-    <h1><span>PATH</span>WISE Calculator</h1>
+<h1><span>PATH</span>WISE Trajectory Engine</h1>
 
-    <div class="how-box">
-      <h3>How This Calculator Works</h3>
-      <p>
-        PathWise helps you both track past performance and plan future results.
-      </p>
+<div class="section-box">
+  <strong>Completed Assessments</strong>
+  <div id="completed"></div>
+  <button class="secondary" onclick="addCompleted()">Add Completed</button>
+</div>
 
-      <ul>
-        <li><b>Current Average</b> – Your overall grade right now.</li>
-        <li><b>Target Grade</b> – The final grade you want to achieve.</li>
-        <li><b>Grade</b> – The score you received on an assessment.</li>
-        <li><b>Weight %</b> – How much that assessment counts toward your final grade.</li>
-      </ul>
+<div class="section-box">
+  <strong>Upcoming Assessments</strong>
+  <div id="upcoming"></div>
+  <button class="secondary" onclick="addUpcoming()">Add Upcoming</button>
+</div>
 
-      <p>
-        Add completed assessments to calculate your projected average.
-        Use your target grade to understand whether you are on track
-        and what performance level you need moving forward.
-      </p>
-    </div>
+<div class="section-box">
+  <label>Target Final Grade (0–8)</label>
+  <input type="number" id="targetGrade" min="0" max="8" step="0.1">
+</div>
 
-    <label>Current Average</label>
-    <input type="number" id="currentAverage" placeholder="e.g. 7.2">
+<button class="primary" onclick="calculate()">Calculate Trajectory</button>
 
-    <label>Target Grade</label>
-    <input type="number" id="targetGrade" placeholder="e.g. 8">
+<div class="result-box" id="results"></div>
 
-    <label>Completed Assessments (Grade + Weight %)</label>
-    <div id="assessments"></div>
+</div>
 
-    <div class="button-row">
-      <button class="secondary" onclick="addAssessment()">Add Assessment</button>
-      <button class="primary" onclick="calculate()">Calculate</button>
-    </div>
-
-    <div class="result" id="result"></div>
-
+<div class="right">
+  <div class="logo-box">
+    <img src="logo.png" alt="PathWise Logo">
   </div>
-
-  <div class="right">
-    <div class="logo-box">
-      <img src="logo.png" alt="PathWise Logo">
-    </div>
-  </div>
+</div>
 
 </div>
 
 <script>
 
-function addAssessment() {
-  const container = document.getElementById("assessments");
-
+function addCompleted() {
+  const container = document.getElementById("completed");
   const row = document.createElement("div");
   row.className = "assessment-row";
-
   row.innerHTML = `
-    <input type="number" placeholder="Grade">
+    <input type="number" placeholder="Grade (0-8)" min="0" max="8">
     <input type="number" placeholder="Weight %">
   `;
+  container.appendChild(row);
+}
 
+function addUpcoming() {
+  const container = document.getElementById("upcoming");
+  const row = document.createElement("div");
+  row.className = "assessment-row";
+  row.innerHTML = `
+    <input type="number" placeholder="Weight %">
+  `;
   container.appendChild(row);
 }
 
 function calculate() {
-  const rows = document.querySelectorAll(".assessment-row");
 
-  let total = 0;
-  let totalWeight = 0;
+  const target = parseFloat(document.getElementById("targetGrade").value);
 
-  rows.forEach(row => {
+  let currentTotal = 0;
+  let currentWeight = 0;
+
+  document.querySelectorAll("#completed .assessment-row").forEach(row => {
     const grade = parseFloat(row.children[0].value);
     const weight = parseFloat(row.children[1].value);
 
     if (!isNaN(grade) && !isNaN(weight)) {
-      total += grade * weight;
-      totalWeight += weight;
+      currentTotal += grade * weight;
+      currentWeight += weight;
     }
   });
 
-  if (totalWeight === 0) {
-    document.getElementById("result").innerText = "Please enter assessments.";
+  let upcomingWeight = 0;
+
+  document.querySelectorAll("#upcoming .assessment-row").forEach(row => {
+    const weight = parseFloat(row.children[0].value);
+    if (!isNaN(weight)) {
+      upcomingWeight += weight;
+    }
+  });
+
+  if (isNaN(target) || upcomingWeight === 0) {
+    document.getElementById("results").innerHTML =
+      "<span class='warning'>Please enter target and upcoming weights.</span>";
     return;
   }
 
-  const weightedAverage = total / totalWeight;
+  let totalWeight = currentWeight + upcomingWeight;
 
-  document.getElementById("result").innerText =
-    "Projected Average: " + weightedAverage.toFixed(2);
+  let requiredTotalPoints = target * totalWeight;
+  let remainingPointsNeeded = requiredTotalPoints - currentTotal;
+
+  let requiredAverage = remainingPointsNeeded / upcomingWeight;
+
+  if (requiredAverage > 8) {
+    document.getElementById("results").innerHTML =
+      "<span class='warning'>Target is mathematically impossible. Required average: "
+      + requiredAverage.toFixed(2) + "</span>";
+  }
+  else if (requiredAverage < 0) {
+    document.getElementById("results").innerHTML =
+      "<span class='good'>You have already secured your target.</span>";
+  }
+  else {
+    document.getElementById("results").innerHTML =
+      "<span class='good'>You need an average of "
+      + requiredAverage.toFixed(2)
+      + " across upcoming assessments.</span>";
+  }
 }
 
 </script>
