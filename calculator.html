@@ -31,11 +31,9 @@
 
     .wrapper {
       max-width: 1200px;
-      margin: 100px auto;
+      margin: 120px auto;
       padding: 40px;
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
       gap: 80px;
     }
 
@@ -50,11 +48,29 @@
 
     h1 {
       font-size: 42px;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     h1 span {
       color: #ff8c42;
+    }
+
+    .how-box {
+      background: rgba(255,255,255,0.05);
+      padding: 25px;
+      border-radius: 14px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .how-box h3 {
+      margin-top: 0;
+      color: #ff8c42;
+    }
+
+    .how-box ul {
+      padding-left: 18px;
     }
 
     label {
@@ -138,7 +154,6 @@
     @media(max-width: 900px) {
       .wrapper {
         flex-direction: column;
-        text-align: center;
       }
 
       .back-btn {
@@ -147,6 +162,7 @@
         margin: 20px;
       }
     }
+
   </style>
 </head>
 
@@ -157,7 +173,28 @@
 <div class="wrapper">
 
   <div class="left">
+
     <h1><span>PATH</span>WISE Calculator</h1>
+
+    <div class="how-box">
+      <h3>How This Calculator Works</h3>
+      <p>
+        PathWise helps you both track past performance and plan future results.
+      </p>
+
+      <ul>
+        <li><b>Current Average</b> – Your overall grade right now.</li>
+        <li><b>Target Grade</b> – The final grade you want to achieve.</li>
+        <li><b>Grade</b> – The score you received on an assessment.</li>
+        <li><b>Weight %</b> – How much that assessment counts toward your final grade.</li>
+      </ul>
+
+      <p>
+        Add completed assessments to calculate your projected average.
+        Use your target grade to understand whether you are on track
+        and what performance level you need moving forward.
+      </p>
+    </div>
 
     <label>Current Average</label>
     <input type="number" id="currentAverage" placeholder="e.g. 7.2">
@@ -165,7 +202,7 @@
     <label>Target Grade</label>
     <input type="number" id="targetGrade" placeholder="e.g. 8">
 
-    <label>Assessments (Grade + Weight %)</label>
+    <label>Completed Assessments (Grade + Weight %)</label>
     <div id="assessments"></div>
 
     <div class="button-row">
@@ -174,6 +211,7 @@
     </div>
 
     <div class="result" id="result"></div>
+
   </div>
 
   <div class="right">
@@ -222,6 +260,7 @@ function calculate() {
   }
 
   const weightedAverage = total / totalWeight;
+
   document.getElementById("result").innerText =
     "Projected Average: " + weightedAverage.toFixed(2);
 }
