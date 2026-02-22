@@ -1,261 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Grade Trajectory Calculator</title>
+  <title>PathWise | Grade Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f8;
-      margin: 40px;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      color: white;
     }
 
-    .container {
+    .wrapper {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 40px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
+      gap: 80px;
     }
 
     .left {
-      width: 55%;
+      flex: 1;
     }
 
     .right {
-      width: 40%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #243447, #33475b);
-      border-radius: 20px;
-      padding: 40px;
-    }
-
-    .sideLogo {
-      max-width: 100%;
-      height: auto;
+      flex: 1;
+      text-align: center;
     }
 
     h1 {
-      color: #1e2a38;
+      font-size: 42px;
+      margin-bottom: 40px;
     }
 
-    h2 {
-      margin-top: 30px;
-      color: #34495e;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    h1 span {
+      color: #ff8c42;
     }
 
-    .assessment-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      align-items: center;
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      font-size: 18px;
     }
 
     input {
-      padding: 8px;
-      width: 120px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
     }
 
-    .percent-label {
-      font-weight: bold;
+    .button-row {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
     }
 
     button {
-      padding: 10px 16px;
-      margin-top: 20px;
-      margin-right: 10px;
-      border-radius: 6px;
+      padding: 14px 24px;
+      border-radius: 8px;
       border: none;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .primary {
+      background-color: #ff8c42;
+      color: white;
+    }
+
+    .secondary {
       background-color: #2c3e50;
       color: white;
-      cursor: pointer;
     }
 
-    button:hover {
-      background-color: #1a242f;
+    .logo-box {
+      background: rgba(255,255,255,0.05);
+      padding: 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
     }
 
-    button:disabled {
-      background-color: #999;
-      cursor: not-allowed;
+    .logo-box img {
+      max-width: 300px;
     }
 
-    .info-btn {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background-color: #2c3e50;
-      color: white;
-      border: none;
-      font-size: 14px;
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      padding: 0;
+    @media(max-width: 900px) {
+      .wrapper {
+        flex-direction: column;
+        text-align: center;
+      }
+      .left {
+        width: 100%;
+      }
     }
 
-    .info-box {
-      display: none;
-      background-color: #ffffff;
-      padding: 15px;
-      margin-top: 10px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    #result {
-      margin-top: 30px;
-      font-weight: bold;
-      font-size: 18px;
-    }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="wrapper">
 
-    <div class="left">
+  <div class="left">
+    <h1><span>PATH</span>WISE Calculator</h1>
 
-      <h1>Grade Trajectory Calculator</h1>
+    <label>Current Average</label>
+    <input type="number" placeholder="e.g. 7.2">
 
-      <h2>Current Average:</h2>
-      <input type="number" id="currentAverage" placeholder="e.g. 7.2">
+    <label>Target Grade</label>
+    <input type="number" placeholder="e.g. 8">
 
-      <h2>Target Grade:</h2>
-      <input type="number" id="targetGrade" placeholder="e.g. 8">
+    <label>Assessments (Grade + Weight %)</label>
 
-      <h2>
-        Assessments (Grade + Weight %)
-        <button id="infoButton" class="info-btn">i</button>
-      </h2>
-
-      <div id="infoBox" class="info-box">
-        <strong>How this works:</strong><br><br>
-        • <strong>Grade</strong> = The score you received on that test.<br>
-        • <strong>Weight (%)</strong> = How much that test counts toward your final grade.<br><br>
-        Example:<br>
-        If a test has weight 40%, it contributes 40% of your final result.
-      </div>
-
-      <div id="assessments"></div>
-
-      <button id="addAssessment">Add Assessment</button>
-      <button id="calculateButton">Calculate</button>
-
-      <div id="result"></div>
-
+    <div class="button-row">
+      <button class="secondary">Add Assessment</button>
+      <button class="primary">Calculate</button>
     </div>
-
-    <div class="right">
-      <img src="./logo.png" alt="PathWise Logo" class="sideLogo">
-    </div>
-
   </div>
 
-  <script>
+  <div class="right">
+    <div class="logo-box">
+      <img src="logo.png" alt="PathWise Logo">
+    </div>
+  </div>
 
-    const addButton = document.getElementById("addAssessment");
-
-    // Toggle info box
-    document.getElementById("infoButton").addEventListener("click", function() {
-      let box = document.getElementById("infoBox");
-      box.style.display = (box.style.display === "block") ? "none" : "block";
-    });
-
-    // Add Assessment (max 5)
-    addButton.addEventListener("click", function() {
-
-      let container = document.getElementById("assessments");
-      let existingRows = container.querySelectorAll(".assessment-row");
-
-      if (existingRows.length >= 5) {
-        addButton.disabled = true;
-        return;
-      }
-
-      let row = document.createElement("div");
-      row.className = "assessment-row";
-
-      let gradeInput = document.createElement("input");
-      gradeInput.type = "number";
-      gradeInput.placeholder = "Grade";
-
-      let weightInput = document.createElement("input");
-      weightInput.type = "number";
-      weightInput.placeholder = "Weight";
-      weightInput.min = 0;
-      weightInput.max = 100;
-
-      let percent = document.createElement("span");
-      percent.className = "percent-label";
-      percent.innerText = "%";
-
-      row.appendChild(gradeInput);
-      row.appendChild(weightInput);
-      row.appendChild(percent);
-
-      container.appendChild(row);
-
-      if (container.querySelectorAll(".assessment-row").length >= 5) {
-        addButton.disabled = true;
-      }
-
-    });
-
-    // Calculate
-    document.getElementById("calculateButton").addEventListener("click", function() {
-
-      let current = parseFloat(document.getElementById("currentAverage").value);
-      let target = parseFloat(document.getElementById("targetGrade").value);
-
-      if (isNaN(current) || isNaN(target)) {
-        document.getElementById("result").innerText =
-          "Please enter valid current and target grades.";
-        return;
-      }
-
-      let rows = document.querySelectorAll(".assessment-row");
-
-      let weightedTotal = 0;
-      let totalWeight = 0;
-
-      rows.forEach(function(row) {
-        let inputs = row.querySelectorAll("input");
-        let grade = parseFloat(inputs[0].value);
-        let weight = parseFloat(inputs[1].value);
-
-        if (!isNaN(grade) && !isNaN(weight)) {
-          weightedTotal += grade * (weight / 100);
-          totalWeight += weight;
-        }
-      });
-
-      if (totalWeight > 100) {
-        document.getElementById("result").innerText =
-          "Total weight cannot exceed 100%.";
-        return;
-      }
-
-      let difference = target - current;
-
-      document.getElementById("result").innerText =
-        "Weighted contribution: " + weightedTotal.toFixed(2) +
-        " | Total weight used: " + totalWeight + "%" +
-        " | Needed improvement: " + difference.toFixed(2);
-
-    });
-
-  </script>
+</div>
 
 </body>
 </html>
