@@ -11,7 +11,6 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     background: linear-gradient(135deg, #0f1f3d, #1f2f55);
     color: white;
-    overflow-x: hidden;
 }
 
 /* GOLD FRAME */
@@ -20,10 +19,8 @@ body {
     border-radius: 20px;
     margin: 30px;
     padding: 40px;
-    position: relative;
 }
 
-/* TITLE */
 h1 {
     text-align: center;
     font-size: 48px;
@@ -47,7 +44,6 @@ h1 {
     padding: 30px;
     border-radius: 20px;
     transition: all 0.3s ease;
-    cursor: pointer;
     backdrop-filter: blur(8px);
 }
 
@@ -60,15 +56,25 @@ h1 {
     color: #d4a63a;
 }
 
-/* BACK BUTTON */
-.back {
-    margin-top: 50px;
-    text-align: center;
+/* MINI ASSESSMENT CARD */
+.assessment {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 14px;
 }
 
-.back a {
-    color: #d4a63a;
-    text-decoration: none;
+.green { background: rgba(0,150,0,0.2); }
+.orange { background: rgba(255,165,0,0.2); }
+.red { background: rgba(255,0,0,0.2); }
+
+.delete-btn {
+    margin-top: 10px;
+    background: #d4a63a;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
     font-weight: bold;
 }
 
@@ -105,6 +111,17 @@ h1 {
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.back {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.back a {
+    color: #d4a63a;
+    text-decoration: none;
+    font-weight: bold;
 }
 </style>
 </head>
@@ -183,46 +200,67 @@ function addAssessment(){
     render();
 }
 
+function deleteAssessment(index){
+    assessments.splice(index, 1);
+    localStorage.setItem("assessments", JSON.stringify(assessments));
+    render();
+}
+
 function render(){
     const list = document.getElementById("assessments");
     const workloadDiv = document.getElementById("workload");
     const alertsDiv = document.getElementById("alerts");
 
     list.innerHTML = "";
-    let weeklyLoad = 0;
     alertsDiv.innerHTML = "";
 
+    let weeklyLoad = 0;
     const today = new Date();
 
-    assessments.forEach(a => {
+    assessments.forEach((a, index) => {
+
         const deadlineDate = new Date(a.deadline);
         const daysLeft = Math.ceil((deadlineDate - today) / (1000*60*60*24));
 
         const totalHours = a.difficulty * 2.5;
         const daily = daysLeft > 0 ? totalHours / daysLeft : totalHours;
-
         weeklyLoad += daily;
 
+        let riskClass = "green";
+        let riskText = "On Track";
+
+        if(daysLeft <= 2 || daily > 4){
+            riskClass = "red";
+            riskText = "Critical";
+        }
+        else if(daysLeft <= 5 || daily > 2){
+            riskClass = "orange";
+            riskText = "Caution";
+        }
+
         list.innerHTML += `
-        <p><strong>${a.name}</strong> (${a.subject})<br>
-        ${daily.toFixed(1)}h/day • ${daysLeft} days left</p>
+        <div class="assessment ${riskClass}">
+            <strong>${a.name}</strong> (${a.subject})<br>
+            ${daysLeft} days left<br>
+            ${daily.toFixed(1)}h/day<br>
+            Status: ${riskText}
+            <br>
+            <button class="delete-btn" onclick="deleteAssessment(${index})">Delete</button>
+        </div>
         `;
 
-        if(daysLeft <= 2 && a.difficulty >= 7){
-            alertsDiv.innerHTML += `
-            <p>⚠ High risk: ${a.name} due soon.</p>
-            `;
+        if(riskClass === "red"){
+            alertsDiv.innerHTML += `<p>⚠ ${a.name} is critical.</p>`;
         }
     });
 
     workloadDiv.innerHTML = `
-    <p>${weeklyLoad.toFixed(1)} hours/day average</p>
+        <p>${weeklyLoad.toFixed(1)} hours/day total workload</p>
     `;
 
     if(weeklyLoad > 6){
-        alertsDiv.innerHTML += `<p>⚠ Overload risk this week.</p>`;
+        alertsDiv.innerHTML += `<p>⚠ Weekly overload risk detected.</p>`;
     }
-
 }
 
 render();
