@@ -6,212 +6,167 @@
 <title>PathWise</title>
 
 <style>
-
-body {
+* {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0f1f3d, #162c57);
-    color: white;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* ===== HERO ===== */
+body {
+    background: linear-gradient(135deg, #0f1f3d, #1c2f57);
+    color: white;
+    overflow-x: hidden;
+}
 
+/* HERO SECTION */
 .hero {
     text-align: center;
-    padding: 120px 20px 80px 20px;
+    padding: 120px 20px 80px;
+    animation: fadeIn 1s ease forwards;
 }
 
 .hero h1 {
-    font-size: 64px;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
+    font-size: 60px;
+    font-weight: 700;
 }
 
-.white { color: white; }
-.orange { color: #f5a623; }
-
-.tagline {
-    font-size: 20px;
-    margin-bottom: 40px;
-}
-
-.cta-btn {
-    padding: 15px 32px;
-    background: linear-gradient(90deg, #f5a623, #f0b44c);
-    border-radius: 12px;
-    text-decoration: none;
+.hero h1 span:first-child {
     color: white;
-    font-weight: bold;
-    transition: 0.3s ease;
 }
 
-.cta-btn:hover {
+.hero h1 span:last-child {
+    color: #f4b942;
+}
+
+.hero p {
+    margin-top: 20px;
+    font-size: 20px;
+    opacity: 0.85;
+}
+
+/* BUTTONS */
+.btn-primary {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 15px 35px;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #f4b942, #e0a22f);
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
-/* ===== IMAGES ===== */
+.btn-secondary {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    border-radius: 10px;
+    border: 1px solid #f4b942;
+    color: #f4b942;
+    text-decoration: none;
+    font-size: 15px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
 
-.images {
+.btn-secondary:hover {
+    background: rgba(244,185,66,0.1);
+    transform: translateY(-3px);
+}
+
+/* IMAGE SECTION */
+.image-section {
     display: flex;
     justify-content: center;
-    gap: 60px;
-    margin: 100px 0;
-    flex-wrap: wrap;
-}
-
-.images img {
-    width: 360px;
-    border-radius: 20px;
-    background: white;
-    padding: 20px;
-    transition: 0.4s ease;
-}
-
-.images img:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-
-/* ===== SECTIONS ===== */
-
-.section {
-    padding: 100px 20px;
-}
-
-.section h2 {
-    text-align: center;
-    font-size: 36px;
-    margin-bottom: 60px;
-}
-
-.card-container {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
     gap: 40px;
+    margin: 60px 0;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
-.card {
-    background: rgba(255,255,255,0.07);
-    padding: 40px;
+.image-section img {
+    width: 400px;
     border-radius: 20px;
-    width: 450px;
-    line-height: 1.8;
-    transition: 0.4s ease;
-    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+.image-section img:hover {
+    transform: translateY(-8px);
 }
 
-/* ===== PLANS CTA ===== */
-
-.plans-section {
+/* INFO SECTION */
+.info-section {
+    background: rgba(255,255,255,0.05);
+    padding: 80px 15%;
     text-align: center;
-    padding: 100px 20px;
 }
 
+.info-section h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.info-section p {
+    font-size: 18px;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+/* FOOTER */
 footer {
     text-align: center;
-    padding: 40px;
-    opacity: 0.7;
+    padding: 40px 20px;
+    font-size: 14px;
+    opacity: 0.6;
 }
 
-/* ===== FADE IN ANIMATION ===== */
-
-.fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeUp 1s forwards;
+/* ANIMATION */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
-.fade-in:nth-child(2) { animation-delay: 0.2s; }
-.fade-in:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 </style>
 </head>
-
 <body>
 
-<!-- HERO -->
-<div class="hero fade-in">
-    <h1>
-        <span class="white">PATH</span><span class="orange">WISE</span>
-    </h1>
-    <div class="tagline">
-        Smart academic planning. Less stress. Better control.
-    </div>
-    <a href="planner.html" class="cta-btn">Start Planning (Free)</a>
+<div class="hero">
+    <h1><span>PATH</span><span>WISE</span></h1>
+    <p>Smart academic planning. Less stress. Better control.</p>
+
+    <!-- Correct Routing -->
+    <a href="planner.html" class="btn-primary">Start Planning (Free)</a><br>
+    <a href="plans.html" class="btn-secondary">View Plans</a>
 </div>
 
-<!-- IMAGES -->
-<div class="images fade-in">
-    <img src="logo.png">
-    <img src="graph.png">
+<div class="image-section">
+    <img src="logo.png" alt="PathWise Logo">
+    <img src="graph.png" alt="Performance Graph">
 </div>
 
-<!-- WHAT PATHWISE DOES -->
-<div class="section">
+<div class="info-section">
     <h2>What PathWise Does</h2>
 
-    <div class="card-container">
+    <p>
+    PathWise helps students stop reacting to deadlines and start planning ahead. 
+    Instead of last-minute panic, you enter your subject, deadline, and difficulty level, 
+    and the system calculates when you should begin and how much you should study each day.
+    </p>
 
-        <div class="card fade-in">
-            PathWise helps students stop reacting to deadlines and start planning ahead.
-            Instead of cramming the night before or underestimating how long something
-            will take, PathWise introduces structured preparation.
-        </div>
-
-        <div class="card fade-in">
-            You enter your subject, deadline, and difficulty level. The system calculates
-            when you should begin and how much you should study daily — turning pressure
-            into a controlled plan.
-        </div>
-
-    </div>
-</div>
-
-<!-- WHY PLUS -->
-<div class="section">
-    <h2>Why Consider PathWise Plus</h2>
-
-    <div class="card-container">
-
-        <div class="card fade-in">
-            The free version focuses on smarter deadline starts.
-            It gives clarity for individual assessments and reduces last-minute stress.
-        </div>
-
-        <div class="card fade-in">
-            PathWise Plus expands this into a full academic control dashboard:
-            multiple assessments, workload balancing, collision detection,
-            risk alerts, and long-term planning insights.
-        </div>
-
-    </div>
-</div>
-
-<!-- PLANS CTA -->
-<div class="plans-section fade-in">
-    <h2>Ready to Take Full Control?</h2>
-    <a href="plans.html" class="cta-btn">View Plans</a>
+    <p>
+    The free version focuses on smarter deadline starts and structured single-assessment planning. 
+    PathWise Plus expands this into a full Academic Control Dashboard with workload balancing, 
+    deadline collision detection, risk alerts, and long-term academic forecasting.
+    </p>
 </div>
 
 <footer>
-    © 2026 PathWise. All rights reserved. |
-    <a href="privacy.html" style="color:#f5a623;">Privacy Policy</a>
+© 2026 PathWise. All rights reserved. | <a href="privacy.html" style="color:#f4b942; text-decoration:none;">Privacy Policy</a>
 </footer>
 
 </body>
