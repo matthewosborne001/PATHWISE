@@ -17,18 +17,19 @@ body {
     background: linear-gradient(135deg, #0f1f3d, #1c2f57);
     color: white;
     overflow-x: hidden;
+    animation: fadeIn 0.8s ease forwards;
 }
 
 /* HERO */
 .hero {
     text-align: center;
     padding: 120px 20px 80px;
-    animation: fadeUp 0.9s ease forwards;
 }
 
 .hero h1 {
     font-size: 64px;
     font-weight: 700;
+    letter-spacing: 2px;
 }
 
 .hero h1 span:first-child { color: white; }
@@ -40,7 +41,7 @@ body {
     opacity: 0.85;
 }
 
-/* BUTTON */
+/* BUTTONS */
 .primary-btn {
     display: inline-block;
     margin-top: 40px;
@@ -56,6 +57,22 @@ body {
 .primary-btn:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.secondary-btn {
+    display: inline-block;
+    padding: 14px 35px;
+    border-radius: 12px;
+    border: 1px solid #f4b942;
+    color: #f4b942;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background: rgba(244,185,66,0.1);
+    transform: translateY(-4px);
 }
 
 /* IMAGE CARDS */
@@ -86,42 +103,48 @@ body {
 
 /* INFO SECTION */
 .info-section {
-    padding: 90px 15%;
-    text-align: center;
+    padding: 100px 10%;
 }
 
 .info-section h2 {
+    text-align: center;
     font-size: 34px;
-    margin-bottom: 35px;
+    margin-bottom: 60px;
 }
 
-.info-section p {
-    font-size: 18px;
-    line-height: 1.8;
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+}
+
+.info-card {
+    background: rgba(255,255,255,0.05);
+    padding: 40px;
+    border-radius: 20px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255,255,255,0.08);
+}
+
+.info-card h3 {
+    margin-bottom: 20px;
+    color: #f4b942;
+    font-size: 22px;
+}
+
+.info-card p {
+    line-height: 1.7;
     opacity: 0.9;
-    margin-bottom: 25px;
 }
 
 /* PLANS BUTTON SECTION */
 .plans-section {
     text-align: center;
-    padding: 60px 20px 100px;
-}
-
-.secondary-btn {
-    display: inline-block;
-    padding: 14px 35px;
-    border-radius: 12px;
-    border: 1px solid #f4b942;
-    color: #f4b942;
-    text-decoration: none;
-    font-size: 15px;
-    transition: all 0.3s ease;
-}
-
-.secondary-btn:hover {
-    background: rgba(244,185,66,0.1);
-    transform: translateY(-4px);
+    padding: 80px 20px 100px;
 }
 
 /* FOOTER */
@@ -133,7 +156,7 @@ footer {
 }
 
 /* ANIMATION */
-@keyframes fadeUp {
+@keyframes fadeIn {
     from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
 }
@@ -157,22 +180,30 @@ footer {
     </div>
 </div>
 
-<div class="info-section">
+<section class="info-section">
     <h2>What PathWise Does</h2>
 
-    <p>
-    PathWise helps students stop reacting to deadlines and start planning ahead.
-    Instead of last-minute panic, you enter your subject, deadline, and difficulty,
-    and the system calculates when you should begin and how much to study daily.
-    </p>
+    <div class="info-grid">
+        <div class="info-card">
+            <h3>Smart Deadline Control</h3>
+            <p>
+            PathWise helps students stop reacting to deadlines and start planning ahead.
+            Instead of last-minute panic, you enter your subject, deadline, and difficulty,
+            and the system calculates when you should begin and how much to study daily.
+            </p>
+        </div>
 
-    <p>
-    The free version focuses on structured single-assessment planning.
-    PathWise Plus expands this into a full Academic Control Dashboard with
-    workload balancing, deadline collision detection, risk alerts,
-    and long-term academic forecasting.
-    </p>
-</div>
+        <div class="info-card">
+            <h3>Built for Strategic Growth</h3>
+            <p>
+            The free version focuses on structured single-assessment planning.
+            PathWise Plus expands this into a full Academic Control Dashboard with
+            workload balancing, deadline collision detection, risk alerts,
+            and long-term academic forecasting.
+            </p>
+        </div>
+    </div>
+</section>
 
 <div class="plans-section">
     <a href="plans.html" class="secondary-btn">View Plans</a>
