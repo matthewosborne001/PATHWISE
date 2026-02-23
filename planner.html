@@ -1,174 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PathWise | Smart Deadline Starter</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PathWise | Smart Deadline Starter</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0d1b2a, #1b263b);
-      color: white;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f1f3d, #162c57);
+    color: white;
+}
 
-    .back-btn {
-      position: absolute;
-      top: 30px;
-      left: 40px;
-      text-decoration: none;
-      color: white;
-      font-weight: 600;
-      background: rgba(255,255,255,0.1);
-      padding: 10px 18px;
-      border-radius: 8px;
-    }
+.container {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 40px;
+}
 
-    .wrapper {
-      max-width: 1200px;
-      margin: 120px auto;
-      padding: 40px;
-      display: flex;
-      gap: 80px;
-    }
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
 
-    .left { flex: 1; }
-    .right { flex: 1; text-align: center; }
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    border: none;
+}
 
-    h1 { font-size: 40px; margin-bottom: 20px; }
-    h1 span { color: #ff8c42; }
+button {
+    padding: 14px 24px;
+    background: #f5a623;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    .section-box {
-      background: rgba(255,255,255,0.05);
-      padding: 25px;
-      border-radius: 12px;
-      margin-bottom: 25px;
-      line-height: 1.6;
-    }
+button:hover {
+    opacity: 0.9;
+}
 
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 600;
-    }
+.result-box {
+    margin-top: 40px;
+    background: rgba(255,255,255,0.08);
+    padding: 30px;
+    border-radius: 16px;
+    line-height: 1.6;
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border-radius: 6px;
-      border: none;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 12px 20px;
-      border-radius: 6px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      background: #ff8c42;
-      color: white;
-    }
-
-    .result-box {
-      margin-top: 25px;
-      padding: 20px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.08);
-      font-weight: bold;
-      line-height: 1.8;
-    }
-
-    .logo-box img { max-width: 280px; }
-
-    @media(max-width: 900px) {
-      .wrapper { flex-direction: column; }
-      .back-btn { position: static; display: inline-block; margin: 20px; }
-    }
-  </style>
+.back-btn {
+    display: inline-block;
+    margin-top: 40px;
+    text-decoration: none;
+    color: #f5a623;
+}
+</style>
 </head>
 
 <body>
 
+<div class="container">
+
+<h1>Smart Deadline Starter</h1>
+
+<label>Subject</label>
+<input type="text" id="subject" placeholder="e.g. Maths">
+
+<label>Assessment Name</label>
+<input type="text" id="assessment" placeholder="e.g. Algebra Test">
+
+<label>Deadline</label>
+<input type="date" id="deadline">
+
+<label>Difficulty (1–10)</label>
+<input type="number" id="difficulty" min="1" max="10">
+
+<button onclick="generateStudyPlan()">Generate Study Plan</button>
+
+<div id="output" class="result-box"></div>
+
 <a href="index.html" class="back-btn">← Back to Home</a>
-
-<div class="wrapper">
-
-<div class="left">
-
-<h1><span>PATH</span>WISE Smart Starter</h1>
-
-<div class="section-box">
-  <strong>Plan Your Assessment Properly</strong>
-
-  <label>Subject</label>
-  <input type="text" id="subject">
-
-  <label>Assessment Name</label>
-  <input type="text" id="assessment">
-
-  <label>Deadline</label>
-  <input type="date" id="deadline">
-
-  <label>Difficulty (1–10)</label>
-  <input type="number" id="difficulty" min="1" max="10">
-</div>
-
-<button onclick="calculate()">Generate Study Plan</button>
-
-<div class="result-box" id="results"></div>
-
-</div>
-
-<div class="right">
-  <div class="logo-box">
-    <img src="logo.png" alt="PathWise Logo">
-  </div>
-</div>
 
 </div>
 
 <script>
+function generateStudyPlan() {
 
-function calculate() {
+    const subject = document.getElementById("subject").value;
+    const assessment = document.getElementById("assessment").value;
+    const deadlineInput = document.getElementById("deadline").value;
+    const difficulty = parseInt(document.getElementById("difficulty").value);
 
-  const subject = document.getElementById("subject").value;
-  const assessment = document.getElementById("assessment").value;
-  const deadline = new Date(document.getElementById("deadline").value);
-  const difficulty = parseInt(document.getElementById("difficulty").value);
+    if (!subject || !assessment || !deadlineInput || !difficulty) {
+        alert("Please complete all fields.");
+        return;
+    }
 
-  if (!subject || !assessment || !deadline || !difficulty) {
-    document.getElementById("results").innerHTML =
-      "Please complete all fields.";
-    return;
-  }
+    const today = new Date();
+    const deadline = new Date(deadlineInput);
 
-  const today = new Date();
-  const timeDiff = deadline - today;
-  const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    const timeDifference = deadline - today;
+    const daysUntil = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
-  if (daysLeft <= 0) {
-    document.getElementById("results").innerHTML =
-      "Deadline has already passed or is today.";
-    return;
-  }
+    const totalHours = difficulty * 2.5;
+    const dailyHours = (daysUntil > 0) ? (totalHours / daysUntil) : totalHours;
 
-  const totalHours = difficulty * 2.5;
-  const dailyHours = (totalHours / daysLeft).toFixed(2);
+    let message = "";
 
-  const recommendedStart = new Date();
-  recommendedStart.setDate(today.getDate());
+    if (daysUntil <= 1) {
 
-  document.getElementById("results").innerHTML =
-    "Assessment: <strong>" + assessment + "</strong><br>" +
-    "Subject: " + subject + "<br><br>" +
-    "Total Estimated Study Time: " + totalHours.toFixed(1) + " hours<br>" +
-    "Days Until Deadline: " + daysLeft + "<br>" +
-    "Recommended Daily Study: " + dailyHours + " hours per day<br><br>" +
-    "Start Immediately to stay on track.";
+        if (difficulty >= 6) {
+            message = `
+            With only one day remaining and a higher difficulty level,
+            this workload is intense. Focus on the most important topics now.
+            For future assessments, starting earlier will significantly reduce pressure.
+            `;
+        } else {
+            message = `
+            With one day remaining, keep your revision focused and efficient.
+            Prioritise key areas and manage your time carefully.
+            `;
+        }
+
+    } else {
+
+        message = `
+        You are in a strong position to distribute your workload evenly.
+        Starting now will reduce stress and improve long-term retention.
+        `;
+    }
+
+    document.getElementById("output").innerHTML = `
+        <h3>Assessment: ${assessment}</h3>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Total Estimated Study Time:</strong> ${totalHours.toFixed(1)} hours</p>
+        <p><strong>Days Until Deadline:</strong> ${daysUntil}</p>
+        <p><strong>Recommended Daily Study:</strong> ${dailyHours.toFixed(2)} hours per day</p>
+        <p style="margin-top:20px;"><em>${message}</em></p>
+    `;
 }
-
 </script>
 
 </body>
