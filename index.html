@@ -19,25 +19,20 @@ body {
     overflow-x: hidden;
 }
 
-/* HERO SECTION */
+/* HERO */
 .hero {
     text-align: center;
     padding: 120px 20px 80px;
-    animation: fadeIn 1s ease forwards;
+    animation: fadeUp 0.9s ease forwards;
 }
 
 .hero h1 {
-    font-size: 60px;
+    font-size: 64px;
     font-weight: 700;
 }
 
-.hero h1 span:first-child {
-    color: white;
-}
-
-.hero h1 span:last-child {
-    color: #f4b942;
-}
+.hero h1 span:first-child { color: white; }
+.hero h1 span:last-child { color: #f4b942; }
 
 .hero p {
     margin-top: 20px;
@@ -45,128 +40,147 @@ body {
     opacity: 0.85;
 }
 
-/* BUTTONS */
-.btn-primary {
+/* BUTTON */
+.primary-btn {
     display: inline-block;
     margin-top: 40px;
-    padding: 15px 35px;
-    border-radius: 10px;
+    padding: 16px 40px;
+    border-radius: 12px;
     background: linear-gradient(45deg, #f4b942, #e0a22f);
+    text-decoration: none;
     color: white;
-    text-decoration: none;
     font-size: 16px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+.primary-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-.btn-secondary {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 30px;
-    border-radius: 10px;
-    border: 1px solid #f4b942;
-    color: #f4b942;
-    text-decoration: none;
-    font-size: 15px;
-    transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.btn-secondary:hover {
-    background: rgba(244,185,66,0.1);
-    transform: translateY(-3px);
-}
-
-/* IMAGE SECTION */
+/* IMAGE CARDS */
 .image-section {
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin: 60px 0;
+    margin: 60px 0 80px;
     flex-wrap: wrap;
 }
 
-.image-section img {
-    width: 400px;
+.image-card {
+    background: rgba(255,255,255,0.05);
+    padding: 25px;
     border-radius: 20px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.image-section img:hover {
+.image-card:hover {
     transform: translateY(-8px);
+    background: rgba(255,255,255,0.08);
+}
+
+.image-card img {
+    width: 350px;
+    border-radius: 15px;
 }
 
 /* INFO SECTION */
 .info-section {
-    background: rgba(255,255,255,0.05);
-    padding: 80px 15%;
+    padding: 90px 15%;
     text-align: center;
 }
 
 .info-section h2 {
-    font-size: 32px;
-    margin-bottom: 30px;
+    font-size: 34px;
+    margin-bottom: 35px;
 }
 
 .info-section p {
     font-size: 18px;
     line-height: 1.8;
     opacity: 0.9;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+/* PLANS BUTTON SECTION */
+.plans-section {
+    text-align: center;
+    padding: 60px 20px 100px;
+}
+
+.secondary-btn {
+    display: inline-block;
+    padding: 14px 35px;
+    border-radius: 12px;
+    border: 1px solid #f4b942;
+    color: #f4b942;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background: rgba(244,185,66,0.1);
+    transform: translateY(-4px);
 }
 
 /* FOOTER */
 footer {
     text-align: center;
-    padding: 40px 20px;
+    padding: 40px;
     font-size: 14px;
     opacity: 0.6;
 }
 
 /* ANIMATION */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
+
 <body>
 
 <div class="hero">
     <h1><span>PATH</span><span>WISE</span></h1>
     <p>Smart academic planning. Less stress. Better control.</p>
-
-    <!-- Correct Routing -->
-    <a href="planner.html" class="btn-primary">Start Planning (Free)</a><br>
-    <a href="plans.html" class="btn-secondary">View Plans</a>
+    <a href="planner.html" class="primary-btn">Start Planning (Free)</a>
 </div>
 
 <div class="image-section">
-    <img src="logo.png" alt="PathWise Logo">
-    <img src="graph.png" alt="Performance Graph">
+    <div class="image-card">
+        <img src="logo.png" alt="PathWise Logo">
+    </div>
+    <div class="image-card">
+        <img src="graph.png" alt="Performance Graph">
+    </div>
 </div>
 
 <div class="info-section">
     <h2>What PathWise Does</h2>
 
     <p>
-    PathWise helps students stop reacting to deadlines and start planning ahead. 
-    Instead of last-minute panic, you enter your subject, deadline, and difficulty level, 
-    and the system calculates when you should begin and how much you should study each day.
+    PathWise helps students stop reacting to deadlines and start planning ahead.
+    Instead of last-minute panic, you enter your subject, deadline, and difficulty,
+    and the system calculates when you should begin and how much to study daily.
     </p>
 
     <p>
-    The free version focuses on smarter deadline starts and structured single-assessment planning. 
-    PathWise Plus expands this into a full Academic Control Dashboard with workload balancing, 
-    deadline collision detection, risk alerts, and long-term academic forecasting.
+    The free version focuses on structured single-assessment planning.
+    PathWise Plus expands this into a full Academic Control Dashboard with
+    workload balancing, deadline collision detection, risk alerts,
+    and long-term academic forecasting.
     </p>
 </div>
 
+<div class="plans-section">
+    <a href="plans.html" class="secondary-btn">View Plans</a>
+</div>
+
 <footer>
-© 2026 PathWise. All rights reserved. | <a href="privacy.html" style="color:#f4b942; text-decoration:none;">Privacy Policy</a>
+© 2026 PathWise. All rights reserved. |
+<a href="privacy.html" style="color:#f4b942; text-decoration:none;">Privacy Policy</a>
 </footer>
 
 </body>
