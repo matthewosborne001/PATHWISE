@@ -6,252 +6,300 @@
 <title>PathWise Plus</title>
 
 <style>
-body {
+* {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0f1f3d, #162c57);
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f1f3d, #1c2f57);
     color: white;
     overflow-x: hidden;
+    opacity: 0;
+    transform: scale(0.98);
+    animation: pageEnter 0.6s ease forwards;
 }
 
-/* Premium Gold Frame */
-body::before {
+/* PAGE ENTER */
+@keyframes pageEnter {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* GOLD FRAME */
+.premium-frame {
+    border: 2px solid #d4af37;
+    border-radius: 25px;
+    margin: 15px;
+    min-height: calc(100vh - 30px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* GOLD SHIMMER */
+.premium-frame::after {
     content: "";
-    position: fixed;
-    inset: 10px;
-    border: 2px solid rgba(245,166,35,0.6);
-    border-radius: 18px;
-    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 215, 0, 0.25),
+        transparent
+    );
+    transform: skewX(-20deg);
+    animation: shimmer 2.5s ease forwards;
 }
 
-/* Hamburger Button */
-.menu-btn {
-    position: fixed;
-    top: 25px;
-    right: 25px;
-    width: 55px;
-    height: 55px;
-    border-radius: 14px;
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@keyframes shimmer {
+    to {
+        left: 150%;
+    }
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 120px 20px 80px;
+}
+
+.hero h1 {
+    font-size: 60px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.hero h1 span:first-child { color: white; }
+.hero h1 span:last-child { color: #f4b942; }
+
+.hero p {
+    margin-top: 20px;
+    font-size: 20px;
+    opacity: 0.85;
+}
+
+.cta-btn {
+    margin-top: 40px;
+    padding: 15px 35px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(45deg, #f4b942, #e0a22f);
+    color: white;
+    font-size: 16px;
     cursor: pointer;
-    transition: 0.3s;
-    z-index: 1000;
+    transition: all 0.3s ease;
 }
 
-.menu-btn:hover {
-    background: rgba(255,255,255,0.12);
+.cta-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-/* Hamburger Lines */
-.menu-btn span {
-    display: block;
-    width: 22px;
+/* FEATURES */
+.features {
+    padding: 80px 10%;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 32px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 35px;
+}
+
+.feature-card {
+    background: rgba(255,255,255,0.05);
+    padding: 35px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255,255,255,0.08);
+}
+
+.feature-card h3 {
+    margin-bottom: 15px;
+    color: #f4b942;
+}
+
+/* HAMBURGER */
+.hamburger {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.hamburger div {
+    width: 25px;
     height: 2px;
     background: white;
-    margin: 4px 0;
-    transition: 0.3s;
+    position: relative;
 }
 
-/* Side Menu */
+.hamburger div::before,
+.hamburger div::after {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 2px;
+    background: white;
+    left: 0;
+}
+
+.hamburger div::before { top: -8px; }
+.hamburger div::after { top: 8px; }
+
+/* SIDE MENU */
 .side-menu {
     position: fixed;
     top: 0;
-    right: -300px;
+    right: 0;
     width: 280px;
     height: 100%;
     background: #0f1f3d;
-    padding: 100px 30px;
-    transition: 0.4s ease;
-    z-index: 999;
-    box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+    padding: 120px 30px;
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+    z-index: 1000;
+    box-shadow: -5px 0 30px rgba(0,0,0,0.6);
 }
 
 .side-menu.active {
-    right: 0;
+    transform: translateX(0);
 }
 
 .side-menu a {
     display: block;
-    color: white;
-    text-decoration: none;
     margin-bottom: 25px;
+    text-decoration: none;
+    color: white;
     font-size: 18px;
-    transition: 0.3s;
+    transition: color 0.3s ease;
 }
 
 .side-menu a:hover {
-    color: #f5a623;
+    color: #f4b942;
 }
 
-/* Fade In Animation */
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.section {
-    max-width: 1200px;
-    margin: 120px auto;
-    padding: 40px;
+/* BACK LINK */
+.back-home {
     text-align: center;
-    animation: fadeUp 1s ease forwards;
+    padding: 60px;
 }
 
-h1 {
-    font-size: 60px;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
+.back-home a {
+    color: #f4b942;
+    text-decoration: none;
 }
 
-.white { color: white; }
-.gold { color: #f5a623; }
-
-.subtitle {
-    font-size: 20px;
-    opacity: 0.85;
-    margin-bottom: 40px;
-}
-
-.cta-button {
-    padding: 16px 40px;
-    font-size: 18px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    background: linear-gradient(45deg, #f5a623, #ffb84d);
-    color: white;
-    transition: 0.3s;
-}
-
-.cta-button:hover {
-    box-shadow: 0 0 20px rgba(245,166,35,0.7);
-    transform: scale(1.05);
-}
-
-/* Feature Grid */
-.features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 40px;
-    margin-top: 80px;
-}
-
-.feature-card {
-    background: rgba(255,255,255,0.08);
-    padding: 30px;
-    border-radius: 18px;
-    transition: 0.3s;
-}
-
-.feature-card:hover {
-    background: rgba(255,255,255,0.12);
-    transform: translateY(-8px);
-}
-
-.feature-card h3 {
-    color: #f5a623;
-    margin-top: 0;
-}
-
+/* SECTION DIVIDER */
 .divider {
-    margin: 100px auto;
     width: 60%;
     height: 1px;
     background: rgba(255,255,255,0.2);
-}
-
-.back-link {
-    margin-top: 80px;
-    display: inline-block;
-    color: #f5a623;
-    text-decoration: none;
-    font-weight: bold;
+    margin: 60px auto;
 }
 </style>
 </head>
-
 <body>
 
-<!-- Hamburger -->
-<div class="menu-btn" onclick="toggleMenu()">
-    <div>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+<div class="premium-frame">
+
+<div class="hamburger" onclick="toggleMenu()">
+    <div></div>
 </div>
 
-<!-- Side Menu -->
 <div class="side-menu" id="sideMenu">
-    <a href="#">Layer 1 – Workload Control</a>
-    <a href="#">Layer 2 – Strategic Planning</a>
-    <a href="#">Layer 3 – Performance Modeling</a>
-    <a href="plans.html">Back to Plans</a>
-    <a href="index.html">Home</a>
+    <a href="#" onclick="navigateTo('layer1.html')">
+        Layer 1 — Academic Control
+    </a>
 </div>
 
-<!-- HERO -->
-<div class="section">
-    <h1>
-        <span class="white">PATH</span><span class="gold">WISE</span>
-        <span class="gold"> PLUS</span>
-    </h1>
-
-    <div class="subtitle">
-        Advanced Academic Control. Strategic Workload Intelligence.
-    </div>
-
-    <button class="cta-button">Coming Soon</button>
+<div class="hero">
+    <h1><span>PATH</span><span>WISE PLUS</span></h1>
+    <p>Advanced Academic Control. Strategic Workload Intelligence.</p>
+    <button class="cta-btn">Coming Soon</button>
 </div>
 
 <div class="divider"></div>
 
-<!-- FEATURES -->
-<div class="section">
+<div class="features">
     <h2>What PathWise Plus Unlocks</h2>
 
-    <div class="features">
+    <div class="feature-grid">
         <div class="feature-card">
-            <h3>Multiple Units Dashboard</h3>
-            <p>Unified academic overview across all subjects and assessments.</p>
+            <h3>Multiple Assessments Dashboard</h3>
+            <p>Track all subjects simultaneously with structured oversight.</p>
         </div>
 
         <div class="feature-card">
             <h3>Weekly Workload Meter</h3>
-            <p>Dynamic intensity analysis to prevent burnout.</p>
+            <p>Understand intensity levels and avoid overload.</p>
         </div>
 
         <div class="feature-card">
-            <h3>Collision Detection</h3>
-            <p>Identifies deadline overlap and redistributes load intelligently.</p>
+            <h3>Deadline Collision Detection</h3>
+            <p>Identify overlapping assessments before they become risk points.</p>
         </div>
 
         <div class="feature-card">
             <h3>Risk Alerts</h3>
-            <p>Flags high-pressure assessments early.</p>
+            <p>Be notified when timing becomes unrealistic.</p>
         </div>
 
         <div class="feature-card">
-            <h3>Long-Term Planning</h3>
-            <p>Track academic direction over months, not just days.</p>
+            <h3>Long-Term Forecasting</h3>
+            <p>See how short-term decisions impact long-term performance.</p>
         </div>
 
         <div class="feature-card">
-            <h3>Subject Performance Tracking</h3>
-            <p>Identify intensity patterns and improvement opportunities.</p>
+            <h3>Strategic Planning Roadmap</h3>
+            <p>Build structured academic trajectories.</p>
         </div>
     </div>
+</div>
 
-    <a href="plans.html" class="back-link">← Back to Plans</a>
+<div class="back-home">
+    <a href="plans.html">← Back to Plans</a>
+</div>
+
 </div>
 
 <script>
 function toggleMenu() {
     document.getElementById("sideMenu").classList.toggle("active");
+}
+
+function navigateTo(page) {
+    document.body.style.transition = "opacity 0.35s ease, transform 0.35s ease";
+    document.body.style.opacity = "0";
+    document.body.style.transform = "translateX(-10px)";
+    setTimeout(() => {
+        window.location.href = page;
+    }, 350);
 }
 </script>
 
