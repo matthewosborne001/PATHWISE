@@ -24,7 +24,70 @@ body::before {
     pointer-events: none;
 }
 
-/* Smooth Fade In */
+/* Hamburger Button */
+.menu-btn {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    width: 55px;
+    height: 55px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 1000;
+}
+
+.menu-btn:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+/* Hamburger Lines */
+.menu-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: white;
+    margin: 4px 0;
+    transition: 0.3s;
+}
+
+/* Side Menu */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 280px;
+    height: 100%;
+    background: #0f1f3d;
+    padding: 100px 30px;
+    transition: 0.4s ease;
+    z-index: 999;
+    box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+}
+
+.side-menu.active {
+    right: 0;
+}
+
+.side-menu a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 25px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.side-menu a:hover {
+    color: #f5a623;
+}
+
+/* Fade In Animation */
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(40px); }
     to { opacity: 1; transform: translateY(0); }
@@ -44,13 +107,8 @@ h1 {
     margin-bottom: 20px;
 }
 
-.white {
-    color: white;
-}
-
-.gold {
-    color: #f5a623;
-}
+.white { color: white; }
+.gold { color: #f5a623; }
 
 .subtitle {
     font-size: 20px;
@@ -66,7 +124,7 @@ h1 {
     cursor: pointer;
     background: linear-gradient(45deg, #f5a623, #ffb84d);
     color: white;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .cta-button:hover {
@@ -74,7 +132,7 @@ h1 {
     transform: scale(1.05);
 }
 
-/* Feature Sections */
+/* Feature Grid */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -86,7 +144,7 @@ h1 {
     background: rgba(255,255,255,0.08);
     padding: 30px;
     border-radius: 18px;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .feature-card:hover {
@@ -95,12 +153,10 @@ h1 {
 }
 
 .feature-card h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
     color: #f5a623;
+    margin-top: 0;
 }
 
-/* Divider */
 .divider {
     margin: 100px auto;
     width: 60%;
@@ -108,23 +164,35 @@ h1 {
     background: rgba(255,255,255,0.2);
 }
 
-/* Back Button */
-.back-home {
-    display: inline-block;
+.back-link {
     margin-top: 80px;
-    text-decoration: none;
+    display: inline-block;
     color: #f5a623;
+    text-decoration: none;
     font-weight: bold;
-    transition: 0.3s;
-}
-
-.back-home:hover {
-    opacity: 0.8;
 }
 </style>
 </head>
 
 <body>
+
+<!-- Hamburger -->
+<div class="menu-btn" onclick="toggleMenu()">
+    <div>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<!-- Side Menu -->
+<div class="side-menu" id="sideMenu">
+    <a href="#">Layer 1 – Workload Control</a>
+    <a href="#">Layer 2 – Strategic Planning</a>
+    <a href="#">Layer 3 – Performance Modeling</a>
+    <a href="plans.html">Back to Plans</a>
+    <a href="index.html">Home</a>
+</div>
 
 <!-- HERO -->
 <div class="section">
@@ -134,86 +202,58 @@ h1 {
     </h1>
 
     <div class="subtitle">
-        Advanced Academic Control. Strategic Workload Intelligence. Long-Term Performance Insight.
+        Advanced Academic Control. Strategic Workload Intelligence.
     </div>
 
-    <button class="cta-button">
-        Coming Soon
-    </button>
+    <button class="cta-button">Coming Soon</button>
 </div>
 
 <div class="divider"></div>
 
-<!-- CAPABILITIES -->
+<!-- FEATURES -->
 <div class="section">
     <h2>What PathWise Plus Unlocks</h2>
 
     <div class="features">
-
         <div class="feature-card">
             <h3>Multiple Units Dashboard</h3>
-            <p>
-            View every subject and assessment in one unified academic control center.
-            No more isolated planning.
-            </p>
+            <p>Unified academic overview across all subjects and assessments.</p>
         </div>
 
         <div class="feature-card">
             <h3>Weekly Workload Meter</h3>
-            <p>
-            Intelligent workload balancing that prevents burnout
-            and detects overload before it happens.
-            </p>
+            <p>Dynamic intensity analysis to prevent burnout.</p>
         </div>
 
         <div class="feature-card">
             <h3>Collision Detection</h3>
-            <p>
-            Automatically flags overlapping deadlines and redistributes study
-            recommendations to maintain stability.
-            </p>
+            <p>Identifies deadline overlap and redistributes load intelligently.</p>
         </div>
 
         <div class="feature-card">
             <h3>Risk Alerts</h3>
-            <p>
-            Identifies assessments that require earlier preparation
-            based on difficulty and time constraints.
-            </p>
+            <p>Flags high-pressure assessments early.</p>
         </div>
 
         <div class="feature-card">
-            <h3>Long-Term Academic Planning</h3>
-            <p>
-            Visualise performance trends across months and semesters,
-            not just single deadlines.
-            </p>
+            <h3>Long-Term Planning</h3>
+            <p>Track academic direction over months, not just days.</p>
         </div>
 
         <div class="feature-card">
             <h3>Subject Performance Tracking</h3>
-            <p>
-            Monitor academic intensity per subject and identify
-            improvement areas strategically.
-            </p>
+            <p>Identify intensity patterns and improvement opportunities.</p>
         </div>
-
     </div>
+
+    <a href="plans.html" class="back-link">← Back to Plans</a>
 </div>
 
-<div class="divider"></div>
-
-<!-- LAYER PREVIEW -->
-<div class="section">
-    <h2>System Architecture</h2>
-    <p style="opacity:0.8; max-width:700px; margin:0 auto;">
-        PathWise Plus operates on layered academic intelligence.
-        Layer One focuses on workload visibility and control.
-        Future layers introduce predictive planning and strategic performance modeling.
-    </p>
-
-    <a href="plans.html" class="back-home">← Back to Plans</a>
-</div>
+<script>
+function toggleMenu() {
+    document.getElementById("sideMenu").classList.toggle("active");
+}
+</script>
 
 </body>
 </html>
