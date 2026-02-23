@@ -3,221 +3,169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PATHWISE</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<title>PathWise</title>
 
 <style>
-
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: radial-gradient(circle at top left, #1f2f4f, #0f1c2e 60%);
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #0f1f3d, #162c54);
     color: white;
+    text-align: center;
 }
 
 /* HERO */
 .hero {
-    text-align: center;
-    padding: 140px 20px 60px;
+    padding: 100px 20px 60px 20px;
 }
 
-.brand-title {
-    font-size: 4.8rem;
-    font-weight: 900;
-    letter-spacing: -1px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
+.title {
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: 2px;
 }
 
-.brand-title .path {
-    color: #ffffff;
+.path {
+    color: white;
 }
 
-.brand-title .wise {
-    background: linear-gradient(90deg, #ff8c1a, #ffb347);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.wise {
+    color: #f39c12;
 }
 
-.hero p {
-    font-size: 1.3rem;
-    color: #cfd6e0;
-    margin-bottom: 40px;
+.subtitle {
+    margin-top: 20px;
+    font-size: 20px;
+    opacity: 0.85;
 }
 
-.hero button {
-    padding: 16px 36px;
-    font-size: 1rem;
+/* BUTTONS */
+.primary-btn {
+    margin-top: 40px;
+    padding: 15px 40px;
+    font-size: 18px;
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(90deg, #ff8c1a, #ffb347);
+    border-radius: 8px;
+    background: linear-gradient(to right, #f39c12, #ffb347);
     color: white;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.3s;
 }
 
-.hero button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(255,140,26,0.4);
+.primary-btn:hover {
+    opacity: 0.9;
+}
+
+.secondary-btn {
+    margin-top: 25px;
+    padding: 14px 35px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #f39c12;
+    background: transparent;
+    color: #f39c12;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.secondary-btn:hover {
+    background: #f39c12;
+    color: white;
 }
 
 /* IMAGES */
-.images-section {
-    padding: 60px 10% 100px;
+.images {
+    margin-top: 70px;
     display: flex;
     justify-content: center;
-    gap: 60px;
+    gap: 40px;
     flex-wrap: wrap;
 }
 
-.images-section img {
-    width: 420px;
-    max-width: 90%;
-    border-radius: 25px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-    transition: 0.4s ease;
+.images img {
+    width: 320px;
+    border-radius: 20px;
+    background: white;
+    padding: 20px;
 }
 
-.images-section img:hover {
-    transform: scale(1.03);
+/* WHAT IT DOES SECTION */
+.info-section {
+    margin-top: 100px;
+    padding: 60px 20px;
+    background: rgba(255,255,255,0.05);
 }
 
-/* WHY SECTION */
-.why-section {
-    padding: 120px 10%;
-}
-
-.why-section h2 {
-    text-align: center;
-    font-size: 2.7rem;
-    margin-bottom: 70px;
-}
-
-.why-container {
-    display: flex;
-    gap: 50px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.why-box {
-    flex: 1 1 450px;
-    background: rgba(255, 255, 255, 0.06);
-    padding: 50px;
-    border-radius: 22px;
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    line-height: 1.9;
-    font-size: 1.05rem;
-    color: #d6d6d6;
-    transition: 0.4s ease;
-}
-
-.why-box:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 35px 70px rgba(0,0,0,0.6);
-}
-
-/* NEW PLANS CTA SECTION */
-.plans-cta {
-    text-align: center;
-    padding: 120px 20px;
-    background: linear-gradient(180deg, #0f1c2e, #0b1524);
-}
-
-.plans-cta h2 {
-    font-size: 2.5rem;
+.info-section h2 {
+    font-size: 32px;
     margin-bottom: 20px;
 }
 
-.plans-cta p {
-    color: #cfd6e0;
-    margin-bottom: 40px;
-    font-size: 1.1rem;
-}
-
-.plans-cta button {
-    padding: 16px 40px;
-    font-size: 1rem;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(90deg, #ff8c1a, #ffb347);
-    color: white;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.plans-cta button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(255,140,26,0.4);
+.info-section p {
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    line-height: 1.6;
+    opacity: 0.85;
 }
 
 /* FOOTER */
 footer {
-    background-color: #0b1524;
-    padding: 50px 10%;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #aab3c2;
+    margin-top: 80px;
+    padding: 30px;
+    font-size: 14px;
+    opacity: 0.7;
 }
 
 footer a {
-    color: #ffb347;
+    color: #f39c12;
     text-decoration: none;
 }
-
-footer a:hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-    .brand-title {
-        font-size: 2.8rem;
-    }
-}
-
 </style>
 </head>
 
 <body>
 
 <!-- HERO -->
-<section class="hero">
-    <h1 class="brand-title">
+<div class="hero">
+    <div class="title">
         <span class="path">PATH</span><span class="wise">WISE</span>
-    </h1>
-    <p>Plan your grades. Control your future.</p>
-    <button onclick="location.href='calculator.html'">Start Planning</button>
-</section>
+    </div>
+
+    <div class="subtitle">
+        Smart academic planning. Less stress. Better control.
+    </div>
+
+    <button class="primary-btn" onclick="location.href='dashboard.html'">
+        Start Planning (Free)
+    </button>
+
+    <br>
+
+    <button class="secondary-btn" onclick="location.href='plus.html'">
+        Upgrade to Plus
+    </button>
+</div>
 
 <!-- IMAGES -->
-<section class="images-section">
+<div class="images">
     <img src="logo.png" alt="PathWise Logo">
     <img src="graph.png" alt="Performance Graph">
-</section>
+</div>
 
-<!-- WHY SECTION -->
-<section class="why-section">
-    <h2>Why PathWise?</h2>
-
-    <div class="why-container">
-        <div class="why-box">
-            Academic pressure builds silently. Deadlines approach faster than expected, workload feels heavier than it looks, and starting too late becomes a pattern. PathWise helps you take control before stress takes control of you. By entering your subject, deadline, and difficulty level, PathWise calculates how much work is realistically required and when you should begin. Instead of guessing when to start or underestimating the effort needed, you receive a structured starting plan that keeps you ahead, organised, and intentional.
-        </div>
-
-        <div class="why-box">
-            The free version helps you start correctly. PathWise Plus helps you control everything. With Plus, you unlock the full Academic Control Dashboard — manage multiple subjects at once, detect deadline collisions, measure weekly workload intensity, and receive risk alerts before overload happens. Instead of reacting to pressure, you plan around it. If you want clarity across your entire academic schedule — not just one assessment — PathWise Plus turns planning into strategy..
-        </div>
-    </div>
-</section>
-
-<!-- NEW BOTTOM BUTTON -->
-<section class="plans-cta">
-    <h2>Ready to Go Further?</h2>
-    <p>Compare Free and Plus features to unlock your full academic potential.</p>
-    <button onclick="location.href='plans.html'">View Paid Plans</button>
-</section>
+<!-- WHAT PATHWISE DOES -->
+<div class="info-section">
+    <h2>What PathWise Does</h2>
+    <p>
+        PathWise helps students stop reacting to deadlines and start planning ahead.
+        Enter your subject, deadline, and difficulty level, and the system calculates
+        when you should begin and how much you should study each day.
+    </p>
+    <p>
+        The free version focuses on smarter deadline starts. PathWise Plus expands
+        this into a full academic control dashboard with workload balancing,
+        long-term planning, and advanced insights.
+    </p>
+</div>
 
 <!-- FOOTER -->
 <footer>
