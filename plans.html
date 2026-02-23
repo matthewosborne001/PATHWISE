@@ -1,122 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PathWise | Plans</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PathWise | Plans</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0d1b2a, #1b263b);
-      color: white;
-      text-align: center;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f1f3d, #162c57);
+    color: white;
+    text-align: center;
+}
 
-    h1 {
-      margin-top: 100px;
-      font-size: 50px;
-    }
+h1 {
+    margin-top: 60px;
+    font-size: 48px;
+    letter-spacing: 2px;
+}
 
-    .path { color: white; }
-    .wise { color: #ff8c42; }
+.white {
+    color: white;
+}
 
-    .plans-container {
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      margin: 80px 40px;
-      flex-wrap: wrap;
-    }
+.orange {
+    color: #f5a623;
+}
 
-    .plan-box {
-      background: rgba(255,255,255,0.05);
-      padding: 40px;
-      border-radius: 12px;
-      width: 320px;
-      text-align: left;
-    }
+.plans-container {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 80px;
+    flex-wrap: wrap;
+}
 
-    .plan-box h2 {
-      margin-top: 0;
-    }
+.plan-box {
+    background-color: rgba(255,255,255,0.08);
+    padding: 40px;
+    width: 350px;
+    border-radius: 20px;
+    text-align: left;
+    backdrop-filter: blur(10px);
+}
 
-    .price {
-      font-size: 28px;
-      margin: 20px 0;
-      font-weight: bold;
-    }
+.plan-box h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
 
-    ul {
-      padding-left: 20px;
-      line-height: 1.8;
-    }
+.price {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
 
-    .btn {
-      margin-top: 25px;
-      padding: 12px 20px;
-      border-radius: 8px;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      background: #ff8c42;
-      color: white;
-      width: 100%;
-    }
+.plan-box ul {
+    padding-left: 20px;
+}
 
-    .back-btn {
-      display: inline-block;
-      margin-top: 60px;
-      color: #ff8c42;
-      text-decoration: none;
-    }
-  </style>
+.plan-box li {
+    margin-bottom: 12px;
+}
+
+.cta-btn {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    padding: 14px;
+    background: linear-gradient(90deg, #f5a623, #f0b44c);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.cta-btn:hover {
+    opacity: 0.9;
+}
+
+.current-btn {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    padding: 14px;
+    background: #555;
+    border-radius: 10px;
+    font-weight: bold;
+}
+</style>
 </head>
 
 <body>
 
-<h1><span class="path">Path</span><span class="wise">Wise</span> Plans</h1>
+<h1>
+<span class="white">Path</span><span class="orange">Wise</span> Plans
+</h1>
 
 <div class="plans-container">
 
-  <!-- FREE PLAN -->
-  <div class="plan-box">
-    <h2>Free</h2>
-    <div class="price">€0</div>
-    <p>
-      The Smart Deadline Starter helps you plan one assessment at a time with clarity and structure.
-    </p>
-    <ul>
-      <li>Enter subject, deadline & difficulty</li>
-      <li>Estimated total study hours</li>
-      <li>Recommended start timing</li>
-      <li>Daily study target</li>
-      <li>Simple structured planning</li>
-    </ul>
-    <button class="btn">Current Plan</button>
-  </div>
+    <!-- FREE PLAN -->
+    <div class="plan-box">
+        <h2>Free</h2>
+        <div class="price">€0</div>
 
-  <!-- PLUS PLAN -->
-  <div class="plan-box">
-    <h2>Plus</h2>
-    <div class="price">€3.99 / month</div>
-    <p>
-      Unlock the full Academic Control Dashboard and manage your entire workload strategically.
-    </p>
-    <ul>
-      <li>Multiple assessments tracking</li>
-      <li>Weekly workload intensity meter</li>
-      <li>Deadline collision detection</li>
-      <li>Overload risk alerts</li>
-      <li>Priority recommendations</li>
-      <li>Long-term academic overview</li>
-    </ul>
-    <button class="btn">Upgrade to Plus</button>
-  </div>
+        <p>
+        The Smart Deadline Starter helps you organise one assessment at a time with structure and clarity.
+        </p>
+
+        <ul>
+            <li>Enter subject, deadline & difficulty</li>
+            <li>Estimated total study hours</li>
+            <li>Recommended start timing</li>
+            <li>Daily study target</li>
+            <li>Focused single-task planning</li>
+        </ul>
+
+        <div class="current-btn">
+            Current Plan
+        </div>
+    </div>
+
+    <!-- PLUS PLAN -->
+    <div class="plan-box">
+        <h2>Plus</h2>
+        <div class="price">€3.99 / month</div>
+
+        <p>
+        Unlock the full Academic Control Dashboard and manage your entire workload strategically.
+        </p>
+
+        <ul>
+            <li>Multiple assessments dashboard</li>
+            <li>Weekly workload intensity meter</li>
+            <li>Deadline collision detection</li>
+            <li>Overload risk alerts</li>
+            <li>Priority recommendations</li>
+            <li>Long-term academic overview</li>
+        </ul>
+
+        <!-- IMPORTANT LINK -->
+        <a href="plus.html" class="cta-btn">
+            Upgrade to Plus
+        </a>
+
+    </div>
 
 </div>
-
-<a href="index.html" class="back-btn">← Back to Home</a>
 
 </body>
 </html>
