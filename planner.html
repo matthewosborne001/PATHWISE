@@ -19,11 +19,6 @@ body {
     padding: 40px;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
 label {
     font-weight: bold;
 }
@@ -85,6 +80,12 @@ button:hover {
 <label>Difficulty (1–10)</label>
 <input type="number" id="difficulty" min="1" max="10">
 
+<label>How many days per week can you NOT study?</label>
+<input type="number" id="unavailable" min="0" max="7" value="0">
+
+<label>On busy days, max minutes you can study?</label>
+<input type="number" id="busyMinutes" min="0" value="30">
+
 <button onclick="generateStudyPlan()">Generate Study Plan</button>
 
 <div id="output" class="result-box"></div>
@@ -101,11 +102,11 @@ function formatTime(hoursDecimal) {
     const minutes = totalMinutes % 60;
 
     if (hours > 0 && minutes > 0) {
-        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`;
+        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minutes`;
     } else if (hours > 0) {
         return `${hours} hour${hours > 1 ? 's' : ''}`;
     } else {
-        return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+        return `${minutes} minutes`;
     }
 }
 
@@ -115,6 +116,8 @@ function generateStudyPlan() {
     const assessment = document.getElementById("assessment").value;
     const deadlineInput = document.getElementById("deadline").value;
     const difficulty = parseInt(document.getElementById("difficulty").value);
+    const unavailable = parseInt(document.getElementById("unavailable").value);
+    const busyMinutes = parseInt(document.getElementById("busyMinutes").value);
 
     if (!subject || !assessment || !deadlineInput || !difficulty) {
         alert("Please complete all fields.");
@@ -123,40 +126,52 @@ function generateStudyPlan() {
 
     const today = new Date();
     const deadline = new Date(deadlineInput);
-
     const timeDifference = deadline - today;
     const daysUntil = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
     const totalHours = difficulty * 2.5;
-    const dailyHours = (daysUntil > 0) ? (totalHours / daysUntil) : totalHours;
+
+    const weeksUntil = daysUntil / 7;
+    const estimatedUnavailableDays = Math.round(weeksUntil * unavailable);
+    const availableDays = Math.max(daysUntil - estimatedUnavailableDays, 1);
+
+    const busyHoursTotal = (busyMinutes / 60) * estimatedUnavailableDays;
+
+    const remainingHours = Math.max(totalHours - busyHoursTotal, 0);
+    const dailyHours = remainingHours / availableDays;
 
     let feedback = "";
 
-    if (daysUntil > 3 && difficulty <= 3) {
+    if (dailyHours > 5) {
         feedback = `
-        You are in a strong position. It looks like you understand this subject well
-        and have given yourself enough time to prepare calmly and effectively.
+        This workload is quite heavy for the time available.
+        Consider adjusting expectations or starting earlier next time.
         `;
     }
 
-    else if (daysUntil > 3 && difficulty >= 7) {
+    else if (difficulty <= 3 && daysUntil > 3) {
         feedback = `
-        This is a challenging assessment, but you’ve given yourself time.
-        Stay consistent and break the work into focused sessions.
+        You’re in a strong position. Stay consistent and you’ll remain in control.
         `;
     }
 
-    else if (daysUntil <= 3 && difficulty <= 5) {
+    else if (difficulty >= 7 && daysUntil > 3) {
         feedback = `
-        Time is limited, but the difficulty level is manageable.
-        Stay focused and prioritise key areas.
+        This is challenging, but your structured approach will make a difference.
+        Keep sessions focused and balanced.
         `;
     }
 
     else if (daysUntil <= 3 && difficulty >= 6) {
         feedback = `
-        With limited time and higher difficulty, focus on core concepts first.
-        For future assessments, starting earlier will reduce pressure significantly.
+        Time is limited. Focus on high-impact topics and protect your energy.
+        For future assessments, starting earlier will reduce pressure.
+        `;
+    }
+
+    else {
+        feedback = `
+        Stay steady and consistent. Small daily effort compounds effectively.
         `;
     }
 
@@ -165,7 +180,9 @@ function generateStudyPlan() {
         <p><strong>Subject:</strong> ${subject}</p>
         <p><strong>Total Study Time:</strong> ${formatTime(totalHours)}</p>
         <p><strong>Days Until Deadline:</strong> ${daysUntil}</p>
-        <p><strong>Recommended Daily Study:</strong> ${formatTime(dailyHours)} per day</p>
+        <p><strong>Available Study Days:</strong> ${availableDays}</p>
+        <p><strong>Recommended Study on Available Days:</strong> ${formatTime(dailyHours)} per day</p>
+        <p><strong>Study on Busy Days:</strong> ${busyMinutes} minutes</p>
         <p style="margin-top:20px;"><em>${feedback}</em></p>
     `;
 }
