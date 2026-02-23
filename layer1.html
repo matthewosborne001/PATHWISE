@@ -3,190 +3,230 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Layer 1 — Workload Control Engine</title>
+<title>Layer 1 – Workload Control Engine</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
 body {
-    background: linear-gradient(135deg, #0f1f3d, #1c2f57);
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #0f1f3d, #1f2f55);
     color: white;
     overflow-x: hidden;
 }
 
-.container {
-    padding: 100px 10%;
+/* GOLD FRAME */
+.frame {
+    border: 2px solid #d4a63a;
+    border-radius: 20px;
+    margin: 30px;
+    padding: 40px;
+    position: relative;
 }
 
+/* TITLE */
 h1 {
-    font-size: 42px;
+    text-align: center;
+    font-size: 48px;
     margin-bottom: 60px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
+.gold {
+    color: #d4a63a;
 }
 
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+/* CARDS */
 .card {
     background: rgba(255,255,255,0.05);
-    padding: 40px;
+    padding: 30px;
     border-radius: 20px;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
+    backdrop-filter: blur(8px);
 }
 
 .card:hover {
     transform: translateY(-6px);
-    background: rgba(255,255,255,0.08);
+    box-shadow: 0 0 25px rgba(212,166,58,0.3);
 }
 
-.card h3 {
-    margin-bottom: 15px;
-    color: #f4b942;
+.card h2 {
+    color: #d4a63a;
 }
 
-/* Modal */
+/* BACK BUTTON */
+.back {
+    margin-top: 50px;
+    text-align: center;
+}
 
+.back a {
+    color: #d4a63a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* MODAL */
 .modal {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.6);
     display: none;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
-    background: #1c2f57;
-    padding: 40px;
+    background: #1f2f55;
+    padding: 30px;
     border-radius: 20px;
-    width: 90%;
-    max-width: 500px;
+    width: 400px;
 }
 
-.modal-content input {
+.modal input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: none;
-}
-
-.modal-content button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #f4b942;
-    cursor: pointer;
-}
-
-.active-list {
-    margin-top: 20px;
-}
-
-.assessment-item {
-    background: rgba(255,255,255,0.05);
-    padding: 15px;
+    margin: 10px 0;
     border-radius: 10px;
-    margin-bottom: 10px;
+    border: none;
 }
 
-.back {
-    margin-top: 60px;
-}
-
-.back a {
-    color: #f4b942;
-    text-decoration: none;
+.modal button {
+    width: 100%;
+    padding: 12px;
+    background: #d4a63a;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>Layer 1 — Workload Control Engine</h1>
+<div class="frame">
 
-    <div class="grid">
-        <div class="card" onclick="openModal()">
-            <h3>Add Assessment</h3>
-            <p>Add a new subject assessment.</p>
-        </div>
+<h1>Layer 1 — <span class="gold">Workload Control Engine</span></h1>
 
-        <div class="card">
-            <h3>Active Assessments</h3>
-            <div class="active-list" id="assessmentList"></div>
-        </div>
-    </div>
+<div class="grid">
 
-    <div class="back">
-        <a href="plus.html">← Back to Plus</a>
-    </div>
+<div class="card" onclick="openModal()">
+    <h2>Add Assessment</h2>
+    <p>Add a new subject assessment.</p>
 </div>
 
-<!-- Modal -->
+<div class="card">
+    <h2>Active Assessments</h2>
+    <div id="assessments"></div>
+</div>
 
+<div class="card">
+    <h2>Weekly Workload Meter</h2>
+    <div id="workload"></div>
+</div>
+
+<div class="card">
+    <h2>Risk & Collision Alerts</h2>
+    <div id="alerts"></div>
+</div>
+
+</div>
+
+<div class="back">
+    <a href="plus.html">← Back to Plus</a>
+</div>
+
+</div>
+
+<!-- MODAL -->
 <div class="modal" id="modal">
-    <div class="modal-content">
-        <h3>Add Assessment</h3>
-        <input type="text" id="subject" placeholder="Subject">
-        <input type="text" id="name" placeholder="Assessment Name">
-        <input type="date" id="deadline">
-        <input type="number" id="difficulty" placeholder="Difficulty (1–10)">
-        <button onclick="saveAssessment()">Save</button>
-    </div>
+<div class="modal-content">
+    <h3>Add Assessment</h3>
+    <input type="text" id="subject" placeholder="Subject">
+    <input type="text" id="name" placeholder="Assessment Name">
+    <input type="date" id="deadline">
+    <input type="number" id="difficulty" placeholder="Difficulty (1-10)">
+    <button onclick="addAssessment()">Save Assessment</button>
+</div>
 </div>
 
 <script>
+
 let assessments = JSON.parse(localStorage.getItem("assessments")) || [];
 
-function openModal() {
+function openModal(){
     document.getElementById("modal").style.display = "flex";
 }
 
-function closeModal() {
+function closeModal(){
     document.getElementById("modal").style.display = "none";
 }
 
-function saveAssessment() {
+function addAssessment(){
     const subject = document.getElementById("subject").value;
     const name = document.getElementById("name").value;
     const deadline = document.getElementById("deadline").value;
-    const difficulty = document.getElementById("difficulty").value;
+    const difficulty = parseInt(document.getElementById("difficulty").value);
 
-    const newAssessment = { subject, name, deadline, difficulty };
+    if(!subject || !name || !deadline || !difficulty) return;
 
-    assessments.push(newAssessment);
+    assessments.push({subject, name, deadline, difficulty});
     localStorage.setItem("assessments", JSON.stringify(assessments));
-
     closeModal();
-    renderAssessments();
+    render();
 }
 
-function renderAssessments() {
-    const list = document.getElementById("assessmentList");
+function render(){
+    const list = document.getElementById("assessments");
+    const workloadDiv = document.getElementById("workload");
+    const alertsDiv = document.getElementById("alerts");
+
     list.innerHTML = "";
+    let weeklyLoad = 0;
+    alertsDiv.innerHTML = "";
+
+    const today = new Date();
 
     assessments.forEach(a => {
-        const item = document.createElement("div");
-        item.className = "assessment-item";
-        item.innerHTML = `
-            <strong>${a.name}</strong><br>
-            ${a.subject} — Difficulty ${a.difficulty}<br>
-            Due: ${a.deadline}
+        const deadlineDate = new Date(a.deadline);
+        const daysLeft = Math.ceil((deadlineDate - today) / (1000*60*60*24));
+
+        const totalHours = a.difficulty * 2.5;
+        const daily = daysLeft > 0 ? totalHours / daysLeft : totalHours;
+
+        weeklyLoad += daily;
+
+        list.innerHTML += `
+        <p><strong>${a.name}</strong> (${a.subject})<br>
+        ${daily.toFixed(1)}h/day • ${daysLeft} days left</p>
         `;
-        list.appendChild(item);
+
+        if(daysLeft <= 2 && a.difficulty >= 7){
+            alertsDiv.innerHTML += `
+            <p>⚠ High risk: ${a.name} due soon.</p>
+            `;
+        }
     });
+
+    workloadDiv.innerHTML = `
+    <p>${weeklyLoad.toFixed(1)} hours/day average</p>
+    `;
+
+    if(weeklyLoad > 6){
+        alertsDiv.innerHTML += `<p>⚠ Overload risk this week.</p>`;
+    }
+
 }
 
-renderAssessments();
+render();
+
 </script>
 
 </body>
