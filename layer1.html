@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PathWise Plus | Layer 1</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f1f3d, #162c57);
+    color: white;
+}
+
+/* Premium Gold Frame */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 10px;
+    border: 2px solid rgba(245,166,35,0.6);
+    border-radius: 18px;
+    pointer-events: none;
+}
+
+/* Header */
+.header {
+    padding: 40px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 42px;
+}
+
+.gold {
+    color: #f5a623;
+}
+
+/* Dashboard Layout */
+.dashboard {
+    max-width: 1200px;
+    margin: 40px auto 100px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 0 40px;
+}
+
+/* Glass Panel */
+.panel {
+    background: rgba(255,255,255,0.08);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transition: 0.3s ease;
+}
+
+.panel:hover {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-5px);
+}
+
+.panel h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #f5a623;
+}
+
+/* Back Button */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-bottom: 60px;
+    color: #f5a623;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Layer 1 – <span class="gold">Workload Control Engine</span></h1>
+</div>
+
+<div class="dashboard">
+
+    <div class="panel">
+        <h2>Add Assessment</h2>
+        <p>This section will allow adding multiple assessments.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Active Assessments</h2>
+        <p>This section will display all added assessments.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Weekly Workload Meter</h2>
+        <p>This section will calculate overall workload intensity.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Risk & Collision Alerts</h2>
+        <p>This section will detect deadline overlaps and overload risk.</p>
+    </div>
+
+</div>
+
+<a href="plus.html" class="back-link">← Back to Plus</a>
+
+</body>
+</html>
