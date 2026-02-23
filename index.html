@@ -8,74 +8,40 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #0f1f3d, #162c54);
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f1f3d, #162c57);
     color: white;
     text-align: center;
 }
 
-/* HERO */
 .hero {
     padding: 100px 20px 60px 20px;
 }
 
-.title {
+h1 {
     font-size: 64px;
-    font-weight: 800;
-    letter-spacing: 2px;
+    margin-bottom: 10px;
 }
 
-.path {
-    color: white;
-}
+.white { color: white; }
+.orange { color: #f5a623; }
 
-.wise {
-    color: #f39c12;
-}
-
-.subtitle {
-    margin-top: 20px;
+.tagline {
     font-size: 20px;
-    opacity: 0.85;
+    margin-bottom: 40px;
 }
 
-/* BUTTONS */
-.primary-btn {
-    margin-top: 40px;
-    padding: 15px 40px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(to right, #f39c12, #ffb347);
+.cta-btn {
+    padding: 14px 30px;
+    background: linear-gradient(90deg, #f5a623, #f0b44c);
     color: white;
-    cursor: pointer;
-    transition: 0.3s;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
 }
 
-.primary-btn:hover {
-    opacity: 0.9;
-}
-
-.secondary-btn {
-    margin-top: 25px;
-    padding: 14px 35px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #f39c12;
-    background: transparent;
-    color: #f39c12;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.secondary-btn:hover {
-    background: #f39c12;
-    color: white;
-}
-
-/* IMAGES */
 .images {
-    margin-top: 70px;
+    margin: 80px 0;
     display: flex;
     justify-content: center;
     gap: 40px;
@@ -83,94 +49,107 @@ body {
 }
 
 .images img {
-    width: 320px;
+    width: 350px;
     border-radius: 20px;
     background: white;
     padding: 20px;
 }
 
-/* WHAT IT DOES SECTION */
-.info-section {
-    margin-top: 100px;
-    padding: 60px 20px;
-    background: rgba(255,255,255,0.05);
+.section {
+    padding: 80px 20px;
+    max-width: 900px;
+    margin: auto;
 }
 
-.info-section h2 {
-    font-size: 32px;
+.section h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+}
+
+.section p {
+    font-size: 18px;
+    line-height: 1.8;
     margin-bottom: 20px;
 }
 
-.info-section p {
-    max-width: 800px;
-    margin: 0 auto 20px auto;
-    line-height: 1.6;
-    opacity: 0.85;
+.plans-section {
+    padding: 80px 20px;
 }
 
-/* FOOTER */
 footer {
-    margin-top: 80px;
     padding: 30px;
     font-size: 14px;
     opacity: 0.7;
-}
-
-footer a {
-    color: #f39c12;
-    text-decoration: none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
 <div class="hero">
-    <div class="title">
-        <span class="path">PATH</span><span class="wise">WISE</span>
-    </div>
-
-    <div class="subtitle">
+    <h1>
+        <span class="white">PATH</span><span class="orange">WISE</span>
+    </h1>
+    <div class="tagline">
         Smart academic planning. Less stress. Better control.
     </div>
-
-    <button class="primary-btn" onclick="location.href='dashboard.html'">
-        Start Planning (Free)
-    </button>
-
-    <br>
-
-    <button class="secondary-btn" onclick="location.href='plus.html'">
-        Upgrade to Plus
-    </button>
+    <a href="planner.html" class="cta-btn">Start Planning (Free)</a>
 </div>
 
-<!-- IMAGES -->
 <div class="images">
-    <img src="logo.png" alt="PathWise Logo">
-    <img src="graph.png" alt="Performance Graph">
+    <img src="logo.png">
+    <img src="graph.png">
 </div>
 
-<!-- WHAT PATHWISE DOES -->
-<div class="info-section">
+<div class="section">
     <h2>What PathWise Does</h2>
+
     <p>
-        PathWise helps students stop reacting to deadlines and start planning ahead.
-        Enter your subject, deadline, and difficulty level, and the system calculates
-        when you should begin and how much you should study each day.
+    PathWise is built to help students stop reacting to deadlines and start planning with intention.
+    Instead of cramming the night before or underestimating how long something will take, PathWise
+    gives structure to your academic workload.
     </p>
+
     <p>
-        The free version focuses on smarter deadline starts. PathWise Plus expands
-        this into a full academic control dashboard with workload balancing,
-        long-term planning, and advanced insights.
+    You enter the subject, deadline, and difficulty level of an assessment, and the system calculates
+    when you should begin and how much you should realistically study each day. This transforms
+    vague academic pressure into a clear execution plan.
+    </p>
+
+    <p>
+    The goal is not just better grades — it is control. Control over timing. Control over workload.
+    Control over stress.
     </p>
 </div>
 
-<!-- FOOTER -->
+<div class="section">
+    <h2>Why Consider PathWise Plus</h2>
+
+    <p>
+    The free version focuses on structured deadline starts. PathWise Plus expands this into a
+    full academic control system.
+    </p>
+
+    <p>
+    Plus introduces multiple assessment tracking, workload balancing across subjects,
+    collision detection when deadlines overlap, risk alerts when you fall behind,
+    and long-term academic performance insights.
+    </p>
+
+    <p>
+    Instead of managing one task at a time, you gain visibility over your entire academic
+    trajectory — weekly, monthly, and long-term.
+    </p>
+</div>
+
+<div class="plans-section">
+    <h2>View Plans</h2>
+    <a href="plans.html" class="cta-btn">Compare Free & Plus</a>
+</div>
+
 <footer>
     © 2026 PathWise. All rights reserved. |
-    <a href="privacy.html">Privacy Policy</a>
+    <a href="privacy.html" style="color:#f5a623;">Privacy Policy</a>
 </footer>
 
 </body>
