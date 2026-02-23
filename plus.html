@@ -8,113 +8,211 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #0f1f3d, #162c54);
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f1f3d, #162c57);
     color: white;
-    text-align: center;
+    overflow-x: hidden;
 }
 
-/* Gold Premium Border */
+/* Premium Gold Frame */
 body::before {
     content: "";
     position: fixed;
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    border: 2px solid rgba(212, 175, 55, 0.6);
+    inset: 10px;
+    border: 2px solid rgba(245,166,35,0.6);
     border-radius: 18px;
     pointer-events: none;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
 }
 
-/* Hero Section */
-.hero {
-    padding: 100px 20px 60px 20px;
+/* Smooth Fade In */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Logo Style Text */
-.title {
-    font-size: 64px;
-    font-weight: 800;
+.section {
+    max-width: 1200px;
+    margin: 120px auto;
+    padding: 40px;
+    text-align: center;
+    animation: fadeUp 1s ease forwards;
+}
+
+h1 {
+    font-size: 60px;
     letter-spacing: 2px;
+    margin-bottom: 20px;
 }
 
-.path {
+.white {
     color: white;
 }
 
-.wise {
-    color: #f39c12;
+.gold {
+    color: #f5a623;
 }
 
-.plus {
-    color: #f39c12;
-    margin-left: 10px;
-}
-
-/* Subtitle */
 .subtitle {
-    margin-top: 20px;
     font-size: 20px;
-    opacity: 0.8;
+    opacity: 0.85;
+    margin-bottom: 40px;
 }
 
-/* CTA Button */
-.cta-btn {
-    margin-top: 40px;
-    padding: 15px 40px;
+.cta-button {
+    padding: 16px 40px;
     font-size: 18px;
-    border: none;
     border-radius: 8px;
-    background: linear-gradient(to right, #f39c12, #ffb347);
-    color: white;
+    border: none;
     cursor: pointer;
+    background: linear-gradient(45deg, #f5a623, #ffb84d);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    box-shadow: 0 0 20px rgba(245,166,35,0.7);
+    transform: scale(1.05);
+}
+
+/* Feature Sections */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-top: 80px;
+}
+
+.feature-card {
+    background: rgba(255,255,255,0.08);
+    padding: 30px;
+    border-radius: 18px;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-8px);
+}
+
+.feature-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #f5a623;
+}
+
+/* Divider */
+.divider {
+    margin: 100px auto;
+    width: 60%;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+}
+
+/* Back Button */
+.back-home {
+    display: inline-block;
+    margin-top: 80px;
+    text-decoration: none;
+    color: #f5a623;
+    font-weight: bold;
     transition: 0.3s;
 }
 
-.cta-btn:hover {
-    opacity: 0.9;
-}
-
-/* Images Section */
-.images {
-    margin-top: 60px;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.images img {
-    width: 320px;
-    border-radius: 20px;
-    background: white;
-    padding: 20px;
+.back-home:hover {
+    opacity: 0.8;
 }
 </style>
 </head>
 
 <body>
 
-<div class="hero">
-    <div class="title">
-        <span class="path">PATH</span><span class="wise">WISE</span>
-        <span class="plus">PLUS</span>
-    </div>
+<!-- HERO -->
+<div class="section">
+    <h1>
+        <span class="white">PATH</span><span class="gold">WISE</span>
+        <span class="gold"> PLUS</span>
+    </h1>
 
     <div class="subtitle">
-        Unlock advanced academic control and long-term performance insight.
+        Advanced Academic Control. Strategic Workload Intelligence. Long-Term Performance Insight.
     </div>
 
-    <button class="cta-btn">
+    <button class="cta-button">
         Coming Soon
     </button>
 </div>
 
-<div class="images">
-    <img src="logo.png" alt="PathWise Logo">
-    <img src="graph.png" alt="Performance Graph">
+<div class="divider"></div>
+
+<!-- CAPABILITIES -->
+<div class="section">
+    <h2>What PathWise Plus Unlocks</h2>
+
+    <div class="features">
+
+        <div class="feature-card">
+            <h3>Multiple Units Dashboard</h3>
+            <p>
+            View every subject and assessment in one unified academic control center.
+            No more isolated planning.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Weekly Workload Meter</h3>
+            <p>
+            Intelligent workload balancing that prevents burnout
+            and detects overload before it happens.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Collision Detection</h3>
+            <p>
+            Automatically flags overlapping deadlines and redistributes study
+            recommendations to maintain stability.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Risk Alerts</h3>
+            <p>
+            Identifies assessments that require earlier preparation
+            based on difficulty and time constraints.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Long-Term Academic Planning</h3>
+            <p>
+            Visualise performance trends across months and semesters,
+            not just single deadlines.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Subject Performance Tracking</h3>
+            <p>
+            Monitor academic intensity per subject and identify
+            improvement areas strategically.
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- LAYER PREVIEW -->
+<div class="section">
+    <h2>System Architecture</h2>
+    <p style="opacity:0.8; max-width:700px; margin:0 auto;">
+        PathWise Plus operates on layered academic intelligence.
+        Layer One focuses on workload visibility and control.
+        Future layers introduce predictive planning and strategic performance modeling.
+    </p>
+
+    <a href="plans.html" class="back-home">← Back to Plans</a>
 </div>
 
 </body>
