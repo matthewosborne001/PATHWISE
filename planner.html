@@ -55,7 +55,7 @@ button:hover {
     background: rgba(255,255,255,0.08);
     padding: 30px;
     border-radius: 16px;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .back-btn {
@@ -74,10 +74,10 @@ button:hover {
 <h1>Smart Deadline Starter</h1>
 
 <label>Subject</label>
-<input type="text" id="subject" placeholder="e.g. Maths">
+<input type="text" id="subject">
 
 <label>Assessment Name</label>
-<input type="text" id="assessment" placeholder="e.g. Algebra Test">
+<input type="text" id="assessment">
 
 <label>Deadline</label>
 <input type="date" id="deadline">
@@ -97,7 +97,6 @@ button:hover {
 
 function formatTime(hoursDecimal) {
     const totalMinutes = Math.round(hoursDecimal * 60);
-
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
 
@@ -131,38 +130,43 @@ function generateStudyPlan() {
     const totalHours = difficulty * 2.5;
     const dailyHours = (daysUntil > 0) ? (totalHours / daysUntil) : totalHours;
 
-    let message = "";
+    let feedback = "";
 
-    if (daysUntil <= 1) {
+    if (daysUntil > 3 && difficulty <= 3) {
+        feedback = `
+        You are in a strong position. It looks like you understand this subject well
+        and have given yourself enough time to prepare calmly and effectively.
+        `;
+    }
 
-        if (difficulty >= 6) {
-            message = `
-            With only one day remaining and a higher difficulty level,
-            this workload is intense. Focus on the most important topics now.
-            For future assessments, starting earlier will significantly reduce pressure.
-            `;
-        } else {
-            message = `
-            With one day remaining, keep your revision focused and efficient.
-            Prioritise key areas and manage your time carefully.
-            `;
-        }
+    else if (daysUntil > 3 && difficulty >= 7) {
+        feedback = `
+        This is a challenging assessment, but you’ve given yourself time.
+        Stay consistent and break the work into focused sessions.
+        `;
+    }
 
-    } else {
+    else if (daysUntil <= 3 && difficulty <= 5) {
+        feedback = `
+        Time is limited, but the difficulty level is manageable.
+        Stay focused and prioritise key areas.
+        `;
+    }
 
-        message = `
-        You are in a strong position to distribute your workload evenly.
-        Starting now will reduce stress and improve long-term retention.
+    else if (daysUntil <= 3 && difficulty >= 6) {
+        feedback = `
+        With limited time and higher difficulty, focus on core concepts first.
+        For future assessments, starting earlier will reduce pressure significantly.
         `;
     }
 
     document.getElementById("output").innerHTML = `
-        <h3>Assessment: ${assessment}</h3>
+        <h3>${assessment}</h3>
         <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Total Estimated Study Time:</strong> ${formatTime(totalHours)}</p>
+        <p><strong>Total Study Time:</strong> ${formatTime(totalHours)}</p>
         <p><strong>Days Until Deadline:</strong> ${daysUntil}</p>
         <p><strong>Recommended Daily Study:</strong> ${formatTime(dailyHours)} per day</p>
-        <p style="margin-top:20px;"><em>${message}</em></p>
+        <p style="margin-top:20px;"><em>${feedback}</em></p>
     `;
 }
 
