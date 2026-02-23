@@ -17,19 +17,18 @@ body {
     background: linear-gradient(135deg, #0f1f3d, #1c2f57);
     color: white;
     overflow-x: hidden;
-    animation: fadeIn 0.8s ease forwards;
 }
 
 /* HERO */
+
 .hero {
     text-align: center;
     padding: 120px 20px 80px;
 }
 
 .hero h1 {
-    font-size: 64px;
+    font-size: 60px;
     font-weight: 700;
-    letter-spacing: 2px;
 }
 
 .hero h1 span:first-child { color: white; }
@@ -41,16 +40,15 @@ body {
     opacity: 0.85;
 }
 
-/* BUTTONS */
 .primary-btn {
-    display: inline-block;
     margin-top: 40px;
-    padding: 16px 40px;
-    border-radius: 12px;
+    padding: 15px 35px;
+    border-radius: 10px;
+    border: none;
     background: linear-gradient(45deg, #f4b942, #e0a22f);
-    text-decoration: none;
     color: white;
     font-size: 16px;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
@@ -59,62 +57,48 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-.secondary-btn {
-    display: inline-block;
-    padding: 14px 35px;
-    border-radius: 12px;
-    border: 1px solid #f4b942;
-    color: #f4b942;
-    text-decoration: none;
-    font-size: 15px;
-    transition: all 0.3s ease;
-}
-
-.secondary-btn:hover {
-    background: rgba(244,185,66,0.1);
-    transform: translateY(-4px);
-}
-
 /* IMAGE CARDS */
+
 .image-section {
+    padding: 60px 10%;
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin: 60px 0 80px;
     flex-wrap: wrap;
 }
 
 .image-card {
     background: rgba(255,255,255,0.05);
-    padding: 25px;
+    padding: 20px;
     border-radius: 20px;
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition: 0.3s ease;
 }
 
 .image-card:hover {
     transform: translateY(-8px);
-    background: rgba(255,255,255,0.08);
 }
 
 .image-card img {
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
     border-radius: 15px;
 }
 
 /* INFO SECTION */
+
 .info-section {
     padding: 100px 10%;
+    text-align: center;
 }
 
 .info-section h2 {
-    text-align: center;
-    font-size: 34px;
+    font-size: 32px;
     margin-bottom: 60px;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 40px;
 }
 
@@ -122,43 +106,86 @@ body {
     background: rgba(255,255,255,0.05);
     padding: 40px;
     border-radius: 20px;
-    transition: transform 0.3s ease, background 0.3s ease;
+    text-align: left;
+    transition: 0.3s ease;
 }
 
 .info-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     background: rgba(255,255,255,0.08);
 }
 
 .info-card h3 {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: #f4b942;
-    font-size: 22px;
 }
 
-.info-card p {
-    line-height: 1.7;
-    opacity: 0.9;
-}
+/* UPGRADE SECTION */
 
-/* PLANS BUTTON SECTION */
-.plans-section {
+.upgrade-section {
+    padding: 100px 10%;
     text-align: center;
-    padding: 80px 20px 100px;
+}
+
+.upgrade-section h2 {
+    font-size: 32px;
+    margin-bottom: 60px;
+}
+
+.upgrade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.upgrade-card {
+    background: rgba(255,255,255,0.05);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: left;
+    transition: 0.3s ease;
+}
+
+.upgrade-card:hover {
+    transform: translateY(-6px);
+    background: rgba(255,255,255,0.08);
+}
+
+.upgrade-card h3 {
+    margin-bottom: 15px;
+}
+
+.highlight {
+    border: 2px solid #f4b942;
+}
+
+/* VIEW PLANS */
+
+.plans-button {
+    margin-top: 70px;
+}
+
+.secondary-btn {
+    padding: 14px 35px;
+    border-radius: 10px;
+    border: 1px solid #f4b942;
+    color: #f4b942;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background: #f4b942;
+    color: white;
 }
 
 /* FOOTER */
-footer {
-    text-align: center;
-    padding: 40px;
-    font-size: 14px;
-    opacity: 0.6;
-}
 
-/* ANIMATION */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
+footer {
+    margin-top: 100px;
+    padding: 30px;
+    text-align: center;
+    opacity: 0.6;
 }
 </style>
 </head>
@@ -168,15 +195,17 @@ footer {
 <div class="hero">
     <h1><span>PATH</span><span>WISE</span></h1>
     <p>Smart academic planning. Less stress. Better control.</p>
-    <a href="planner.html" class="primary-btn">Start Planning (Free)</a>
+    <button class="primary-btn" onclick="window.location.href='planner.html'">
+        Start Planning (Free)
+    </button>
 </div>
 
 <div class="image-section">
     <div class="image-card">
-        <img src="logo.png" alt="PathWise Logo">
+        <img src="logo.png">
     </div>
     <div class="image-card">
-        <img src="graph.png" alt="Performance Graph">
+        <img src="graph.png">
     </div>
 </div>
 
@@ -184,34 +213,65 @@ footer {
     <h2>What PathWise Does</h2>
 
     <div class="info-grid">
+
         <div class="info-card">
             <h3>Smart Deadline Control</h3>
             <p>
-            PathWise helps students stop reacting to deadlines and start planning ahead.
-            Instead of last-minute panic, you enter your subject, deadline, and difficulty,
-            and the system calculates when you should begin and how much to study daily.
+                PathWise helps students stop reacting to deadlines
+                and start planning ahead. Instead of last-minute panic,
+                you enter your subject, deadline, and difficulty,
+                and the system calculates when to begin and how much to study daily.
             </p>
         </div>
 
         <div class="info-card">
-            <h3>Built for Strategic Growth</h3>
+            <h3>Structured Academic Growth</h3>
             <p>
-            The free version focuses on structured single-assessment planning.
-            PathWise Plus expands this into a full Academic Control Dashboard with
-            workload balancing, deadline collision detection, risk alerts,
-            and long-term academic forecasting.
+                The free version focuses on single-assessment planning.
+                PathWise Plus expands this into a full Academic Control Dashboard
+                with workload balancing, collision detection,
+                risk alerts, and long-term forecasting.
             </p>
         </div>
+
     </div>
 </section>
 
-<div class="plans-section">
-    <a href="plans.html" class="secondary-btn">View Plans</a>
-</div>
+<section class="upgrade-section">
+
+    <h2>Why Upgrade to PathWise Plus?</h2>
+
+    <div class="upgrade-grid">
+
+        <div class="upgrade-card">
+            <h3>Free is Reactive</h3>
+            <p>
+                The free version manages one deadline at a time.
+                It does not account for overlapping subjects,
+                cumulative workload, or strategic long-term control.
+            </p>
+        </div>
+
+        <div class="upgrade-card highlight">
+            <h3>Plus is Strategic</h3>
+            <p>
+                PathWise Plus gives you complete academic oversight.
+                See every assessment together, detect overload early,
+                manage intensity weekly, and build structured performance
+                over months — not just days.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="plans-button">
+        <a href="plans.html" class="secondary-btn">View Plans</a>
+    </div>
+
+</section>
 
 <footer>
-© 2026 PathWise. All rights reserved. |
-<a href="privacy.html" style="color:#f4b942; text-decoration:none;">Privacy Policy</a>
+    © 2026 PathWise. All rights reserved.
 </footer>
 
 </body>
