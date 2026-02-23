@@ -24,6 +24,10 @@ h1 {
     margin-bottom: 40px;
 }
 
+label {
+    font-weight: bold;
+}
+
 input {
     width: 100%;
     padding: 12px;
@@ -90,6 +94,22 @@ button:hover {
 </div>
 
 <script>
+
+function formatTime(hoursDecimal) {
+    const totalMinutes = Math.round(hoursDecimal * 60);
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    if (hours > 0 && minutes > 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}`;
+    } else if (hours > 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''}`;
+    } else {
+        return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+    }
+}
+
 function generateStudyPlan() {
 
     const subject = document.getElementById("subject").value;
@@ -139,12 +159,13 @@ function generateStudyPlan() {
     document.getElementById("output").innerHTML = `
         <h3>Assessment: ${assessment}</h3>
         <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Total Estimated Study Time:</strong> ${totalHours.toFixed(1)} hours</p>
+        <p><strong>Total Estimated Study Time:</strong> ${formatTime(totalHours)}</p>
         <p><strong>Days Until Deadline:</strong> ${daysUntil}</p>
-        <p><strong>Recommended Daily Study:</strong> ${dailyHours.toFixed(2)} hours per day</p>
+        <p><strong>Recommended Daily Study:</strong> ${formatTime(dailyHours)} per day</p>
         <p style="margin-top:20px;"><em>${message}</em></p>
     `;
 }
+
 </script>
 
 </body>
