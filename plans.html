@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PathWise Plus</title>
+<title>PathWise Plans</title>
 
 <style>
 * {
@@ -17,270 +17,169 @@ body {
     background: linear-gradient(135deg, #0f1f3d, #1c2f57);
     color: white;
     overflow-x: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: pageEnter 0.6s ease forwards;
 }
 
-/* GOLD FRAME */
-.premium-frame {
-    border: 2px solid #d4af37;
+@keyframes pageEnter {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    padding: 120px 10%;
+    text-align: center;
+}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 80px;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 50px;
+}
+
+.plan-card {
+    background: rgba(255,255,255,0.05);
+    padding: 50px 40px;
     border-radius: 25px;
-    margin: 15px;
-    min-height: calc(100vh - 30px);
+    text-align: left;
+    transition: 0.3s ease;
     position: relative;
 }
 
-/* HERO SECTION */
-.hero {
-    text-align: center;
-    padding: 120px 20px 60px;
-    animation: fadeIn 1s ease forwards;
+.plan-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255,255,255,0.08);
 }
 
-.hero h1 {
-    font-size: 60px;
-    font-weight: 700;
-    letter-spacing: 2px;
+.plan-title {
+    font-size: 26px;
+    margin-bottom: 10px;
 }
 
-.hero h1 span:first-child {
-    color: white;
-}
-
-.hero h1 span:last-child {
+.plan-price {
+    font-size: 28px;
+    margin-bottom: 25px;
     color: #f4b942;
 }
 
-.hero p {
-    margin-top: 20px;
-    font-size: 20px;
+.plan-features {
+    list-style: none;
+    margin-bottom: 40px;
+}
+
+.plan-features li {
+    margin-bottom: 12px;
     opacity: 0.85;
 }
 
-.cta-btn {
-    margin-top: 40px;
-    padding: 15px 35px;
+/* BUTTONS */
+
+.plan-btn {
+    padding: 14px 30px;
     border-radius: 10px;
     border: none;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.current-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    cursor: default;
+}
+
+.upgrade-btn {
     background: linear-gradient(45deg, #f4b942, #e0a22f);
     color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.cta-btn:hover {
+.upgrade-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
-/* DIVIDER */
-.section-divider {
-    width: 70%;
-    height: 1px;
-    background: rgba(255,255,255,0.2);
-    margin: 60px auto;
-}
+/* BACK LINK */
 
-/* FEATURES */
-.features {
-    padding: 60px 10%;
-    animation: fadeIn 1.2s ease forwards;
-}
-
-.features h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 32px;
-}
-
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 30px;
-}
-
-.feature-card {
-    background: rgba(255,255,255,0.05);
-    padding: 30px;
-    border-radius: 15px;
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-6px);
-    background: rgba(255,255,255,0.08);
-}
-
-.feature-card h3 {
-    margin-bottom: 15px;
-    color: #f4b942;
-}
-
-/* HAMBURGER */
-.hamburger {
-    position: fixed;
-    top: 30px;
-    right: 40px;
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.08);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1001;
-    transition: background 0.3s ease;
-}
-
-.hamburger:hover {
-    background: rgba(255,255,255,0.15);
-}
-
-.hamburger div {
-    width: 25px;
-    height: 2px;
-    background: white;
-    position: relative;
-}
-
-.hamburger div::before,
-.hamburger div::after {
-    content: "";
-    position: absolute;
-    width: 25px;
-    height: 2px;
-    background: white;
-    left: 0;
-}
-
-.hamburger div::before {
-    top: -8px;
-}
-
-.hamburger div::after {
-    top: 8px;
-}
-
-/* SIDE MENU (FIXED PROPERLY) */
-.side-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 280px;
-    height: 100%;
-    background: #0f1f3d;
-    padding: 120px 30px;
-    transform: translateX(100%);
-    transition: transform 0.4s ease;
-    z-index: 1000;
-    box-shadow: -5px 0 30px rgba(0,0,0,0.6);
-}
-
-.side-menu.active {
-    transform: translateX(0);
-}
-
-.side-menu a {
-    display: block;
-    margin-bottom: 25px;
-    text-decoration: none;
-    color: white;
-    font-size: 18px;
-    transition: color 0.3s ease;
-}
-
-.side-menu a:hover {
-    color: #f4b942;
-}
-
-/* BACK BUTTON */
 .back-home {
-    text-align: center;
-    margin: 50px 0 60px;
+    margin-top: 80px;
 }
 
 .back-home a {
     color: #f4b942;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 15px;
+    transition: 0.3s ease;
 }
 
-/* ANIMATION */
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
+.back-home a:hover {
+    opacity: 0.8;
 }
 </style>
 </head>
+
 <body>
 
-<div class="premium-frame">
+<div class="container">
 
-<div class="hamburger" onclick="toggleMenu()">
-    <div></div>
-</div>
+    <h1>PathWise Plans</h1>
 
-<div class="side-menu" id="sideMenu">
-    <a href="layer1.html">Layer 1 — Academic Control</a>
-    <a href="#">Layer 2 — Workload Intelligence</a>
-    <a href="#">Layer 3 — Strategic Forecasting</a>
-</div>
+    <div class="plans-grid">
 
-<div class="hero">
-    <h1><span>PATH</span><span>WISE PLUS</span></h1>
-    <p>Advanced Academic Control. Strategic Workload Intelligence.</p>
-    <button class="cta-btn">Coming Soon</button>
-</div>
+        <!-- FREE PLAN -->
 
-<div class="section-divider"></div>
+        <div class="plan-card">
+            <div class="plan-title">Free</div>
+            <div class="plan-price">€0</div>
 
-<div class="features">
-    <h2>What PathWise Plus Unlocks</h2>
+            <ul class="plan-features">
+                <li>Single assessment planner</li>
+                <li>Total study hour estimation</li>
+                <li>Daily study recommendation</li>
+                <li>Motivational feedback system</li>
+                <li>Basic deadline structure</li>
+            </ul>
 
-    <div class="feature-grid">
-        <div class="feature-card">
-            <h3>Multiple Assessments Dashboard</h3>
-            <p>Track every subject simultaneously with structured academic visibility.</p>
+            <button class="plan-btn current-btn">
+                Current Plan
+            </button>
         </div>
 
-        <div class="feature-card">
-            <h3>Weekly Workload Meter</h3>
-            <p>Understand workload intensity and avoid burnout before it happens.</p>
+        <!-- PLUS PLAN -->
+
+        <div class="plan-card">
+            <div class="plan-title">Plus</div>
+            <div class="plan-price">€3.99 / month</div>
+
+            <ul class="plan-features">
+                <li>Multiple assessments dashboard</li>
+                <li>Workload balancing system</li>
+                <li>Deadline collision detection</li>
+                <li>Overload risk alerts</li>
+                <li>Long-term academic forecasting</li>
+                <li>Strategic performance tracking</li>
+            </ul>
+
+            <button class="plan-btn upgrade-btn"
+                onclick="window.location.href='plus.html'">
+                Upgrade to Plus
+            </button>
         </div>
 
-        <div class="feature-card">
-            <h3>Collision Detection</h3>
-            <p>Automatically detect overlapping deadlines and strategic overload periods.</p>
-        </div>
-
-        <div class="feature-card">
-            <h3>Risk Alerts</h3>
-            <p>Get notified when study timing becomes unrealistic or dangerous.</p>
-        </div>
-
-        <div class="feature-card">
-            <h3>Long-Term Academic Planning</h3>
-            <p>Map performance trends across units and predict outcome trajectories.</p>
-        </div>
-
-        <div class="feature-card">
-            <h3>Future Planning Roadmap</h3>
-            <p>See how today’s decisions impact long-term academic performance.</p>
-        </div>
     </div>
-</div>
 
-<div class="back-home">
-    <a href="index.html">← Back to Home</a>
-</div>
+    <div class="back-home">
+        <a href="index.html">← Back to Home</a>
+    </div>
 
 </div>
-
-<script>
-function toggleMenu() {
-    document.getElementById("sideMenu").classList.toggle("active");
-}
-</script>
 
 </body>
 </html>
