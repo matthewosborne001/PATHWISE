@@ -1,6 +1,13 @@
 <script>
 
-let assessments = JSON.parse(localStorage.getItem("assessments")) || [];
+let assessments;
+
+try {
+    assessments = JSON.parse(localStorage.getItem("assessments")) || [];
+} catch (e) {
+    assessments = [];
+    localStorage.removeItem("assessments");
+}
 
 function openModal(){
 document.getElementById("modal").style.display="flex";
