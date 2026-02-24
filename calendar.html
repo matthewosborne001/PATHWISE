@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PathWise Plus — Your Calendar</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f1f3d,#1c2f57);
+color:white;
+opacity:0;
+transform:scale(0.98);
+animation:fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn{
+to{opacity:1;transform:scale(1);}
+}
+
+/* PREMIUM FRAME */
+.premium-frame{
+border:2px solid #d4af37;
+border-radius:25px;
+margin:15px;
+min-height:calc(100vh - 30px);
+padding:60px 40px;
+position:relative;
+overflow:hidden;
+}
+
+.premium-frame::after{
+content:"";
+position:absolute;
+top:0;
+left:-150%;
+width:50%;
+height:100%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,215,0,0.25),
+transparent
+);
+transform:skewX(-20deg);
+animation:shimmer 2.5s ease forwards;
+}
+
+@keyframes shimmer{
+to{left:150%;}
+}
+
+h1{
+text-align:center;
+font-size:38px;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+opacity:0.8;
+margin-bottom:40px;
+}
+
+/* MONTH NAVIGATION */
+.calendar-header{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:40px;
+margin-bottom:30px;
+}
+
+.nav-btn{
+background:rgba(255,255,255,0.08);
+border:none;
+color:white;
+padding:10px 18px;
+border-radius:10px;
+cursor:pointer;
+transition:all 0.3s ease;
+}
+
+.nav-btn:hover{
+background:#f4b942;
+color:#0f1f3d;
+}
+
+.month-title{
+font-size:22px;
+}
+
+/* GRID */
+.calendar-grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:12px;
+max-width:900px;
+margin:0 auto;
+}
+
+.day-name{
+text-align:center;
+opacity:0.7;
+font-size:14px;
+}
+
+.day{
+background:rgba(255,255,255,0.05);
+border-radius:12px;
+padding:20px 0;
+text-align:center;
+cursor:pointer;
+transition:all 0.25s ease;
+}
+
+.day:hover{
+background:rgba(255,255,255,0.12);
+transform:translateY(-3px);
+}
+
+/* STATES */
+.available{
+background:rgba(0,200,100,0.25);
+}
+
+.unavailable{
+background:rgba(220,50,50,0.35);
+}
+
+/* LEGEND */
+.legend{
+margin-top:40px;
+text-align:center;
+opacity:0.85;
+}
+
+.legend span{
+margin:0 15px;
+}
+
+/* BACK */
+.back{
+text-align:center;
+margin-top:50px;
+}
+
+.back a{
+color:#f4b942;
+text-decoration:none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="premium-frame">
+
+<h1>Your Study Availability Calendar</h1>
+<div class="subtitle">
+Select days you are unavailable (sports, family, rest).
+Green = Available. Red = Unavailable.
+</div>
+
+<div class="calendar-header">
+<button class="nav-btn" onclick="changeMonth(-1)">←</button>
+<div class="month-title" id="monthTitle"></div>
+<button class="nav-btn" onclick="changeMonth(1)">→</button>
+</div>
+
+<div class="calendar-grid" id="calendarGrid"></div>
+
+<div class="legend">
+<span>🟢 Available</span>
+<span>🔴 Unavailable</span>
+</div>
+
+<div class="back">
+<a href="plus.html">← Back to Plus</a>
+</div>
+
+</div>
+
+<script>
+
+let currentDate = new Date();
+let unavailableDays = JSON.parse(localStorage.getItem("unavailableDays")) || {};
+
+function renderCalendar(){
+
+let grid = document.getElementById("calendarGrid");
+grid.innerHTML = "";
+
+let year = currentDate.getFullYear();
+let month = currentDate.getMonth();
+
+let firstDay = new Date(year, month, 1);
+let lastDay = new Date(year, month + 1, 0);
+
+let monthName = currentDate.toLocaleString("default",{month:"long"});
+document.getElementById("monthTitle").innerText =
+monthName + " " + year;
+
+let dayNames = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+dayNames.forEach(d=>{
+let el=document.createElement("div");
+el.className="day-name";
+el.innerText=d;
+grid.appendChild(el);
+});
+
+/* Adjust start day (Monday first) */
+let startDay = firstDay.getDay();
+if(startDay === 0) startDay = 7;
+for(let i=1;i<startDay;i++){
+let blank=document.createElement("div");
+grid.appendChild(blank);
+}
+
+for(let day=1; day<=lastDay.getDate(); day++){
+
+let dateKey = year + "-" + month + "-" + day;
+
+let dayEl=document.createElement("div");
+dayEl.className="day";
+dayEl.innerText=day;
+
+if(unavailableDays[dateKey]){
+dayEl.classList.add("unavailable");
+}else{
+dayEl.classList.add("available");
+}
+
+dayEl.onclick = function(){
+
+if(unavailableDays[dateKey]){
+delete unavailableDays[dateKey];
+dayEl.classList.remove("unavailable");
+dayEl.classList.add("available");
+}else{
+unavailableDays[dateKey] = true;
+dayEl.classList.remove("available");
+dayEl.classList.add("unavailable");
+}
+
+localStorage.setItem("unavailableDays",
+JSON.stringify(unavailableDays));
+
+};
+
+grid.appendChild(dayEl);
+}
+
+}
+
+function changeMonth(direction){
+currentDate.setMonth(currentDate.getMonth() + direction);
+renderCalendar();
+}
+
+renderCalendar();
+
+</script>
+
+</body>
+</html>
