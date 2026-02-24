@@ -3,201 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Layer 1 – Workload Control Engine</title>
+<title>Layer 1 — Academic Control Engine</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #0f1f3d, #1f2f55);
-    color: white;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
 
-/* GOLD FRAME */
-.frame {
-    border: 2px solid #d4a63a;
-    border-radius: 20px;
-    margin: 30px;
-    padding: 40px;
+body{
+background:linear-gradient(135deg,#0f1f3d,#1c2f57);
+color:white;
+overflow-x:hidden;
+opacity:0;
+transform:scale(0.98);
+animation:fadeIn 0.6s ease forwards;
 }
 
-h1 {
-    text-align: center;
-    font-size: 48px;
-    margin-bottom: 60px;
+@keyframes fadeIn{
+to{opacity:1;transform:scale(1);}
 }
 
-.gold {
-    color: #d4a63a;
+/* PREMIUM FRAME */
+.premium-frame{
+border:2px solid #d4af37;
+border-radius:25px;
+margin:15px;
+min-height:calc(100vh - 30px);
+padding:80px 8%;
+position:relative;
+overflow:hidden;
+}
+
+/* GOLD SHIMMER LOOP */
+.premium-frame::after{
+content:"";
+position:absolute;
+top:0;
+left:-150%;
+width:50%;
+height:100%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,215,0,0.2),
+transparent
+);
+transform:skewX(-20deg);
+animation:shimmer 4s infinite;
+}
+
+@keyframes shimmer{
+0%{left:-150%;}
+100%{left:150%;}
+}
+
+h1{
+text-align:center;
+margin-bottom:60px;
+font-size:32px;
 }
 
 /* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
 }
 
-/* CARDS */
-.card {
-    background: rgba(255,255,255,0.05);
-    padding: 30px;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(8px);
-    cursor: pointer;
+.card{
+background:rgba(255,255,255,0.05);
+padding:30px;
+border-radius:20px;
+transition:0.3s ease;
+cursor:pointer;
+position:relative;
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 25px rgba(212,166,58,0.3);
+.card:hover{
+transform:translateY(-6px);
+background:rgba(255,255,255,0.08);
 }
 
-.card h2 {
-    color: #d4a63a;
+.card h3{
+color:#f4b942;
+margin-bottom:12px;
 }
 
-/* MINI ASSESSMENT */
-.assessment {
-    margin-top: 15px;
-    padding: 15px;
-    border-radius: 12px;
-    font-size: 14px;
+.assessment-list{
+margin-top:15px;
+font-size:14px;
+line-height:1.6;
 }
 
-.green { background: rgba(0,150,0,0.2); }
-.orange { background: rgba(255,165,0,0.2); }
-.red { background: rgba(255,0,0,0.2); }
+.back{
+text-align:center;
+margin-top:60px;
+}
 
-.delete-btn {
-    margin-top: 8px;
-    background: #d4a63a;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+.back a{
+color:#f4b942;
+text-decoration:none;
 }
 
 /* MODAL */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.2s ease;
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:1000;
 }
 
-.modal-content {
-    background: #1f2f55;
-    padding: 30px;
-    border-radius: 20px;
-    width: 400px;
-    position: relative;
-    animation: scaleIn 0.2s ease;
+.modal-content{
+background:#1c2f57;
+padding:35px;
+border-radius:20px;
+width:90%;
+max-width:450px;
+position:relative;
+animation:modalIn 0.3s ease;
 }
 
-.modal input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 10px;
-    border: none;
+@keyframes modalIn{
+from{transform:scale(0.9);opacity:0;}
+to{transform:scale(1);opacity:1;}
 }
 
-.modal button {
-    width: 100%;
-    padding: 12px;
-    background: #d4a63a;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
+.modal-content input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:none;
 }
 
-.close-btn {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 22px;
-    cursor: pointer;
-    color: #d4a63a;
+.save-btn{
+width:100%;
+padding:12px;
+background:linear-gradient(45deg,#f4b942,#e0a22f);
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:10px;
 }
 
-/* ANIMATIONS */
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+.close{
+position:absolute;
+top:15px;
+right:20px;
+font-size:22px;
+cursor:pointer;
 }
 
-@keyframes scaleIn {
-    from {transform: scale(0.95);}
-    to {transform: scale(1);}
-}
-
-.back {
-    margin-top: 50px;
-    text-align: center;
-}
-
-.back a {
-    color: #d4a63a;
-    text-decoration: none;
-    font-weight: bold;
+.preview{
+margin-top:15px;
+font-size:14px;
+opacity:0.85;
 }
 </style>
 </head>
 
 <body>
 
-<div class="frame">
+<div class="premium-frame">
 
-<h1>Layer 1 — <span class="gold">Workload Control Engine</span></h1>
+<h1>Layer 1 — Academic Control Engine</h1>
 
 <div class="grid">
 
 <div class="card" onclick="openModal()">
-    <h2>Add Assessment</h2>
-    <p>Add a new subject assessment.</p>
+<h3>Add Assessment</h3>
+<p>Add a new subject assessment with sustainable planning logic.</p>
 </div>
 
 <div class="card">
-    <h2>Active Assessments</h2>
-    <div id="assessments"></div>
+<h3>Active Assessments</h3>
+<div class="assessment-list" id="assessmentList">
+No assessments yet.
+</div>
 </div>
 
 <div class="card">
-    <h2>Weekly Workload Meter</h2>
-    <div id="workload"></div>
+<h3>Weekly Workload Meter</h3>
+<p id="workloadInfo">No workload calculated yet.</p>
 </div>
 
 <div class="card">
-    <h2>Risk & Collision Alerts</h2>
-    <div id="alerts"></div>
+<h3>Risk & Collision Alerts</h3>
+<p id="riskInfo">No risk detected.</p>
 </div>
 
 </div>
 
 <div class="back">
-    <a href="plus.html">← Back to Plus</a>
+<a href="plus.html">← Back to Plus</a>
 </div>
 
 </div>
 
 <!-- MODAL -->
-<div class="modal" id="modal" onclick="outsideClick(event)">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <h3>Add Assessment</h3>
+<div class="modal" id="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">×</span>
+<h3>Add Assessment</h3>
 
-    <input type="text" id="subject" placeholder="Subject">
-    <input type="text" id="name" placeholder="Assessment Name">
-    <input type="date" id="deadline">
-    <input type="number" id="difficulty" placeholder="Difficulty (1-10)">
-    <button onclick="addAssessment()">Save Assessment</button>
-  </div>
+<input type="number" id="age" placeholder="Your Age (required)">
+<input type="text" id="subject" placeholder="Subject">
+<input type="date" id="deadline">
+<input type="number" id="difficulty" placeholder="Difficulty (1-7)">
+
+<button class="save-btn" onclick="saveAssessment()">Save Assessment</button>
+
+<div class="preview" id="preview"></div>
+
+</div>
 </div>
 
 <script>
@@ -205,103 +229,108 @@ h1 {
 let assessments = JSON.parse(localStorage.getItem("assessments")) || [];
 
 function openModal(){
-    document.getElementById("modal").style.display = "flex";
+document.getElementById("modal").style.display="flex";
 }
 
 function closeModal(){
-    document.getElementById("modal").style.display = "none";
+document.getElementById("modal").style.display="none";
 }
 
-function outsideClick(e){
-    if(e.target.classList.contains("modal")){
-        closeModal();
-    }
+function saveAssessment(){
+
+let age=parseInt(document.getElementById("age").value);
+let subject=document.getElementById("subject").value;
+let deadline=new Date(document.getElementById("deadline").value);
+let difficulty=parseInt(document.getElementById("difficulty").value);
+
+if(!age || !subject || !deadline || !difficulty){
+alert("Please complete all fields.");
+return;
 }
 
-document.addEventListener("keydown", function(e){
-    if(e.key === "Escape"){
-        closeModal();
-    }
+/* AGE BASED DAILY CAP */
+let dailyCap;
+
+if(age<=12) dailyCap=1.5;
+else if(age<=15) dailyCap=2;
+else if(age<=18) dailyCap=3;
+else dailyCap=4;
+
+/* TOTAL HOURS ESTIMATION */
+let baseHours=difficulty*3; 
+
+let today=new Date();
+let daysRemaining=Math.ceil((deadline - today)/(1000*60*60*24));
+
+if(daysRemaining<1) daysRemaining=1;
+
+/* REST DAY LOGIC */
+let weeks=Math.floor(daysRemaining/7);
+let restDays=weeks; 
+
+let studyDays=daysRemaining - restDays;
+if(studyDays<1) studyDays=1;
+
+let dailyHours=baseHours/studyDays;
+
+/* ENFORCE CAP */
+if(dailyHours>dailyCap){
+dailyHours=dailyCap;
+}
+
+/* SAVE */
+let plan={
+subject,
+age,
+difficulty,
+daysRemaining,
+dailyHours:dailyHours.toFixed(2)
+};
+
+assessments.push(plan);
+localStorage.setItem("assessments",JSON.stringify(assessments));
+
+renderAssessments();
+
+closeModal();
+}
+
+function renderAssessments(){
+
+let list=document.getElementById("assessmentList");
+
+if(assessments.length===0){
+list.innerHTML="No assessments yet.";
+return;
+}
+
+list.innerHTML="";
+
+assessments.forEach(a=>{
+list.innerHTML+=`
+<div>
+<strong>${a.subject}</strong><br>
+Age: ${a.age} | ${a.dailyHours}h/day | ${a.daysRemaining} days left
+<hr>
+</div>
+`;
 });
 
-function addAssessment(){
-    const subject = document.getElementById("subject").value;
-    const name = document.getElementById("name").value;
-    const deadline = document.getElementById("deadline").value;
-    const difficulty = parseInt(document.getElementById("difficulty").value);
+/* WORKLOAD + RISK LOGIC */
 
-    if(!subject || !name || !deadline || !difficulty) return;
+let totalDaily=assessments.reduce((sum,a)=>sum+parseFloat(a.dailyHours),0);
 
-    assessments.push({subject, name, deadline, difficulty});
-    localStorage.setItem("assessments", JSON.stringify(assessments));
-    closeModal();
-    render();
+document.getElementById("workloadInfo").innerText=
+"Estimated daily total: "+totalDaily.toFixed(2)+"h";
+
+if(totalDaily>4){
+document.getElementById("riskInfo").innerText="⚠ Overload risk detected.";
+}else{
+document.getElementById("riskInfo").innerText="No overload detected.";
+}
 }
 
-function deleteAssessment(index){
-    assessments.splice(index, 1);
-    localStorage.setItem("assessments", JSON.stringify(assessments));
-    render();
-}
-
-function render(){
-    const list = document.getElementById("assessments");
-    const workloadDiv = document.getElementById("workload");
-    const alertsDiv = document.getElementById("alerts");
-
-    list.innerHTML = "";
-    alertsDiv.innerHTML = "";
-
-    let weeklyLoad = 0;
-    const today = new Date();
-
-    assessments.forEach((a, index) => {
-
-        const deadlineDate = new Date(a.deadline);
-        const daysLeft = Math.ceil((deadlineDate - today) / (1000*60*60*24));
-
-        const totalHours = a.difficulty * 2.5;
-        const daily = daysLeft > 0 ? totalHours / daysLeft : totalHours;
-        weeklyLoad += daily;
-
-        let riskClass = "green";
-        let riskText = "On Track";
-
-        if(daysLeft <= 2 || daily > 4){
-            riskClass = "red";
-            riskText = "Critical";
-        }
-        else if(daysLeft <= 5 || daily > 2){
-            riskClass = "orange";
-            riskText = "Caution";
-        }
-
-        list.innerHTML += `
-        <div class="assessment ${riskClass}">
-            <strong>${a.name}</strong> (${a.subject})<br>
-            ${daysLeft} days left<br>
-            ${daily.toFixed(1)}h/day<br>
-            Status: ${riskText}
-            <br>
-            <button class="delete-btn" onclick="deleteAssessment(${index})">Delete</button>
-        </div>
-        `;
-
-        if(riskClass === "red"){
-            alertsDiv.innerHTML += `<p>⚠ ${a.name} is critical.</p>`;
-        }
-    });
-
-    workloadDiv.innerHTML = `
-        <p>${weeklyLoad.toFixed(1)} hours/day total workload</p>
-    `;
-
-    if(weeklyLoad > 6){
-        alertsDiv.innerHTML += `<p>⚠ Weekly overload risk detected.</p>`;
-    }
-}
-
-render();
+renderAssessments();
 
 </script>
 
