@@ -45,6 +45,7 @@ h1 {
     border-radius: 20px;
     transition: all 0.3s ease;
     backdrop-filter: blur(8px);
+    cursor: pointer;
 }
 
 .card:hover {
@@ -56,7 +57,7 @@ h1 {
     color: #d4a63a;
 }
 
-/* MINI ASSESSMENT CARD */
+/* MINI ASSESSMENT */
 .assessment {
     margin-top: 15px;
     padding: 15px;
@@ -69,7 +70,7 @@ h1 {
 .red { background: rgba(255,0,0,0.2); }
 
 .delete-btn {
-    margin-top: 10px;
+    margin-top: 8px;
     background: #d4a63a;
     border: none;
     padding: 6px 10px;
@@ -86,6 +87,7 @@ h1 {
     display: none;
     align-items: center;
     justify-content: center;
+    animation: fadeIn 0.2s ease;
 }
 
 .modal-content {
@@ -93,6 +95,8 @@ h1 {
     padding: 30px;
     border-radius: 20px;
     width: 400px;
+    position: relative;
+    animation: scaleIn 0.2s ease;
 }
 
 .modal input {
@@ -111,6 +115,26 @@ h1 {
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #d4a63a;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes scaleIn {
+    from {transform: scale(0.95);}
+    to {transform: scale(1);}
 }
 
 .back {
@@ -163,15 +187,17 @@ h1 {
 </div>
 
 <!-- MODAL -->
-<div class="modal" id="modal">
-<div class="modal-content">
+<div class="modal" id="modal" onclick="outsideClick(event)">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
     <h3>Add Assessment</h3>
+
     <input type="text" id="subject" placeholder="Subject">
     <input type="text" id="name" placeholder="Assessment Name">
     <input type="date" id="deadline">
     <input type="number" id="difficulty" placeholder="Difficulty (1-10)">
     <button onclick="addAssessment()">Save Assessment</button>
-</div>
+  </div>
 </div>
 
 <script>
@@ -185,6 +211,18 @@ function openModal(){
 function closeModal(){
     document.getElementById("modal").style.display = "none";
 }
+
+function outsideClick(e){
+    if(e.target.classList.contains("modal")){
+        closeModal();
+    }
+}
+
+document.addEventListener("keydown", function(e){
+    if(e.key === "Escape"){
+        closeModal();
+    }
+});
 
 function addAssessment(){
     const subject = document.getElementById("subject").value;
