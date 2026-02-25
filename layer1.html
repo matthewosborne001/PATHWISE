@@ -1,13 +1,206 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layer 1 — Workload Control Engine</title>
 
-let assessments;
-
-try {
-    assessments = JSON.parse(localStorage.getItem("assessments")) || [];
-} catch (e) {
-    assessments = [];
-    localStorage.removeItem("assessments");
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
+
+body{
+background:linear-gradient(135deg,#0f1f3d,#1c2f57);
+color:white;
+opacity:0;
+transform:scale(0.98);
+animation:fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn{
+to{opacity:1;transform:scale(1);}
+}
+
+/* PREMIUM FRAME */
+.premium-frame{
+border:2px solid #d4af37;
+border-radius:25px;
+margin:15px;
+min-height:calc(100vh - 30px);
+padding:80px 40px;
+position:relative;
+overflow:hidden;
+}
+
+.premium-frame::after{
+content:"";
+position:absolute;
+top:0;
+left:-150%;
+width:50%;
+height:100%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,215,0,0.25),
+transparent
+);
+transform:skewX(-20deg);
+animation:shimmer 2.5s ease forwards;
+}
+
+@keyframes shimmer{
+to{left:150%;}
+}
+
+h1{
+text-align:center;
+font-size:40px;
+margin-bottom:60px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+padding:30px;
+border-radius:18px;
+transition:all 0.3s ease;
+cursor:pointer;
+}
+
+.card:hover{
+transform:translateY(-6px);
+background:rgba(255,255,255,0.08);
+}
+
+.card h3{
+color:#f4b942;
+margin-bottom:10px;
+}
+
+.back{
+margin-top:60px;
+text-align:center;
+}
+
+.back a{
+color:#f4b942;
+text-decoration:none;
+}
+
+/* MODAL */
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#1c2f57;
+padding:35px;
+border-radius:18px;
+width:90%;
+max-width:420px;
+position:relative;
+}
+
+.modal-content h2{
+margin-bottom:20px;
+}
+
+.modal-content input{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border-radius:8px;
+border:none;
+}
+
+.modal-content button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:linear-gradient(45deg,#f4b942,#e0a22f);
+color:white;
+cursor:pointer;
+}
+
+.close-btn{
+position:absolute;
+top:12px;
+right:15px;
+cursor:pointer;
+font-size:20px;
+}
+</style>
+</head>
+<body>
+
+<div class="premium-frame">
+
+<h1>Layer 1 — Workload Control Engine</h1>
+
+<div class="grid">
+
+<div class="card" onclick="openModal()">
+<h3>Add Assessment</h3>
+<p>Create a realistic study plan based on age and difficulty.</p>
+</div>
+
+<div class="card">
+<h3>Active Assessments</h3>
+<p>(Coming soon)</p>
+</div>
+
+<div class="card">
+<h3>Weekly Workload Meter</h3>
+<p>(Coming soon)</p>
+</div>
+
+<div class="card">
+<h3>Risk & Collision Alerts</h3>
+<p>(Coming soon)</p>
+</div>
+
+</div>
+
+<div class="back">
+<a href="plus.html">← Back to Plus</a>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<div class="close-btn" onclick="closeModal()">✕</div>
+<h2>Add Assessment</h2>
+<input type="number" id="age" placeholder="Your Age">
+<input type="number" id="difficulty" placeholder="Difficulty (1-10)">
+<input type="number" id="days" placeholder="Days Until Test">
+<button onclick="generatePlan()">Generate Plan</button>
+<p id="result" style="margin-top:15px;"></p>
+</div>
+</div>
+
+<script>
 
 function openModal(){
 document.getElementById("modal").style.display="flex";
@@ -15,16 +208,16 @@ document.getElementById("modal").style.display="flex";
 
 function closeModal(){
 document.getElementById("modal").style.display="none";
+document.getElementById("result").innerText="";
 }
 
-function saveAssessment(){
+function generatePlan(){
 
 let age=parseInt(document.getElementById("age").value);
-let subject=document.getElementById("subject").value.trim();
-let deadlineInput=document.getElementById("deadline").value;
 let difficulty=parseInt(document.getElementById("difficulty").value);
+let days=parseInt(document.getElementById("days").value);
 
-if(!age || !subject || !deadlineInput || !difficulty){
+if(!age || !difficulty || !days){
 alert("Please complete all fields.");
 return;
 }
@@ -34,111 +227,39 @@ alert("Difficulty must be between 1 and 10.");
 return;
 }
 
-let deadline=new Date(deadlineInput);
-let today=new Date();
-
-let timeDiff=deadline - today;
-let daysRemaining=Math.ceil(timeDiff/(1000*60*60*24));
-
-if(isNaN(daysRemaining) || daysRemaining <= 1){
-daysRemaining = 2;
+if(days < 1){
+alert("Days must be at least 1.");
+return;
 }
 
-/* AGE-BASED DAILY CAP */
-
+/* AGE BASED DAILY LIMIT */
 let dailyCap;
 
 if(age <= 12) dailyCap = 1.5;
-else if(age <= 15) dailyCap = 2;
+else if(age <= 14) dailyCap = 2;
+else if(age <= 16) dailyCap = 2.5;
 else if(age <= 18) dailyCap = 3;
 else dailyCap = 4;
 
-/* NEW REALISTIC TOTAL HOURS */
+/* TOTAL HOURS BASED ON DIFFICULTY */
 let totalHours = difficulty * 1.5;
 
-/* REST DAY LOGIC */
-let weeks = Math.floor(daysRemaining / 7);
-let restDays = weeks >= 1 ? weeks : 0;
-
-let studyDays = daysRemaining - restDays;
-if(studyDays < 1) studyDays = 1;
-
 /* DISTRIBUTION */
-let dailyHours = totalHours / studyDays;
+let dailyHours = totalHours / days;
 
-/* ENFORCE CAP */
+/* ENFORCE REALISTIC CAP */
 if(dailyHours > dailyCap){
 dailyHours = dailyCap;
 }
 
-/* HARD SAFETY LIMIT */
-if(dailyHours > 6){
-dailyHours = 6;
-}
+dailyHours = dailyHours.toFixed(2);
 
-let plan = {
-subject,
-age,
-difficulty,
-daysRemaining,
-dailyHours: parseFloat(dailyHours.toFixed(2))
-};
-
-assessments.push(plan);
-localStorage.setItem("assessments", JSON.stringify(assessments));
-
-renderAssessments();
-closeModal();
-}
-
-function renderAssessments(){
-
-let list=document.getElementById("assessmentList");
-
-if(assessments.length === 0){
-list.innerHTML="No assessments yet.";
-document.getElementById("workloadInfo").innerText="No workload calculated yet.";
-document.getElementById("riskInfo").innerText="No risk detected.";
-return;
-}
-
-list.innerHTML="";
-
-assessments.forEach(a=>{
-list.innerHTML += `
-<div>
-<strong>${a.subject}</strong><br>
-Age: ${a.age} | ${a.dailyHours}h/day | ${a.daysRemaining} days left
-<hr>
-</div>
-`;
-});
-
-/* TOTAL DAILY LOAD */
-let totalDaily = assessments.reduce((sum,a)=>sum + a.dailyHours,0);
-
-/* GLOBAL SAFETY LIMIT */
-if(totalDaily > 6){
-totalDaily = 6;
-}
-
-document.getElementById("workloadInfo").innerText =
-"Estimated daily total: " + totalDaily.toFixed(2) + "h";
-
-/* RISK LOGIC */
-
-if(totalDaily > 4){
-document.getElementById("riskInfo").innerText = "⚠ Overload risk detected.";
-}
-else if(totalDaily > 2.5){
-document.getElementById("riskInfo").innerText = "Moderate workload.";
-}
-else{
-document.getElementById("riskInfo").innerText = "Healthy workload.";
-}
+document.getElementById("result").innerText =
+"Recommended study time: " + dailyHours + " hours per day.";
 
 }
-
-renderAssessments();
 
 </script>
+
+</body>
+</html>
