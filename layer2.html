@@ -3,114 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Layer 2 – Weekly Intelligence System</title>
+<title>Layer 2 — Weekly Intelligence System</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, #0f1f3d, #1f2f55);
-    color: white;
-    overflow-x: hidden;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
 }
 
-/* GOLD FRAME */
-.frame {
-    border: 2px solid #d4a63a;
-    border-radius: 20px;
-    margin: 30px;
-    padding: 40px;
-    animation: fadeIn 0.6s ease;
+body{
+  background:linear-gradient(135deg,#0f1f3d,#1c2f57);
+  color:white;
 }
 
-/* TITLE */
-h1 {
-    text-align: center;
-    font-size: 48px;
-    margin-bottom: 10px;
+.frame{
+  border:2px solid #d4af37;
+  border-radius:25px;
+  margin:15px;
+  min-height:calc(100vh - 30px);
+  padding:60px 40px;
 }
 
-.gold {
-    color: #d4a63a;
+h1{
+  text-align:center;
+  font-size:42px;
+  margin-bottom:20px;
 }
 
-/* STRESS BADGE */
-.stress-badge {
-    text-align: center;
-    margin-bottom: 50px;
-    font-size: 18px;
+.stress{
+  text-align:center;
+  margin-bottom:50px;
+  font-size:20px;
 }
 
-.stress-score {
-    display: inline-block;
-    padding: 10px 25px;
-    border-radius: 30px;
-    font-weight: bold;
+.badge{
+  display:inline-block;
+  padding:8px 16px;
+  border-radius:20px;
+  font-weight:bold;
 }
 
-.safe { background: rgba(0,150,0,0.3); }
-.heavy { background: rgba(255,165,0,0.3); }
-.critical { background: rgba(255,0,0,0.3); }
+.green{ background:#2ecc71; }
+.yellow{ background:#f1c40f; }
+.red{ background:#c0392b; }
 
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
 }
 
-/* CARDS */
-.card {
-    background: rgba(255,255,255,0.05);
-    padding: 30px;
-    border-radius: 20px;
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
+.card{
+  background:rgba(255,255,255,0.05);
+  padding:30px;
+  border-radius:18px;
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 25px rgba(212,166,58,0.3);
+.card h2{
+  color:#f4b942;
+  margin-bottom:20px;
 }
 
-.card h2 {
-    color: #d4a63a;
+.bar{
+  margin-bottom:15px;
 }
 
-/* WEEKLY BAR */
-.day {
-    margin-bottom: 15px;
+.bar-fill{
+  height:10px;
+  background:linear-gradient(45deg,#f4b942,#e0a22f);
+  border-radius:5px;
 }
 
-.bar {
-    height: 10px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    overflow: hidden;
+.alert{
+  margin-bottom:10px;
+  font-size:14px;
 }
 
-.fill {
-    height: 10px;
-    background: linear-gradient(90deg, #d4a63a, #f5d27a);
-    border-radius: 10px;
+.back{
+  text-align:center;
+  margin-top:50px;
 }
 
-/* BACK */
-.back {
-    margin-top: 60px;
-    text-align: center;
-}
-
-.back a {
-    color: #d4a63a;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* ANIMATION */
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+.back a{
+  color:#f4b942;
+  text-decoration:none;
 }
 </style>
 </head>
@@ -119,111 +97,99 @@ h1 {
 
 <div class="frame">
 
-<h1>Layer 2 — <span class="gold">Weekly Intelligence System</span></h1>
+<h1>Layer 2 — Weekly Intelligence System</h1>
 
-<div class="stress-badge">
-    Weekly Stress Index:
-    <div id="stressScore" class="stress-score">Calculating...</div>
+<div class="stress">
+  Weekly Stress Index:
+  <span id="stressBadge" class="badge">Calculating...</span>
 </div>
 
 <div class="grid">
 
-<div class="card">
+  <div class="card">
     <h2>Weekly Distribution</h2>
     <div id="weeklyBars"></div>
-</div>
+  </div>
 
-<div class="card">
+  <div class="card">
     <h2>Overload Analysis</h2>
-    <div id="analysis"></div>
-</div>
+    <div id="alerts"></div>
+  </div>
 
 </div>
 
 <div class="back">
-    <a href="plus.html">← Back to Plus</a>
+  <a href="plus.html">← Back to Plus</a>
 </div>
 
 </div>
 
 <script>
 
-let assessments = JSON.parse(localStorage.getItem("assessments")) || [];
-const today = new Date();
-let weeklyLoad = 0;
+function loadWeeklyData(){
 
-const weeklyData = {
-    Mon:0, Tue:0, Wed:0, Thu:0, Fri:0, Sat:0, Sun:0
-};
+  const assessments = JSON.parse(localStorage.getItem("assessments")) || [];
 
-function getDayName(date){
-    return ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][date.getDay()];
-}
+  const weeklyBars = document.getElementById("weeklyBars");
+  const alerts = document.getElementById("alerts");
+  const stressBadge = document.getElementById("stressBadge");
 
-assessments.forEach(a => {
-    const deadline = new Date(a.deadline);
-    const daysLeft = Math.ceil((deadline - today)/(1000*60*60*24));
-    const totalHours = a.difficulty * 2.5;
-    const daily = daysLeft > 0 ? totalHours/daysLeft : totalHours;
+  weeklyBars.innerHTML = "";
+  alerts.innerHTML = "";
 
-    for(let i=0;i<7;i++){
-        const day = new Date();
-        day.setDate(today.getDate()+i);
-        const name = getDayName(day);
-        weeklyData[name] += daily;
-    }
+  if(assessments.length === 0){
+    weeklyBars.innerHTML = "No assessments saved.";
+    stressBadge.textContent = "0%";
+    stressBadge.className = "badge green";
+    return;
+  }
 
-    weeklyLoad += daily;
-});
+  let totalDaily = 0;
 
-/* Render Bars */
-const container = document.getElementById("weeklyBars");
+  assessments.forEach(a=>{
+    totalDaily += parseFloat(a.dailyStudy);
+  });
 
-Object.keys(weeklyData).forEach(day=>{
-    const hours = weeklyData[day];
-    const percent = Math.min(hours*15,100);
+  // distribute evenly across 7 days
+  let dailyHours = totalDaily;
+  if(dailyHours > 8) dailyHours = 8; // hard cap
 
-    container.innerHTML += `
-        <div class="day">
-            ${day} – ${hours.toFixed(1)}h
-            <div class="bar">
-                <div class="fill" style="width:${percent}%"></div>
-            </div>
-        </div>
+  const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+  days.forEach(day=>{
+    const barContainer = document.createElement("div");
+    barContainer.className = "bar";
+    barContainer.innerHTML = `
+      ${day} – ${dailyHours.toFixed(1)}h
+      <div class="bar-fill" style="width:${dailyHours*10}%"></div>
     `;
-});
+    weeklyBars.appendChild(barContainer);
 
-/* Stress Index */
-const maxCapacity = 35; // 5h x 7 days baseline
-const stressPercent = (weeklyLoad*7 / maxCapacity) * 100;
-
-const stressEl = document.getElementById("stressScore");
-
-if(stressPercent < 60){
-    stressEl.classList.add("safe");
-    stressEl.innerText = "Controlled (" + stressPercent.toFixed(0) + "%)";
-}
-else if(stressPercent < 85){
-    stressEl.classList.add("heavy");
-    stressEl.innerText = "Heavy (" + stressPercent.toFixed(0) + "%)";
-}
-else{
-    stressEl.classList.add("critical");
-    stressEl.innerText = "Critical (" + stressPercent.toFixed(0) + "%)";
-}
-
-/* Overload Analysis */
-const analysis = document.getElementById("analysis");
-
-Object.keys(weeklyData).forEach(day=>{
-    if(weeklyData[day] > 4){
-        analysis.innerHTML += `<p>⚠ ${day} exceeds healthy limit.</p>`;
+    if(dailyHours > 4){
+      const alert = document.createElement("div");
+      alert.className = "alert";
+      alert.textContent = "⚠ " + day + " exceeds healthy limit.";
+      alerts.appendChild(alert);
     }
-});
+  });
 
-if(analysis.innerHTML === ""){
-    analysis.innerHTML = "<p>No overload detected this week.</p>";
+  const stressPercent = Math.min((dailyHours / 4) * 100, 200);
+
+  if(stressPercent < 60){
+    stressBadge.textContent = "Controlled (" + stressPercent.toFixed(0) + "%)";
+    stressBadge.className = "badge green";
+  }
+  else if(stressPercent < 100){
+    stressBadge.textContent = "Elevated (" + stressPercent.toFixed(0) + "%)";
+    stressBadge.className = "badge yellow";
+  }
+  else{
+    stressBadge.textContent = "Critical (" + stressPercent.toFixed(0) + "%)";
+    stressBadge.className = "badge red";
+  }
 }
+
+loadWeeklyData();
 
 </script>
 
