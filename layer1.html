@@ -18,7 +18,6 @@ body {
   color: white;
 }
 
-/* GOLD FRAME */
 .frame {
   border: 2px solid #d4af37;
   border-radius: 25px;
@@ -33,7 +32,6 @@ h1 {
   font-size: 42px;
 }
 
-/* CARD GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -44,7 +42,6 @@ h1 {
   background: rgba(255,255,255,0.05);
   padding: 30px;
   border-radius: 18px;
-  cursor: pointer;
   transition: 0.3s ease;
 }
 
@@ -62,7 +59,6 @@ h1 {
   opacity: 0.85;
 }
 
-/* BACK LINK */
 .back {
   text-align: center;
   margin-top: 50px;
@@ -71,6 +67,30 @@ h1 {
 .back a {
   color: #f4b942;
   text-decoration: none;
+}
+
+/* ACTIVE LIST */
+.assessment-list {
+  margin-top: 20px;
+}
+
+.assessment-item {
+  background: rgba(255,255,255,0.08);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.assessment-item button {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background: #c0392b;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 /* MODAL */
@@ -139,7 +159,9 @@ h1 {
 
   <div class="card">
     <h3>Active Assessments</h3>
-    <p>(Coming soon)</p>
+    <div class="assessment-list" id="assessmentList">
+      No assessments yet.
+    </div>
   </div>
 
   <div class="card">
@@ -172,7 +194,7 @@ h1 {
     <input type="date" id="dueDate">
     <input type="number" id="difficulty" placeholder="Difficulty (1-10)" min="1" max="10">
 
-    <button onclick="calculateStudy()">Generate Study Plan</button>
+    <button onclick="saveAssessment()">Generate Study Plan</button>
   </div>
 </div>
 
@@ -186,35 +208,7 @@ function closeModal() {
   document.getElementById("assessmentModal").style.display = "none";
 }
 
-function calculateStudy() {
-
-  const age = parseInt(document.getElementById("age").value);
-  const subject = document.getElementById("subject").value.trim();
-  const testName = document.getElementById("testName").value.trim();
-  const dueDateValue = document.getElementById("dueDate").value;
-  const difficulty = parseInt(document.getElementById("difficulty").value);
-
-  if (!age || !subject || !testName || !dueDateValue || !difficulty) {
-    alert("Please complete all fields.");
-    return;
-  }
-
-  if (difficulty < 1 || difficulty > 10) {
-    alert("Difficulty must be between 1 and 10.");
-    return;
-  }
-
-  const today = new Date();
-  const dueDate = new Date(dueDateValue);
-  const timeDiff = dueDate - today;
-  const daysUntil = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-  if (daysUntil <= 0) {
-    alert("Due date must be in the future.");
-    return;
-  }
-
-  /* AGE-BASED REALISTIC CAPS */
+function calculateDailyStudy(age, difficulty, daysUntil) {
   let maxDaily;
 
   if (age <= 12) maxDaily = 1.5;
@@ -227,23 +221,83 @@ function calculateStudy() {
   const totalHoursNeeded = difficulty * 3;
   let dailyStudy = totalHoursNeeded / daysUntil;
 
-  if (dailyStudy > maxDaily) {
-    dailyStudy = maxDaily;
+  if (dailyStudy > maxDaily) dailyStudy = maxDaily;
+  if (dailyStudy < 0.5) dailyStudy = 0.5;
+
+  return dailyStudy.toFixed(1);
+}
+
+function saveAssessment() {
+
+  const age = parseInt(document.getElementById("age").value);
+  const subject = document.getElementById("subject").value.trim();
+  const testName = document.getElementById("testName").value.trim();
+  const dueDateValue = document.getElementById("dueDate").value;
+  const difficulty = parseInt(document.getElementById("difficulty").value);
+
+  if (!age || !subject || !testName || !dueDateValue || !difficulty) {
+    return;
   }
 
-  if (dailyStudy < 0.5) {
-    dailyStudy = 0.5;
+  const today = new Date();
+  const dueDate = new Date(dueDateValue);
+  const daysUntil = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+
+  if (daysUntil <= 0) {
+    return;
   }
 
-  alert(
-    "Study Plan for: " + testName + "\n" +
-    "Subject: " + subject + "\n" +
-    "Days Until Test: " + daysUntil + "\n\n" +
-    "Recommended Daily Study: " + dailyStudy.toFixed(1) + " hours"
-  );
+  const dailyStudy = calculateDailyStudy(age, difficulty, daysUntil);
+
+  const assessment = {
+    subject,
+    testName,
+    dueDate: dueDateValue,
+    dailyStudy
+  };
+
+  let assessments = JSON.parse(localStorage.getItem("assessments")) || [];
+  assessments.push(assessment);
+  localStorage.setItem("assessments", JSON.stringify(assessments));
 
   closeModal();
+  renderAssessments();
 }
+
+function renderAssessments() {
+  const list = document.getElementById("assessmentList");
+  let assessments = JSON.parse(localStorage.getItem("assessments")) || [];
+
+  if (assessments.length === 0) {
+    list.innerHTML = "No assessments yet.";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  assessments.forEach((a, index) => {
+    const item = document.createElement("div");
+    item.className = "assessment-item";
+    item.innerHTML = `
+      <strong>${a.testName}</strong><br>
+      ${a.subject}<br>
+      Due: ${a.dueDate}<br>
+      Daily Study: ${a.dailyStudy}h
+      <br>
+      <button onclick="deleteAssessment(${index})">Delete</button>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function deleteAssessment(index) {
+  let assessments = JSON.parse(localStorage.getItem("assessments")) || [];
+  assessments.splice(index, 1);
+  localStorage.setItem("assessments", JSON.stringify(assessments));
+  renderAssessments();
+}
+
+renderAssessments();
 
 </script>
 
