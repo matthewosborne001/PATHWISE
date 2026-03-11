@@ -23,10 +23,12 @@ animation:pageEnter 0.6s ease forwards;
 }
 
 @keyframes pageEnter{
-to{opacity:1;transform:scale(1);}
+to{
+opacity:1;
+transform:scale(1);
+}
 }
 
-/* GOLD FRAME */
 .premium-frame{
 border:2px solid #d4af37;
 border-radius:25px;
@@ -36,29 +38,6 @@ position:relative;
 overflow:hidden;
 }
 
-/* SHIMMER */
-.premium-frame::after{
-content:"";
-position:absolute;
-top:0;
-left:-150%;
-width:50%;
-height:100%;
-background:linear-gradient(
-120deg,
-transparent,
-rgba(255,215,0,0.25),
-transparent
-);
-transform:skewX(-20deg);
-animation:shimmer 2.5s ease forwards;
-}
-
-@keyframes shimmer{
-to{left:150%;}
-}
-
-/* HERO */
 .hero{
 text-align:center;
 padding:120px 20px 80px;
@@ -81,22 +60,21 @@ opacity:0.85;
 
 .cta-btn{
 margin-top:40px;
-padding:16px 40px;
-border-radius:12px;
+padding:15px 35px;
+border-radius:10px;
 border:none;
 background:linear-gradient(45deg,#f4b942,#e0a22f);
 color:white;
-font-size:17px;
+font-size:16px;
 cursor:pointer;
 transition:all 0.3s ease;
 }
 
 .cta-btn:hover{
 transform:translateY(-4px);
-box-shadow:0 12px 30px rgba(0,0,0,0.4);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
-/* FEATURES */
 .features{
 padding:80px 10%;
 }
@@ -130,7 +108,6 @@ margin-bottom:15px;
 color:#f4b942;
 }
 
-/* HAMBURGER */
 .hamburger{
 position:fixed;
 top:30px;
@@ -166,7 +143,6 @@ left:0;
 .hamburger div::before{top:-8px;}
 .hamburger div::after{top:8px;}
 
-/* SIDE MENU */
 .side-menu{
 position:fixed;
 top:0;
@@ -198,18 +174,15 @@ transition:color 0.3s ease;
 color:#f4b942;
 }
 
-/* BACK */
-.back-home{
-text-align:center;
-padding:60px;
-}
-
-.back-home a{
-color:#f4b942;
-text-decoration:none;
+.divider{
+width:60%;
+height:1px;
+background:rgba(255,255,255,0.2);
+margin:60px auto;
 }
 </style>
 </head>
+
 <body>
 
 <div class="premium-frame">
@@ -219,69 +192,73 @@ text-decoration:none;
 </div>
 
 <div class="side-menu" id="sideMenu">
-<a href="#" onclick="navigateTo('layer1.html')">
-Layer 1 — Academic Control
+
+<a href="layer1.html">
+Academic Planner
 </a>
-<a href="#" onclick="navigateTo('layer2.html')">
-Layer 2 — Weekly Intelligence
+
+<a href="layer2.html">
+Workload Intelligence
 </a>
-<a href="#" onclick="navigateTo('calendar.html')">
-Your Calendar
+
+<a href="calendar.html">
+Calendar
 </a>
+
 </div>
 
 <div class="hero">
-<h1><span>PATH</span><span>WISE PLUS</span></h1>
-<p>Advanced Academic Control. Strategic Workload Intelligence.</p>
+
+<h1>
+<span>PATH</span><span>WISE PLUS</span>
+</h1>
+
+<p>
+Advanced Academic Control. Strategic Workload Intelligence.
+</p>
 
 <button class="cta-btn" onclick="navigateTo('calendar.html')">
 View Calendar
 </button>
+
 </div>
 
+<div class="divider"></div>
+
 <div class="features">
+
 <h2>What PathWise Plus Unlocks</h2>
 
 <div class="feature-grid">
+
 <div class="feature-card">
 <h3>Multi-Assessment Dashboard</h3>
-<p>Manage multiple subjects with intelligent workload balancing.</p>
+<p>Track multiple tests simultaneously with structured oversight.</p>
 </div>
 
 <div class="feature-card">
 <h3>Weekly Workload Meter</h3>
-<p>Visualize study intensity and prevent burnout.</p>
+<p>Visualize study intensity and maintain a healthy balance.</p>
 </div>
 
 <div class="feature-card">
 <h3>Collision Detection</h3>
-<p>Automatically detect deadline overlaps before risk escalates.</p>
+<p>Automatically detect overlapping deadlines before they cause stress.</p>
 </div>
 
 <div class="feature-card">
-<h3>Risk Alerts</h3>
-<p>Get proactive warnings when workload exceeds healthy limits.</p>
+<h3>Strategic Planning</h3>
+<p>Use intelligent planning to distribute study across available days.</p>
 </div>
 
-<div class="feature-card">
-<h3>Long-Term Forecasting</h3>
-<p>Understand how current planning affects long-term performance.</p>
 </div>
 
-<div class="feature-card">
-<h3>Availability-Based Scheduling</h3>
-<p>Calendar-aware study logic that respects real life commitments.</p>
-</div>
-</div>
-</div>
-
-<div class="back-home">
-<a href="plans.html">← Back to Plans</a>
 </div>
 
 </div>
 
 <script>
+
 function toggleMenu(){
 document.getElementById("sideMenu").classList.toggle("active");
 }
@@ -294,6 +271,7 @@ setTimeout(()=>{
 window.location.href=page;
 },350);
 }
+
 </script>
 
 </body>
