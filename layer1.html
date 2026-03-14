@@ -163,8 +163,8 @@ font-size:20px;
 </div>
 
 <div class="card">
-<h2>Weekly Workload Meter</h2>
-<p>(Connected to Layer 2)</p>
+<h2>Study Guidance</h2>
+<p id="studyAdvice">Analyzing your study workload...</p>
 </div>
 
 <div class="card">
@@ -307,7 +307,44 @@ container.appendChild(div)
 
 localStorage.clear()
 loadAssessments()
+localStorage.clear()
+loadAssessments()
 
+
+function updateStudyAdvice(){
+
+const assessments = JSON.parse(localStorage.getItem("assessments")) || [];
+const advice = document.getElementById("studyAdvice");
+
+if(!advice) return;
+
+if(assessments.length === 0){
+advice.textContent = "Add an assessment to receive a recommended study plan.";
+return;
+}
+
+let totalDaily = 0;
+
+assessments.forEach(a=>{
+totalDaily += parseFloat(a.dailyStudy);
+});
+
+if(totalDaily < 1.5){
+advice.textContent = "Your workload is light. Around " + totalDaily.toFixed(1) + " hours per day is healthy.";
+}
+else if(totalDaily < 3){
+advice.textContent = "Your workload is balanced. Around " + totalDaily.toFixed(1) + " hours per day should keep you on track.";
+}
+else if(totalDaily < 4){
+advice.textContent = "Your workload is heavy. Consider spreading study sessions across more days.";
+}
+else{
+advice.textContent = "Your workload may be unhealthy. Try reducing study hours or increasing available study days.";
+}
+
+}
+
+updateStudyAdvice();
 </script>
 
 </body>
