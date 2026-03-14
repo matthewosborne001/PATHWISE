@@ -126,6 +126,37 @@ h1{
 
 <script>
 
+/* CALENDAR SYNC */
+
+const unavailable = JSON.parse(localStorage.getItem("unavailableDays")) || {};
+
+const today = new Date();
+let monday = new Date(today);
+
+let day = monday.getDay();
+let diff = monday.getDate() - day + (day === 0 ? -6 : 1);
+monday.setDate(diff);
+
+const weekHours = [];
+
+for(let i = 0; i < 7; i++){
+
+let d = new Date(monday);
+d.setDate(monday.getDate() + i);
+
+let key =
+d.getFullYear() + "-" +
+d.getMonth() + "-" +
+d.getDate();
+
+if(unavailable[key]){
+weekHours.push(0);
+}else{
+weekHours.push(1.2);
+}
+
+}
+
 function loadWeeklyData(){
 
   const assessments = JSON.parse(localStorage.getItem("assessments")) || [];
@@ -152,25 +183,29 @@ function loadWeeklyData(){
 
   // distribute evenly across 7 days
   let dailyHours = totalDaily;
-  if(dailyHours > 8) dailyHours = 8; // hard cap
+  if(dailyHours > 8) dailyHours = 8;
 
   const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
-  days.forEach(day=>{
+  days.forEach((day,i)=>{
+
+    let hours = weekHours[i] === 0 ? 0 : dailyHours;
+
     const barContainer = document.createElement("div");
     barContainer.className = "bar";
     barContainer.innerHTML = `
-      ${day} – ${dailyHours.toFixed(1)}h
-      <div class="bar-fill" style="width:${dailyHours*10}%"></div>
+      ${day} – ${hours.toFixed(1)}h
+      <div class="bar-fill" style="width:${hours*10}%"></div>
     `;
     weeklyBars.appendChild(barContainer);
 
-    if(dailyHours > 4){
+    if(hours > 4){
       const alert = document.createElement("div");
       alert.className = "alert";
       alert.textContent = "⚠ " + day + " exceeds healthy limit.";
       alerts.appendChild(alert);
     }
+
   });
 
   const stressPercent = Math.min((dailyHours / 4) * 100, 200);
@@ -187,6 +222,7 @@ function loadWeeklyData(){
     stressBadge.textContent = "Critical (" + stressPercent.toFixed(0) + "%)";
     stressBadge.className = "badge red";
   }
+
 }
 
 loadWeeklyData();
