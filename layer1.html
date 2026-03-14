@@ -206,6 +206,23 @@ font-size:20px;
 
 <script>
 
+function formatStudyTime(hours){
+
+const h = Math.floor(hours);
+const m = Math.round((hours - h) * 60);
+
+if(h === 0) return m + " min";
+if(m === 0) return h + "h";
+
+return h + "h " + m + "min";
+
+}
+
+/* your other code starts here */
+
+function deleteAssessment(index){
+
+...
 function openModal(){
 document.getElementById("modal").style.display="flex";
 }
