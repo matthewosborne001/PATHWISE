@@ -95,6 +95,15 @@ color:#ff6b6b;
 font-weight:bold;
 }
 
+.edit-btn{
+position:absolute;
+right:25px;
+top:0;
+cursor:pointer;
+color:#f4b942;
+font-weight:bold;
+}
+
 /* MODAL */
 
 .modal{
@@ -309,7 +318,8 @@ div.className="assessment"
 div.innerHTML=`
 
 <div class="assessment-title">${a.name}</div>
-<div class="delete-btn" onclick="deleteAssessment(${i})">✕</div>
+<div class="edit-btn" onclick="editAssessment(${i})">✏</div>
+<div class="delete-btn" onclick="deleteAssessment(${i})">×</div>
 
 Daily Study: ${a.dailyStudy}h<br>
 Difficulty: ${a.difficulty}/10
@@ -362,6 +372,26 @@ advice.textContent = "Your workload may be unhealthy. Try reducing study hours o
 }
 
 updateStudyAdvice();
+  function editAssessment(index){
+
+let list = JSON.parse(localStorage.getItem("assessments")) || []
+
+let newName = prompt("Edit assessment name:", list[index].name)
+if(newName !== null){
+list[index].name = newName
+}
+
+let newDifficulty = prompt("Edit difficulty (1-10):", list[index].difficulty)
+if(newDifficulty !== null){
+list[index].difficulty = newDifficulty
+}
+
+localStorage.setItem("assessments", JSON.stringify(list))
+
+loadAssessments()
+updateStudyAdvice()
+
+}
 </script>
 
 </body>
