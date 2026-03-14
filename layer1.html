@@ -210,6 +210,8 @@ font-size:20px;
 
 <script>
 
+let editingIndex = null
+
 function formatStudyTime(hours){
 
 const h = Math.floor(hours);
@@ -258,7 +260,12 @@ dailyStudy:dailyStudy.toFixed(1)
 
 let list=JSON.parse(localStorage.getItem("assessments"))||[]
 
+if(editingIndex !== null){
+list[editingIndex] = assessment
+editingIndex = null
+}else{
 list.push(assessment)
+}
 
 localStorage.setItem("assessments",JSON.stringify(list))
 
@@ -266,6 +273,7 @@ closeModal()
 
 loadAssessments()
 updateStudyAdvice()
+
 }
 
 function deleteAssessment(index){
@@ -278,6 +286,7 @@ localStorage.setItem("assessments",JSON.stringify(list))
 
 loadAssessments()
 updateStudyAdvice()
+
 }
 
 function loadAssessments(){
@@ -356,20 +365,12 @@ function editAssessment(index){
 
 let list = JSON.parse(localStorage.getItem("assessments")) || []
 
-let newName = prompt("Edit assessment name:", list[index].name)
-if(newName !== null){
-list[index].name = newName
-}
+editingIndex = index
 
-let newDifficulty = prompt("Edit difficulty (1-10):", list[index].difficulty)
-if(newDifficulty !== null){
-list[index].difficulty = newDifficulty
-}
+document.getElementById("testName").value = list[index].name
+document.getElementById("difficulty").value = list[index].difficulty
 
-localStorage.setItem("assessments", JSON.stringify(list))
-
-loadAssessments()
-updateStudyAdvice()
+openModal()
 
 }
 
