@@ -161,7 +161,7 @@ font-size:20px;
 
 <div class="grid">
 
-<div class="card" onclick="openModal()">
+<div class="card add-card" onclick="openModal()">
 <h2>Add Assessment</h2>
 <p>Create a realistic study plan based on age and difficulty.</p>
 </div>
@@ -190,8 +190,6 @@ font-size:20px;
 </div>
 
 
-<!-- MODAL -->
-
 <div class="modal" id="modal">
 <div class="modal-content">
 
@@ -200,11 +198,8 @@ font-size:20px;
 <h3 style="margin-bottom:20px;">Add Assessment</h3>
 
 <input id="testName" placeholder="Test Name">
-
 <input id="age" type="number" placeholder="Age">
-
 <input id="days" type="number" placeholder="Days Until Test">
-
 <input id="difficulty" type="number" placeholder="Difficulty (1-10)">
 
 <button onclick="saveAssessment()">Save Assessment</button>
@@ -227,11 +222,6 @@ return h + "h " + m + "min";
 
 }
 
-/* your other code starts here */
-
-function deleteAssessment(index){
-
-...
 function openModal(){
 document.getElementById("modal").style.display="flex";
 }
@@ -239,7 +229,6 @@ document.getElementById("modal").style.display="flex";
 function closeModal(){
 document.getElementById("modal").style.display="none";
 }
-
 
 function saveAssessment(){
 
@@ -279,7 +268,6 @@ loadAssessments()
 updateStudyAdvice()
 }
 
-
 function deleteAssessment(index){
 
 let list=JSON.parse(localStorage.getItem("assessments"))||[]
@@ -291,7 +279,6 @@ localStorage.setItem("assessments",JSON.stringify(list))
 loadAssessments()
 updateStudyAdvice()
 }
-
 
 function loadAssessments(){
 
@@ -332,12 +319,6 @@ container.appendChild(div)
 
 }
 
-localStorage.clear()
-loadAssessments()
-localStorage.clear()
-loadAssessments()
-
-
 function updateStudyAdvice(){
 
 const assessments = JSON.parse(localStorage.getItem("assessments")) || [];
@@ -371,8 +352,7 @@ advice.textContent = "Your workload may be unhealthy. Try reducing study hours o
 
 }
 
-updateStudyAdvice();
-  function editAssessment(index){
+function editAssessment(index){
 
 let list = JSON.parse(localStorage.getItem("assessments")) || []
 
@@ -392,6 +372,10 @@ loadAssessments()
 updateStudyAdvice()
 
 }
+
+loadAssessments()
+updateStudyAdvice()
+
 </script>
 
 </body>
