@@ -317,7 +317,7 @@ div.innerHTML=`
 <div class="edit-btn" onclick="editAssessment(${i})">✏</div>
 <div class="delete-btn" onclick="deleteAssessment(${i})">×</div>
 
-Daily Study: ${a.dailyStudy}h<br>
+Daily Study: ${formatStudyTime(parseFloat(a.dailyStudy))}<br>
 Difficulty: ${a.difficulty}/10
 
 `
