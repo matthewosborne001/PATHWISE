@@ -175,7 +175,14 @@ font-size:20px;
 <h2>Study Guidance</h2>
 <p id="studyAdvice">Analyzing your study workload...</p>
 </div>
-
+  
+<div class="card">
+<h3>Weekly Workload Meter</h3>
+<div id="weeklyWorkloadText">
+Calculating workload...
+</div>
+</div>
+  
 <div class="card">
 <h2>Risk & Collision Alerts</h2>
 <p>(Coming soon)</p>
@@ -375,10 +382,38 @@ document.getElementById("difficulty").value = list[index].difficulty
 openModal()
 
 }
+function updateStudyAdvice(){
+   ...
+}
 
+function updateWeeklyWorkload(){
+
+let list = JSON.parse(localStorage.getItem("assessments")) || [];
+
+let totalDaily = 0;
+
+list.forEach(a=>{
+totalDaily += parseFloat(a.dailyStudy);
+});
+
+let weeklyHours = totalDaily * 7;
+
+let box = document.getElementById("weeklyWorkloadText");
+
+if(weeklyHours < 5){
+box.innerText = "Light workload (" + weeklyHours.toFixed(1) + "h this week)";
+}
+else if(weeklyHours < 12){
+box.innerText = "Balanced workload (" + weeklyHours.toFixed(1) + "h this week)";
+}
+else{
+box.innerText = "Heavy workload (" + weeklyHours.toFixed(1) + "h this week)";
+}
+
+}
 loadAssessments()
 updateStudyAdvice()
-
+updateWeeklyWorkload()
 </script>
 
 </body>
