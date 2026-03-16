@@ -255,7 +255,9 @@ if(dailyStudy>4) dailyStudy=4
 const assessment={
 name,
 difficulty,
-dailyStudy:dailyStudy.toFixed(1)
+dailyStudy:dailyStudy.toFixed(1),
+daysUntil: days,
+created: Date.now()
 }
 
 let list=JSON.parse(localStorage.getItem("assessments"))||[]
