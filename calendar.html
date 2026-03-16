@@ -240,6 +240,21 @@ let dateKey = year + "-" + month + "-" + day;
 let dayEl=document.createElement("div");
 dayEl.className="day";
 dayEl.innerText=day;
+/* TEST MARKER */
+let tests = JSON.parse(localStorage.getItem("assessments")) || [];
+
+tests.forEach(t => {
+let testDate = new Date(t.created);
+testDate.setDate(testDate.getDate() + parseInt(t.daysUntil));
+
+if(
+testDate.getFullYear() === year &&
+testDate.getMonth() === month &&
+testDate.getDate() === day
+){
+dayEl.innerHTML = day + "<br>📘";
+}
+});  
 if(year === currentYearReal && month === currentMonthReal && day < currentDay){
 dayEl.classList.add("past-day");
 }
