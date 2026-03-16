@@ -252,7 +252,7 @@ testDate.getFullYear() === year &&
 testDate.getMonth() === month &&
 testDate.getDate() === day
 ){
-dayEl.innerHTML = day + "<br>📘";
+dayEl.innerHTML = day + "<br><small>" + t.name + "</small>";
 }
 });  
 if(year === currentYearReal && month === currentMonthReal && day < currentDay){
