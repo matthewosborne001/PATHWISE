@@ -156,7 +156,11 @@ margin-top:50px;
 color:#f4b942;
 text-decoration:none;
 }
-
+.past-day{
+opacity:0.35;
+pointer-events:none;
+background:#444;
+}
 </style>
 </head>
 <body>
@@ -189,6 +193,11 @@ Green = Available. Red = Unavailable.
 </div>
 
 <script>
+
+const today = new Date();
+const currentDay = today.getDate();
+const currentMonthReal = today.getMonth();
+const currentYearReal = today.getFullYear();
 
 let currentDate = new Date();
 let unavailableDays = JSON.parse(localStorage.getItem("unavailableDays")) || {};
@@ -231,7 +240,9 @@ let dateKey = year + "-" + month + "-" + day;
 let dayEl=document.createElement("div");
 dayEl.className="day";
 dayEl.innerText=day;
-
+if(year === currentYearReal && month === currentMonthReal && day < currentDay){
+dayEl.classList.add("past-day");
+}
 if(unavailableDays[dateKey]){
 dayEl.classList.add("unavailable");
 }else{
