@@ -6,6 +6,17 @@
 <title>Academic Planner</title>
 
 <style>
+.workload-light{
+color:#4caf50;
+}
+
+.workload-balanced{
+color:#f4b942;
+}
+
+.workload-heavy{
+color:#ff6b6b;
+}
 .subtitle{
 text-align:center;
 margin-top:10px;
@@ -177,7 +188,7 @@ font-size:20px;
 </div>
   
 <div class="card">
-<h3>Weekly Workload Meter</h3>
+<h2>Weekly Workload Meter</h2>
 <div id="weeklyWorkloadText">
 Calculating workload...
 </div>
@@ -382,9 +393,7 @@ document.getElementById("difficulty").value = list[index].difficulty
 openModal()
 
 }
-function updateStudyAdvice(){
-   ...
-}
+
 
 function updateWeeklyWorkload(){
 
