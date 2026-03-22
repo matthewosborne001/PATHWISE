@@ -408,16 +408,32 @@ totalDaily += parseFloat(a.dailyStudy);
 let weeklyHours = totalDaily * 7;
 
 let box = document.getElementById("weeklyWorkloadText");
+  box.classList.remove("workload-light","workload-balanced","workload-heavy");
 
 if(weeklyHours < 5){
-box.innerText = "Light workload (" + weeklyHours.toFixed(1) + "h this week)";
+  box.classList.add("workload-light");
 }
 else if(weeklyHours < 12){
-box.innerText = "Balanced workload (" + weeklyHours.toFixed(1) + "h this week)";
+  box.classList.add("workload-balanced");
 }
 else{
-box.innerText = "Heavy workload (" + weeklyHours.toFixed(1) + "h this week)";
+  box.classList.add("workload-heavy");
 }
+if(list.length === 0){
+  box.innerText = "No workload yet. Add an assessment.";
+  return;
+}
+let breakdown = "";
+
+list.forEach(a => {
+  breakdown += a.name + ": " + 
+formatStudyTime(parseFloat(a.dailyStudy)) + "/day (" +
+formatStudyTime(parseFloat(a.dailyStudy) * 7) + "/week)\n";
+});
+
+box.innerHTML =
+"<strong>Total:</strong> " + formatStudyTime(weeklyHours) + " this week<br><br>" +
+breakdown.replace(/\n/g, "<br>");
 
 }
 loadAssessments()
