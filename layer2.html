@@ -126,9 +126,18 @@ h1{
 
 <script>
 
+/* SAFE STORAGE READ */
+function safeParse(key){
+  try{
+    return JSON.parse(localStorage.getItem(key)) || {};
+  }catch{
+    return {};
+  }
+}
+
 /* CALENDAR SYNC */
 
-const unavailable = JSON.parse(localStorage.getItem("unavailableDays")) || {};
+const unavailable = safeParse("unavailableDays");
 
 const today = new Date();
 let monday = new Date(today);
@@ -141,25 +150,26 @@ const weekHours = [];
 
 for(let i = 0; i < 7; i++){
 
-let d = new Date(monday);
-d.setDate(monday.getDate() + i);
+  let d = new Date(monday);
+  d.setDate(monday.getDate() + i);
 
-let key =
-d.getFullYear() + "-" +
-d.getMonth() + "-" +
-d.getDate();
+  // FIXED: correct date format
+  let key =
+  d.getFullYear() + "-" +
+  String(d.getMonth() + 1).padStart(2,"0") + "-" +
+  String(d.getDate()).padStart(2,"0");
 
-if(unavailable[key]){
-weekHours.push(0);
-}else{
-weekHours.push(1.2);
-}
+  if(unavailable[key]){
+    weekHours.push(0);
+  }else{
+    weekHours.push(1);
+  }
 
 }
 
 function loadWeeklyData(){
 
-  const assessments = JSON.parse(localStorage.getItem("assessments")) || [];
+  const assessments = safeParse("assessments");
 
   const weeklyBars = document.getElementById("weeklyBars");
   const alerts = document.getElementById("alerts");
@@ -168,7 +178,7 @@ function loadWeeklyData(){
   weeklyBars.innerHTML = "";
   alerts.innerHTML = "";
 
-  if(assessments.length === 0){
+  if(!Array.isArray(assessments) || assessments.length === 0){
     weeklyBars.innerHTML = "No assessments saved.";
     stressBadge.textContent = "0%";
     stressBadge.className = "badge green";
@@ -178,25 +188,57 @@ function loadWeeklyData(){
   let totalDaily = 0;
 
   assessments.forEach(a=>{
-    totalDaily += parseFloat(a.dailyStudy);
+    let val = parseFloat(a.dailyStudy);
+    if(!isNaN(val) && val > 0){
+      totalDaily += val;
+    }
   });
 
-  // distribute evenly across 7 days
-  let dailyHours = totalDaily;
-  if(dailyHours > 8) dailyHours = 8;
+  let dailyDistribution = [0,0,0,0,0,0,0];
+
+  assessments.forEach(a => {
+
+    let daily = parseFloat(a.dailyStudy);
+    if(isNaN(daily) || daily <= 0) return;
+
+    let daysLeft = parseInt(a.daysUntil);
+    if(isNaN(daysLeft) || daysLeft <= 0) daysLeft = 1;
+    if(daysLeft > 7) daysLeft = 7;
+
+    let availableDays = 0;
+
+    for(let i = 0; i < daysLeft; i++){
+      if(weekHours[i] !== 0){
+        availableDays++;
+      }
+    }
+
+    if(availableDays === 0) return;
+
+    let distributed = daily / availableDays;
+
+    for(let i = 0; i < daysLeft; i++){
+      if(weekHours[i] !== 0){
+        dailyDistribution[i] += distributed;
+      }
+    }
+
+  });
 
   const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
   days.forEach((day,i)=>{
 
-    let hours = weekHours[i] === 0 ? 0 : dailyHours;
+    let hours = dailyDistribution[i];
 
     const barContainer = document.createElement("div");
     barContainer.className = "bar";
-    barContainer.innerHTML = `
-      ${day} – ${hours.toFixed(1)}h
-      <div class="bar-fill" style="width:${hours*10}%"></div>
-    `;
+
+    let width = Math.min(hours * 10, 100);
+
+    barContainer.innerHTML = `${day} – ${hours.toFixed(1)}h
+    <div class="bar-fill" style="width:${width}%"></div>`;
+
     weeklyBars.appendChild(barContainer);
 
     if(hours > 4){
@@ -208,7 +250,7 @@ function loadWeeklyData(){
 
   });
 
-  const stressPercent = Math.min((dailyHours / 4) * 100, 200);
+  const stressPercent = Math.min((totalDaily / 4) * 100, 200);
 
   if(stressPercent < 60){
     stressBadge.textContent = "Controlled (" + stressPercent.toFixed(0) + "%)";
