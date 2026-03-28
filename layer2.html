@@ -90,6 +90,30 @@ h1{
   color:#f4b942;
   text-decoration:none;
 }
+
+.alert-red{
+  background: rgba(192,57,43,0.2);
+  border-left: 4px solid #e74c3c;
+  padding:8px;
+  border-radius:6px;
+}
+
+.alert-yellow{
+  background: rgba(241,196,15,0.2);
+  border-left: 4px solid #f1c40f;
+  padding:8px;
+  border-radius:6px;
+}
+
+/* ADDED: critical styling */
+.alert-critical{
+  background: rgba(231,76,60,0.35);
+  border-left: 4px solid #ff0000;
+  padding:8px;
+  border-radius:6px;
+  font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -153,7 +177,6 @@ for(let i = 0; i < 7; i++){
   let d = new Date(monday);
   d.setDate(monday.getDate() + i);
 
-  // FIXED: correct date format
   let key =
   d.getFullYear() + "-" +
   String(d.getMonth() + 1).padStart(2,"0") + "-" +
@@ -173,6 +196,7 @@ function loadWeeklyData(){
 
   const weeklyBars = document.getElementById("weeklyBars");
   const alerts = document.getElementById("alerts");
+  let collisionAlerts = [];
   const stressBadge = document.getElementById("stressBadge");
 
   weeklyBars.innerHTML = "";
@@ -225,45 +249,118 @@ function loadWeeklyData(){
 
   });
 
-  const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+// DETECT MULTI-ASSESSMENT COLLISIONS
+for(let i = 0; i < 7; i++){
 
-  days.forEach((day,i)=>{
+  let count = 0;
 
-    let hours = dailyDistribution[i];
+  assessments.forEach(a => {
+    let daysLeft = a.daysUntil || 7;
+    if(daysLeft > 7) daysLeft = 7;
 
-    const barContainer = document.createElement("div");
-    barContainer.className = "bar";
-
-    let width = Math.min(hours * 10, 100);
-
-    barContainer.innerHTML = `${day} – ${hours.toFixed(1)}h
-    <div class="bar-fill" style="width:${width}%"></div>`;
-
-    weeklyBars.appendChild(barContainer);
-
-    if(hours > 4){
-      const alert = document.createElement("div");
-      alert.className = "alert";
-      alert.textContent = "⚠ " + day + " exceeds healthy limit.";
-      alerts.appendChild(alert);
+    if(i < daysLeft){
+      count++;
     }
-
   });
 
-  const stressPercent = Math.min((totalDaily / 4) * 100, 200);
+  if(count >= 3){
 
-  if(stressPercent < 60){
-    stressBadge.textContent = "Controlled (" + stressPercent.toFixed(0) + "%)";
-    stressBadge.className = "badge green";
+    let dayName = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i];
+
+    let existingOverload = collisionAlerts.find(a => 
+      a.type === "overload" && a.day === dayName
+    );
+
+    if(existingOverload){
+      collisionAlerts.push({
+        type: "critical",
+        day: dayName,
+        count: count,
+        hours: existingOverload.hours
+      });
+    }
+    else{
+      collisionAlerts.push({
+        type: "collision",
+        day: dayName,
+        count: count
+      });
+    }
+
   }
-  else if(stressPercent < 100){
-    stressBadge.textContent = "Elevated (" + stressPercent.toFixed(0) + "%)";
-    stressBadge.className = "badge yellow";
+
+}
+
+const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+days.forEach((day,i)=>{
+
+  let hours = dailyDistribution[i];
+
+  const barContainer = document.createElement("div");
+  barContainer.className = "bar";
+
+  let width = Math.min(hours * 10, 100);
+
+  barContainer.innerHTML = `${day} – ${hours.toFixed(1)}h
+  <div class="bar-fill" style="width:${width}%"></div>`;
+
+  weeklyBars.appendChild(barContainer);
+
+  if(hours > 4){
+    collisionAlerts.push({
+      type: "overload",
+      day: day,
+      hours: hours
+    });
   }
-  else{
-    stressBadge.textContent = "Critical (" + stressPercent.toFixed(0) + "%)";
-    stressBadge.className = "badge red";
+
+});
+
+const stressPercent = Math.min((totalDaily / 4) * 100, 200);
+
+// RENDER COLLISION ALERTS
+collisionAlerts.forEach(alertData => {
+
+  const alert = document.createElement("div");
+  alert.className = "alert";
+
+  if(alertData.type === "overload"){
+    alert.classList.add("alert-red");
   }
+  else if(alertData.type === "collision"){
+    alert.classList.add("alert-yellow");
+  }
+  else if(alertData.type === "critical"){
+    alert.classList.add("alert-critical");
+  }
+
+  if(alertData.type === "overload"){
+    alert.textContent = "⚠ " + alertData.day + " overloaded (" + alertData.hours.toFixed(1) + "h)";
+  }
+  else if(alertData.type === "collision"){
+    alert.textContent = "⚠ " + alertData.day + " has " + alertData.count + " overlapping assessments";
+  }
+  else if(alertData.type === "critical"){
+    alert.textContent = "🚨 " + alertData.day + " CRITICAL: overload + " + alertData.count + " assessments";
+  }
+
+  alerts.appendChild(alert);
+
+});
+
+if(stressPercent < 60){
+  stressBadge.textContent = "Controlled (" + stressPercent.toFixed(0) + "%)";
+  stressBadge.className = "badge green";
+}
+else if(stressPercent < 100){
+  stressBadge.textContent = "Elevated (" + stressPercent.toFixed(0) + "%)";
+  stressBadge.className = "badge yellow";
+}
+else{
+  stressBadge.textContent = "Critical (" + stressPercent.toFixed(0) + "%)";
+  stressBadge.className = "badge red";
+}
 
 }
 
