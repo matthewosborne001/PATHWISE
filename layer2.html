@@ -239,13 +239,13 @@ function loadWeeklyData(){
 
     if(availableDays === 0) return;
 
-    let distributed = daily / availableDays;
+    let distributed = daily;
 
     for(let i = 0; i < daysLeft; i++){
-      if(weekHours[i] !== 0){
-        dailyDistribution[i] += distributed;
-      }
-    }
+  if(weekHours[i] !== 0){
+    dailyDistribution[i] = Math.max(dailyDistribution[i], distributed);
+  }
+}
 
   });
 
