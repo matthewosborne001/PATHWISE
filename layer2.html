@@ -159,6 +159,16 @@ function safeParse(key){
   }
 }
 
+/* 🔧 ADDED: time formatter */
+function formatStudyTime(hours){
+  const h = Math.floor(hours);
+  const m = Math.round((hours - h) * 60);
+
+  if(h === 0) return m + " min";
+  if(m === 0) return h + "h";
+  return h + "h " + m + "min";
+}
+
 /* CALENDAR SYNC */
 
 const unavailable = safeParse("unavailableDays");
@@ -242,10 +252,10 @@ function loadWeeklyData(){
     let distributed = daily;
 
     for(let i = 0; i < daysLeft; i++){
-  if(weekHours[i] !== 0){
-    dailyDistribution[i] = Math.max(dailyDistribution[i], distributed);
-  }
-}
+      if(weekHours[i] !== 0){
+        dailyDistribution[i] = Math.max(dailyDistribution[i], distributed);
+      }
+    }
 
   });
 
@@ -302,7 +312,7 @@ days.forEach((day,i)=>{
 
   let width = Math.min(hours * 10, 100);
 
-  barContainer.innerHTML = `${day} – ${hours.toFixed(1)}h
+  barContainer.innerHTML = `${day} – ${formatStudyTime(hours)}
   <div class="bar-fill" style="width:${width}%"></div>`;
 
   weeklyBars.appendChild(barContainer);
@@ -336,7 +346,7 @@ collisionAlerts.forEach(alertData => {
   }
 
   if(alertData.type === "overload"){
-    alert.textContent = "⚠ " + alertData.day + " overloaded (" + alertData.hours.toFixed(1) + "h)";
+    alert.textContent = "⚠ " + alertData.day + " overloaded (" + formatStudyTime(alertData.hours) + ")";
   }
   else if(alertData.type === "collision"){
     alert.textContent = "⚠ " + alertData.day + " has " + alertData.count + " overlapping assessments";
