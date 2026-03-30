@@ -367,10 +367,10 @@ totalDaily += parseFloat(a.dailyStudy);
 });
 
 if(totalDaily < 1.5){
-advice.textContent = "Your workload is light. Around " + totalDaily.toFixed(1) + " hours per day is healthy.";
+advice.textContent = "Your workload is light. Around " + formatStudyTime(totalDaily) + " per day is healthy.";
 }
 else if(totalDaily < 3){
-advice.textContent = "Your workload is balanced. Around " + totalDaily.toFixed(1) + " hours per day should keep you on track.";
+advice.textContent = "Your workload is balanced. Around " + formatStudyTime(totalDaily) + " per day should keep you on track.";
 }
 else if(totalDaily < 4){
 advice.textContent = "Your workload is heavy. Consider spreading study sessions across more days.";
@@ -408,25 +408,27 @@ totalDaily += parseFloat(a.dailyStudy);
 let weeklyHours = totalDaily * 7;
 
 let box = document.getElementById("weeklyWorkloadText");
-  box.classList.remove("workload-light","workload-balanced","workload-heavy");
+box.classList.remove("workload-light","workload-balanced","workload-heavy");
 
 if(weeklyHours < 5){
-  box.classList.add("workload-light");
+box.classList.add("workload-light");
 }
 else if(weeklyHours < 12){
-  box.classList.add("workload-balanced");
+box.classList.add("workload-balanced");
 }
 else{
-  box.classList.add("workload-heavy");
+box.classList.add("workload-heavy");
 }
+
 if(list.length === 0){
-  box.innerText = "No workload yet. Add an assessment.";
-  return;
+box.innerText = "No workload yet. Add an assessment.";
+return;
 }
+
 let breakdown = "";
 
 list.forEach(a => {
-  breakdown += a.name + ": " + 
+breakdown += a.name + ": " + 
 formatStudyTime(parseFloat(a.dailyStudy)) + "/day (" +
 formatStudyTime(parseFloat(a.dailyStudy) * 7) + "/week)\n";
 });
@@ -436,9 +438,11 @@ box.innerHTML =
 breakdown.replace(/\n/g, "<br>");
 
 }
+
 loadAssessments()
 updateStudyAdvice()
 updateWeeklyWorkload()
+
 </script>
 
 </body>
