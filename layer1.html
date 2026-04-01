@@ -293,6 +293,7 @@ closeModal()
 
 loadAssessments()
 updateStudyAdvice()
+updateWeeklyWorkload()
 
 }
 
@@ -306,6 +307,7 @@ localStorage.setItem("assessments",JSON.stringify(list))
 
 loadAssessments()
 updateStudyAdvice()
+updateWeeklyWorkload()
 
 }
 
@@ -316,6 +318,19 @@ const container=document.getElementById("activeList")
 container.innerHTML=""
 
 let list=JSON.parse(localStorage.getItem("assessments"))||[]
+
+/* 🔥 PRIORITY SORTING */
+list.sort((a,b)=>{
+
+let dA = a.daysUntil || 1
+let dB = b.daysUntil || 1
+
+let priorityA = a.difficulty / dA
+let priorityB = b.difficulty / dB
+
+return priorityB - priorityA
+
+})
 
 if(list.length===0){
 
@@ -331,14 +346,40 @@ const div=document.createElement("div")
 
 div.className="assessment"
 
+/* 🔥 PRIORITY DISPLAY */
+const d = a.daysUntil || 1
+const priority = a.difficulty / d
+
+let priorityLabel = ""
+let priorityColor = ""
+
+if(priority > 1.5){
+priorityLabel = "High Priority"
+priorityColor = "#ff6b6b"
+}
+else if(priority > 0.7){
+priorityLabel = "Medium Priority"
+priorityColor = "#f4b942"
+}
+else{
+priorityLabel = "Low Priority"
+priorityColor = "#4caf50"
+}
+
 div.innerHTML=`
 
 <div class="assessment-title">${a.name}</div>
+
 <div class="edit-btn" onclick="editAssessment(${i})">✏</div>
 <div class="delete-btn" onclick="deleteAssessment(${i})">×</div>
 
+<div style="color:${priorityColor}; font-weight:bold;">
+${priorityLabel}
+</div>
+
 Daily Study: ${formatStudyTime(parseFloat(a.dailyStudy))}<br>
-Difficulty: ${a.difficulty}/10
+Difficulty: ${a.difficulty}/10<br>
+<span style="color:#f4b942">${a.daysUntil} days left</span>
 
 `
 
