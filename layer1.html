@@ -6,24 +6,18 @@
 <title>Academic Planner</title>
 
 <style>
-.workload-light{
-color:#4caf50;
-}
+.workload-light{color:#4caf50;}
+.workload-balanced{color:#f4b942;}
+.workload-heavy{color:#ff6b6b;}
 
-.workload-balanced{
-color:#f4b942;
-}
-
-.workload-heavy{
-color:#ff6b6b;
-}
 .subtitle{
 text-align:center;
 margin-top:10px;
 margin-bottom:40px;
 color:#d5dbea;
 font-size:16px;
-}  
+}
+
 *{
 margin:0;
 padding:0;
@@ -93,9 +87,7 @@ margin-top:12px;
 position:relative;
 }
 
-.assessment-title{
-font-weight:bold;
-}
+.assessment-title{font-weight:bold;}
 
 .delete-btn{
 position:absolute;
@@ -159,7 +151,6 @@ right:15px;
 cursor:pointer;
 font-size:20px;
 }
-
 </style>
 </head>
 
@@ -186,14 +177,12 @@ font-size:20px;
 <h2>Study Guidance</h2>
 <p id="studyAdvice">Analyzing your study workload...</p>
 </div>
-  
+
 <div class="card">
 <h2>Weekly Workload Meter</h2>
-<div id="weeklyWorkloadText">
-Calculating workload...
+<div id="weeklyWorkloadText">Calculating workload...</div>
 </div>
-</div>
-  
+
 <div class="card">
 <h2>Risk & Collision Alerts</h2>
 <p>(Coming soon)</p>
@@ -206,7 +195,6 @@ Calculating workload...
 </div>
 
 </div>
-
 
 <div class="modal" id="modal">
 <div class="modal-content">
@@ -225,21 +213,16 @@ Calculating workload...
 </div>
 </div>
 
-
 <script>
 
 let editingIndex = null
 
 function formatStudyTime(hours){
-
 const h = Math.floor(hours);
 const m = Math.round((hours - h) * 60);
-
 if(h === 0) return m + " min";
 if(m === 0) return h + "h";
-
 return h + "h " + m + "min";
-
 }
 
 function openModal(){
@@ -260,21 +243,19 @@ const difficulty=parseInt(document.getElementById("difficulty").value)
 if(!name||!age||!days||!difficulty) return
 
 let baseHours
-
 if(age<=12) baseHours=0.8
 else if(age<=14) baseHours=1.2
 else if(age<=16) baseHours=1.8
 else baseHours=2.5
 
 let dailyStudy=(baseHours*difficulty)/days
-
 if(dailyStudy>4) dailyStudy=4
 
 const assessment={
 name,
 difficulty,
 dailyStudy:dailyStudy.toFixed(1),
-daysUntil: days,
+deadline: Date.now() + (days * 86400000),
 created: Date.now()
 }
 
@@ -290,65 +271,51 @@ list.push(assessment)
 localStorage.setItem("assessments",JSON.stringify(list))
 
 closeModal()
-
 loadAssessments()
 updateStudyAdvice()
 updateWeeklyWorkload()
-
 }
 
 function deleteAssessment(index){
-
 let list=JSON.parse(localStorage.getItem("assessments"))||[]
-
 list.splice(index,1)
-
 localStorage.setItem("assessments",JSON.stringify(list))
-
 loadAssessments()
 updateStudyAdvice()
 updateWeeklyWorkload()
-
 }
 
 function loadAssessments(){
 
 const container=document.getElementById("activeList")
-
 container.innerHTML=""
 
 let list=JSON.parse(localStorage.getItem("assessments"))||[]
 
-/* 🔥 PRIORITY SORTING */
 list.sort((a,b)=>{
-
-let dA = a.daysUntil || 1
-let dB = b.daysUntil || 1
-
-let priorityA = a.difficulty / dA
-let priorityB = b.difficulty / dB
-
-return priorityB - priorityA
-
+let dA = Math.ceil((a.deadline - Date.now()) / 86400000) || 1
+let dB = Math.ceil((b.deadline - Date.now()) / 86400000) || 1
+return (b.difficulty/dB) - (a.difficulty/dA)
 })
 
 if(list.length===0){
-
-container.innerHTML="No active assessments"
-
+container.innerHTML="No assessments yet. Add one to begin."
 return
-
 }
 
 list.forEach((a,i)=>{
 
 const div=document.createElement("div")
-
 div.className="assessment"
 
-/* 🔥 PRIORITY DISPLAY */
-const d = a.daysUntil || 1
-const priority = a.difficulty / d
+const daysLeft = Math.ceil((a.deadline - Date.now()) / 86400000)
+
+let urgencyColor = "#f4b942"
+if(daysLeft <= 3) urgencyColor = "#ff6b6b"
+else if(daysLeft <= 7) urgencyColor = "#f4b942"
+else urgencyColor = "#4caf50"
+
+const priority = a.difficulty / (daysLeft || 1)
 
 let priorityLabel = ""
 let priorityColor = ""
@@ -379,7 +346,10 @@ ${priorityLabel}
 
 Daily Study: ${formatStudyTime(parseFloat(a.dailyStudy))}<br>
 Difficulty: ${a.difficulty}/10<br>
-<span style="color:#f4b942">${a.daysUntil} days left</span>
+
+<span style="color:${urgencyColor}; font-weight:bold;">
+${daysLeft} days left
+</span>
 
 `
 
@@ -431,10 +401,12 @@ editingIndex = index
 document.getElementById("testName").value = list[index].name
 document.getElementById("difficulty").value = list[index].difficulty
 
+const daysLeft = Math.ceil((list[index].deadline - Date.now()) / 86400000)
+document.getElementById("days").value = daysLeft
+
 openModal()
 
 }
-
 
 function updateWeeklyWorkload(){
 
