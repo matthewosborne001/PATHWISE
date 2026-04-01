@@ -6,6 +6,43 @@
 <title>Academic Planner</title>
 
 <style>
+.priority-pill{
+display:inline-block;
+padding:6px 12px;
+border-radius:999px;
+font-size:12px;
+font-weight:bold;
+margin-bottom:8px;
+
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+
+border:1px solid transparent;
+}
+
+/* HIGH */
+.priority-high{
+color:#ff6b6b;
+background:rgba(255,107,107,0.15);
+border-color:rgba(255,107,107,0.4);
+box-shadow:0 0 10px rgba(255,107,107,0.4);
+}
+
+/* MEDIUM */
+.priority-medium{
+color:#f4b942;
+background:rgba(244,185,66,0.15);
+border-color:rgba(244,185,66,0.4);
+box-shadow:0 0 10px rgba(244,185,66,0.4);
+}
+
+/* LOW */
+.priority-low{
+color:#4caf50;
+background:rgba(76,175,80,0.15);
+border-color:rgba(76,175,80,0.4);
+box-shadow:0 0 10px rgba(76,175,80,0.4);
+}
 .workload-light{color:#4caf50;}
 .workload-balanced{color:#f4b942;}
 .workload-heavy{color:#ff6b6b;}
@@ -367,19 +404,19 @@ else urgencyColor = "#4caf50"
 const priority = a.difficulty / (daysLeft || 1)
 
 let priorityLabel = ""
-let priorityColor = ""
+let priorityClass = ""
 
 if(priority > 1.5){
-priorityLabel = "High Priority"
-priorityColor = "#ff6b6b"
+priorityLabel = "HIGH"
+priorityClass = "priority-high"
 }
 else if(priority > 0.7){
-priorityLabel = "Medium Priority"
-priorityColor = "#f4b942"
+priorityLabel = "MEDIUM"
+priorityClass = "priority-medium"
 }
 else{
-priorityLabel = "Low Priority"
-priorityColor = "#4caf50"
+priorityLabel = "LOW"
+priorityClass = "priority-low"
 }
 
 div.innerHTML=`
@@ -389,8 +426,8 @@ div.innerHTML=`
 <div class="edit-btn" onclick="editAssessment(${i})">✏</div>
 <div class="delete-btn" onclick="deleteAssessment(${i})">×</div>
 
-<div style="color:${priorityColor}; font-weight:bold;">
-${priorityLabel}
+<div class="priority-pill ${priorityClass}">
+${priorityLabel} PRIORITY
 </div>
 
 Daily Study: ${formatStudyTime(parseFloat(a.dailyStudy))}<br>
