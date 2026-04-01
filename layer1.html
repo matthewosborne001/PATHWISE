@@ -85,7 +85,7 @@ width:100%;
 height:100%;
 background:rgba(255,255,255,0.03);
 backdrop-filter:blur(10px);
-z-index:-1; /* ✅ FIXED */
+z-index:-1;
 pointer-events:none;
 }
 
@@ -116,7 +116,6 @@ gap:30px;
 /* CARDS */
 .card{
 position:relative;
-/* ❌ REMOVED z-index */
 overflow:hidden;
 
 background:rgba(255,255,255,0.06);
@@ -198,7 +197,7 @@ color:#f4b942;
 font-weight:bold;
 }
 
-/* MODAL FIX */
+/* MODAL */
 .modal{
 position:fixed;
 inset:0;
@@ -215,7 +214,6 @@ padding:40px;
 border-radius:20px;
 width:350px;
 position:relative;
-
 box-shadow:0 20px 60px rgba(0,0,0,0.6);
 }
 
@@ -308,8 +306,6 @@ font-size:20px;
 
 <script>
 
-/* unchanged JS */
-
 let editingIndex = null
 
 function formatStudyTime(hours){
@@ -327,6 +323,176 @@ document.getElementById("modal").style.display="flex";
 function closeModal(){
 document.getElementById("modal").style.display="none";
 }
+
+function saveAssessment(){
+
+const name=document.getElementById("testName").value
+const age=parseInt(document.getElementById("age").value)
+const days=parseInt(document.getElementById("days").value)
+const difficulty=parseInt(document.getElementById("difficulty").value)
+
+if(!name||!age||!days||!difficulty) return
+
+let baseHours
+if(age<=12) baseHours=0.8
+else if(age<=14) baseHours=1.2
+else if(age<=16) baseHours=1.8
+else baseHours=2.5
+
+let dailyStudy=(baseHours*difficulty)/days
+if(dailyStudy>4) dailyStudy=4
+
+const assessment={
+name,
+difficulty,
+dailyStudy:dailyStudy.toFixed(1),
+deadline: Date.now() + (days * 86400000),
+created: Date.now()
+}
+
+let list=JSON.parse(localStorage.getItem("assessments"))||[]
+
+if(editingIndex !== null){
+list[editingIndex] = assessment
+editingIndex = null
+}else{
+list.push(assessment)
+}
+
+localStorage.setItem("assessments",JSON.stringify(list))
+
+closeModal()
+loadAssessments()
+updateStudyAdvice()
+updateWeeklyWorkload()
+}
+
+function deleteAssessment(index){
+let list=JSON.parse(localStorage.getItem("assessments"))||[]
+list.splice(index,1)
+localStorage.setItem("assessments",JSON.stringify(list))
+loadAssessments()
+updateStudyAdvice()
+updateWeeklyWorkload()
+}
+
+function loadAssessments(){
+
+const container=document.getElementById("activeList")
+container.innerHTML=""
+
+let list=JSON.parse(localStorage.getItem("assessments"))||[]
+
+list.sort((a,b)=>{
+let dA = Math.ceil((a.deadline - Date.now()) / 86400000) || 1
+let dB = Math.ceil((b.deadline - Date.now()) / 86400000) || 1
+return (b.difficulty/dB) - (a.difficulty/dA)
+})
+
+if(list.length===0){
+container.innerHTML="No assessments yet. Add one to begin."
+return
+}
+
+list.forEach((a,i)=>{
+
+const div=document.createElement("div")
+div.className="assessment"
+
+const daysLeft = Math.ceil((a.deadline - Date.now()) / 86400000)
+
+const priority = a.difficulty / (daysLeft || 1)
+
+let priorityLabel = ""
+let priorityClass = ""
+
+if(priority > 1.5){
+priorityLabel = "HIGH"
+priorityClass = "priority-high"
+}
+else if(priority > 0.7){
+priorityLabel = "MEDIUM"
+priorityClass = "priority-medium"
+}
+else{
+priorityLabel = "LOW"
+priorityClass = "priority-low"
+}
+
+div.innerHTML=`
+<div class="assessment-title">${a.name}</div>
+<div class="edit-btn" onclick="editAssessment(${i})">✏</div>
+<div class="delete-btn" onclick="deleteAssessment(${i})">×</div>
+<div class="priority-pill ${priorityClass}">
+${priorityLabel} PRIORITY
+</div>
+Daily Study: ${formatStudyTime(parseFloat(a.dailyStudy))}<br>
+Difficulty: ${a.difficulty}/10<br>
+<span style="color:#f4b942; font-weight:bold;">
+${daysLeft} days left
+</span>
+`
+
+container.appendChild(div)
+
+})
+
+}
+
+function updateStudyAdvice(){
+const assessments = JSON.parse(localStorage.getItem("assessments")) || [];
+const advice = document.getElementById("studyAdvice");
+
+if(assessments.length === 0){
+advice.textContent = "Add an assessment to receive a recommended study plan.";
+return;
+}
+
+let totalDaily = 0;
+assessments.forEach(a=> totalDaily += parseFloat(a.dailyStudy));
+
+if(totalDaily < 1.5){
+advice.textContent = "Your workload is light.";
+}
+else if(totalDaily < 3){
+advice.textContent = "Your workload is balanced.";
+}
+else{
+advice.textContent = "Your workload is heavy.";
+}
+}
+
+function editAssessment(index){
+let list = JSON.parse(localStorage.getItem("assessments")) || []
+editingIndex = index
+document.getElementById("testName").value = list[index].name
+document.getElementById("difficulty").value = list[index].difficulty
+openModal()
+}
+
+function updateWeeklyWorkload(){
+
+let list = JSON.parse(localStorage.getItem("assessments")) || [];
+let totalDaily = 0;
+
+list.forEach(a=> totalDaily += parseFloat(a.dailyStudy));
+
+let weeklyHours = totalDaily * 7;
+let box = document.getElementById("weeklyWorkloadText");
+
+if(list.length === 0){
+box.innerText = "No workload yet. Add an assessment.";
+return;
+}
+
+box.innerHTML =
+"<strong>Total:</strong> " + formatStudyTime(weeklyHours);
+
+}
+
+loadAssessments()
+updateStudyAdvice()
+updateWeeklyWorkload()
 
 </script>
 
