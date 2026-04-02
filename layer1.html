@@ -276,7 +276,7 @@ font-size:20px;
 
 <div class="card">
 <h2>Risk & Collision Alerts</h2>
-<p>(Coming soon)</p>
+<div id="riskAlerts">Analyzing risk...</div>
 </div>
 
 </div>
@@ -368,6 +368,7 @@ closeModal()
 loadAssessments()
 updateStudyAdvice()
 updateWeeklyWorkload()
+updateRiskAlerts() /* 🔥 FIX */
 }
 
 function deleteAssessment(index){
@@ -377,6 +378,7 @@ localStorage.setItem("assessments",JSON.stringify(list))
 loadAssessments()
 updateStudyAdvice()
 updateWeeklyWorkload()
+updateRiskAlerts() /* 🔥 FIX */
 }
 
 function loadAssessments(){
@@ -493,9 +495,58 @@ box.innerHTML =
 
 }
 
+function updateRiskAlerts(){
+
+let list = JSON.parse(localStorage.getItem("assessments")) || [];
+
+let box = document.getElementById("riskAlerts");
+
+if(list.length === 0){
+box.innerText = "No risks detected.";
+return;
+}
+
+let totalDaily = 0;
+let closeDeadlines = 0;
+let mostUrgent = null;
+let highestPriority = 0;
+
+list.forEach(a=>{
+let daily = parseFloat(a.dailyStudy);
+totalDaily += daily;
+
+let daysLeft = Math.ceil((a.deadline - Date.now()) / 86400000);
+
+if(daysLeft <= 5){
+closeDeadlines++;
+}
+
+let priority = a.difficulty / (daysLeft || 1);
+
+if(priority > highestPriority){
+highestPriority = priority;
+mostUrgent = a.name;
+}
+});
+
+/* 🔥 DECISION LOGIC */
+
+if(totalDaily < 2 && closeDeadlines <= 1){
+box.innerHTML = "No conflicts detected. Maintain your current plan.";
+}
+else if(totalDaily < 4 && closeDeadlines <= 2){
+box.innerHTML = "Multiple assessments are close together. Start <strong>" + mostUrgent + "</strong> earlier.";
+}
+else{
+box.innerHTML = "High workload detected. Focus on <strong>" + mostUrgent + "</strong> and spread your study.";
+}
+
+}
+
 loadAssessments()
 updateStudyAdvice()
 updateWeeklyWorkload()
+updateRiskAlerts()
 
 </script>
 
