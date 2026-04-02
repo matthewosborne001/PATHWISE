@@ -368,7 +368,7 @@ closeModal()
 loadAssessments()
 updateStudyAdvice()
 updateWeeklyWorkload()
-updateRiskAlerts() /* 🔥 FIX */
+updateRiskAlerts()
 }
 
 function deleteAssessment(index){
@@ -378,7 +378,7 @@ localStorage.setItem("assessments",JSON.stringify(list))
 loadAssessments()
 updateStudyAdvice()
 updateWeeklyWorkload()
-updateRiskAlerts() /* 🔥 FIX */
+updateRiskAlerts()
 }
 
 function loadAssessments(){
@@ -444,6 +444,7 @@ container.appendChild(div)
 
 }
 
+/* 🔥 FIXED STUDY GUIDANCE */
 function updateStudyAdvice(){
 const assessments = JSON.parse(localStorage.getItem("assessments")) || [];
 const advice = document.getElementById("studyAdvice");
@@ -457,24 +458,20 @@ let totalDaily = 0;
 assessments.forEach(a=> totalDaily += parseFloat(a.dailyStudy));
 
 if(totalDaily < 1.5){
-advice.textContent = "Your workload is light.";
+advice.textContent = "Light workload. Around " + formatStudyTime(totalDaily) + "/day is healthy.";
 }
 else if(totalDaily < 3){
-advice.textContent = "Your workload is balanced.";
+advice.textContent = "Balanced workload. Stay consistent at " + formatStudyTime(totalDaily) + "/day.";
+}
+else if(totalDaily < 4){
+advice.textContent = "Heavy workload. Spread sessions across the day.";
 }
 else{
-advice.textContent = "Your workload is heavy.";
+advice.textContent = "Overload risk. Reduce hours or increase study days.";
 }
 }
 
-function editAssessment(index){
-let list = JSON.parse(localStorage.getItem("assessments")) || []
-editingIndex = index
-document.getElementById("testName").value = list[index].name
-document.getElementById("difficulty").value = list[index].difficulty
-openModal()
-}
-
+/* 🔥 FIXED WEEKLY WORKLOAD */
 function updateWeeklyWorkload(){
 
 let list = JSON.parse(localStorage.getItem("assessments")) || [];
@@ -491,8 +488,8 @@ return;
 }
 
 box.innerHTML =
-"<strong>Total:</strong> " + formatStudyTime(weeklyHours);
-
+"<strong>Total:</strong> " + formatStudyTime(weeklyHours) +
+"<br><br>Recommended: 7h – 21h per week";
 }
 
 function updateRiskAlerts(){
@@ -528,8 +525,6 @@ highestPriority = priority;
 mostUrgent = a.name;
 }
 });
-
-/* 🔥 DECISION LOGIC */
 
 if(totalDaily < 2 && closeDeadlines <= 1){
 box.innerHTML = "No conflicts detected. Maintain your current plan.";
