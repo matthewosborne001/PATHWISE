@@ -476,10 +476,17 @@ function updateWeeklyWorkload(){
 
 let list = JSON.parse(localStorage.getItem("assessments")) || [];
 let totalDaily = 0;
+let soonestTest = null;
 
-list.forEach(a=> totalDaily += parseFloat(a.dailyStudy));
+list.forEach(a=>{
+totalDaily += parseFloat(a.dailyStudy);
 
-let weeklyHours = totalDaily * 7;
+// find closest deadline
+if(!soonestTest || a.deadline < soonestTest){
+soonestTest = a.deadline;
+}
+});
+
 let box = document.getElementById("weeklyWorkloadText");
 
 if(list.length === 0){
@@ -487,9 +494,15 @@ box.innerText = "No workload yet. Add an assessment.";
 return;
 }
 
+let weeklyHours = totalDaily * 7;
+
+// calculate days until nearest test
+let daysLeft = Math.ceil((soonestTest - Date.now()) / 86400000);
+
 box.innerHTML =
-"<strong>Total:</strong> " + formatStudyTime(weeklyHours) +
-"<br><br>Recommended: 7h – 21h per week";
+"<strong>Daily:</strong> " + formatStudyTime(totalDaily) +
+"<br><strong>Weekly:</strong> " + formatStudyTime(weeklyHours) +
+"<br><br>Until next test: " + daysLeft + " days";
 }
 
 function updateRiskAlerts(){
